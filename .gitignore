@@ -1,0 +1,5 @@
+node_modules/*
+*.swp
+extension_src/*
+extension.zip
+db/*
