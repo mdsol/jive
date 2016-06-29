@@ -1,0 +1,31 @@
+{
+    "clientUrl": "http://localhost",
+    "port": "8090",
+	"clientUrlExcludesPort": true,
+	"extensionInfo": {
+		"id": "90f66811-71c4-44bf-b5a5-cf6bffa0849f",
+		"uuid": "90f66811-71c4-44bf-b5a5-cf6bffa0849f",
+		"name": "Recent Outdated Content",
+		"description": "Displays outdated content sorted by last recent activity",
+		"icon_16": "extension-16.png",
+		"icon_48": "extension-48.png",
+		"icon_128": "extension-128.png",
+		"releasedOn": "2016-06-17T20:09:13.341Z"
+	},
+	"otherPropertiesToConsider" : {
+		"ignoreExtensionRegistrationSource": true,
+		"suppressAddonRegistration" : true,
+		"extensionInfo": {
+			"registerURL": "%serviceURL%/jive/oauth/register",
+			"unregisterURL": "%serviceURL%/jive/oauth/unregister",
+			"redirectURL" : "%serviceURL%/oauth/authorize",
+			"health_url": "%serviceURL%/monitor/health",
+			"config_url": "%serviceURL%/configure",
+			"author" : "Tyler Ishikawa",
+			"author_affiliation" : "Medidata Solutions",
+			"author_email" : "tyishikawa@mdsol.com",
+			"website_url": "https://www.mdsol.com",
+			"tags": "jive,integration,service,addon,outdated,content"
+		}
+	}
+}
