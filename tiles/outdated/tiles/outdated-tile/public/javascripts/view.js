@@ -131,6 +131,7 @@ jive.tile.onOpen(function(config, options) {
 
                 ul.appendChild(li);
             }
+            $(".glyphicon-refresh").hide();
 
             if (timer) {
                 console.log("showDocs " + (Date.now() - lap) + " ms");
@@ -141,6 +142,7 @@ jive.tile.onOpen(function(config, options) {
     });
 });
 
+// resize tile if the window changes size (responsive)
 $(window).resize(function() {
     gadgets.window.adjustHeight();
 });
