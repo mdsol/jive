@@ -1,5 +1,5 @@
-node_modules/*
+**/node_modules/
+**/extension_src/
+**/db/
+**/extension.zip
 *.swp
-extension_src/*
-extension.zip
-db/*
