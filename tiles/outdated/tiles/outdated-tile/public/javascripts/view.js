@@ -140,3 +140,7 @@ jive.tile.onOpen(function(config, options) {
 
     });
 });
+
+$(window).resize(function() {
+    gadgets.window.adjustHeight();
+});
