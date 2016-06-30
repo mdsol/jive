@@ -94,9 +94,13 @@ label {
 }
 
 .avatar {
-  margin: 0 10px;
+  margin-right: 10px;
 }
 
 #content-table td {
   vertical-align: middle;
+}
+
+th {
+  font-weight: bold;
 }

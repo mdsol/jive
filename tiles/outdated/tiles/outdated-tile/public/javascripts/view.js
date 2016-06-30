@@ -91,7 +91,8 @@ jive.tile.onOpen(function(config, options) {
                             authorUrl: el.author.resources.html.ref,
                             icon: el.iconCss,
                             avatar: el.author.resources.avatar.ref,
-                            lastAct: el.lastActivity
+                            lastAct: el.lastActivity,
+                            postDate: el.published
                         });
                     }
                     pending--;
@@ -147,9 +148,9 @@ jive.tile.onOpen(function(config, options) {
                 var author = document.createTextNode(doc.author);
                 authorUrl.appendChild(author);
                 td2.appendChild(authorUrl);
-                var lastAct = new Date(doc.lastAct);
-                var lastActNode = document.createTextNode(lastAct.toLocaleDateString());
-                td3.appendChild(lastActNode);
+                var postDate = new Date(doc.postDate);
+                var postDateNode = document.createTextNode(postDate.toLocaleDateString());
+                td3.appendChild(postDateNode);
                 tr.appendChild(td1);
                 tr.appendChild(td2);
                 tr.appendChild(td3);
