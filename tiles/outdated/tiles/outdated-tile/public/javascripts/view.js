@@ -1,6 +1,9 @@
 // flag for recording time and logging to console
 var timer = false;
 
+// how many pixels to cut off from bottom of widget
+var shrinkBy = 25;
+
 jive.tile.onOpen(function(config, options) {
 
     config.title = config.title || "Recent Outdated Content";
@@ -84,7 +87,10 @@ jive.tile.onOpen(function(config, options) {
                         docList.push({
                             subject: el.subject,
                             url: el.resources.html.ref,
+                            author: el.author.displayName,
+                            authorUrl: el.author.resources.html.ref,
                             icon: el.iconCss,
+                            avatar: el.author.resources.avatar.ref,
                             lastAct: el.lastActivity
                         });
                     }
@@ -109,34 +115,52 @@ jive.tile.onOpen(function(config, options) {
             }
 
             var ul = document.getElementById("ul-list");
+            var table = document.getElementById("content-table");
 
-            for (var i = 0; i < docList.length; i++) {
-                var doc = docList[i];
-
-                // create link as list element
+            for (var doc of docList) {
+                // create list node
                 var li = document.createElement("li");
-                li.setAttribute('class', "listItem showIcon");
+                li.classList.add("listItem", "showIcon");
                 var a = document.createElement("a");
                 a.setAttribute('target', "_top");
                 a.setAttribute('href', doc.url);
-
-                // create icon and text
                 var icon = document.createElement('span');
-                icon.setAttribute('class', doc.icon + " jive-icon-med");
+                icon.classList.add(doc.icon, "jive-icon-med");
                 var docSubj = document.createTextNode(doc.subject);
-
                 a.appendChild(icon);  
                 a.appendChild(docSubj);
                 li.appendChild(a);  
-
                 ul.appendChild(li);
+                
+                // create table row node
+                var tr = document.createElement("tr");
+                var td1 = document.createElement("td");
+                var td2 = td1.cloneNode(), td3 = td1.cloneNode();
+                td1.appendChild(a.cloneNode(true));
+                var authorUrl = a.cloneNode();
+                authorUrl.setAttribute("href", doc.authorUrl);
+                var avatar = document.createElement("img");
+                avatar.classList.add("img-circle", "avatar");
+                avatar.setAttribute("src", doc.avatar);
+                avatar.setAttribute("height", "30px");
+                authorUrl.appendChild(avatar);
+                var author = document.createTextNode(doc.author);
+                authorUrl.appendChild(author);
+                td2.appendChild(authorUrl);
+                var lastAct = new Date(doc.lastAct);
+                var lastActNode = document.createTextNode(lastAct.toLocaleDateString());
+                td3.appendChild(lastActNode);
+                tr.appendChild(td1);
+                tr.appendChild(td2);
+                tr.appendChild(td3);
+                table.appendChild(tr);
             }
             $(".glyphicon-refresh").hide();
 
             if (timer) {
                 console.log("showDocs " + (Date.now() - lap) + " ms");
             }
-            gadgets.window.adjustHeight();
+            gadgets.window.adjustHeight( gadgets.window.getHeight() - shrinkBy );
         }
 
     });
@@ -144,5 +168,5 @@ jive.tile.onOpen(function(config, options) {
 
 // resize tile if the window changes size (responsive)
 $(window).resize(function() {
-    gadgets.window.adjustHeight();
+    gadgets.window.adjustHeight( gadgets.window.getHeight() - shrinkBy );
 });
