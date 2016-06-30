@@ -104,3 +104,11 @@ label {
 th {
   font-weight: bold;
 }
+
+.indent {
+  margin-left: 20px;
+}
+
+#link-options {
+  margin-top: 15px;
+}
