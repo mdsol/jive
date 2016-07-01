@@ -4,6 +4,8 @@ var timer = false;
 // how many pixels to cut off from bottom of widget
 var shrinkBy = 10;
 
+// default url ending
+var defaultUrl = "/content?filterID=contentstatus%5Bpublished%5D~objecttype~showall~action~action%5Boutdated%5D"
 function resize() {
     gadgets.window.adjustHeight( gadgets.window.getHeight() - shrinkBy );
 }
@@ -22,6 +24,9 @@ jive.tile.onOpen(function(config, options) {
         var pending = 0;
         if (timer) {
             var start = Date.now(), lap;
+        }
+        if (config.linkUrl === "") {
+            setDefaultUrl(container.placeID, config);
         }
         getOutdated(container.placeID);
 
@@ -110,6 +115,22 @@ jive.tile.onOpen(function(config, options) {
                         }
                         showDocs();
                     }
+                }
+            });
+        }
+        
+        function setDefaultUrl(placeID, config) {
+            var reqSubspace = osapi.jive.corev3.places.get({
+                uri: "/places/" + placeID
+            });
+            reqSubspace.execute(function(res) {
+                if (res.error) {
+                    var code = res.error.code;
+                    var message = res.error.message;
+                    console.log(code + " " + message);
+                    // present the user with an appropriate error message
+                } else {
+                    config.linkUrl = res.resources.html.ref + defaultUrl;
                 }
             });
         }
