@@ -5,6 +5,13 @@ var timer = false;
 var shrinkByLink = 10;
 var shrinkByNoLink = 27;
 
+// 0-11 mapped to month name
+var months = [
+    "January"  , "February", "March"   , "April",
+    "May"      , "June"    , "July"    , "August",
+    "September", "October" , "November", "December"
+];
+
 // default url endings
 var defaultUrlThis = "/content?filterID=contentstatus%5Bpublished%5D~objecttype~showall~action~action%5Boutdated%5D";
 var defaultUrlAll = "/content?filterID=all~objecttype~showall~action~action%5Boutdated%5D";
@@ -155,13 +162,10 @@ jive.tile.onOpen(function(config, options) {
             if (dateStr.length < 2) {
                 dateStr = "0" + dateStr;
             }
-            var monthStr = (date.getMonth() + 1) + "";
-            if (monthStr.length < 2) {
-                monthStr = "0" + monthStr;
-            }
+            var monthStr = months[date.getMonth()].substring(0, 3);
             var yearStr = date.getFullYear() + "";
 
-            return dateStr + "/" + monthStr + "/" + yearStr;
+            return dateStr + "-" + monthStr + "-" + yearStr;
         }
 
         function showDocs() {
