@@ -82,12 +82,12 @@ label {
 @-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
 @keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
 
-@media (max-width: 938px) {
+@media (max-width: 725px) {
   .fullpage-col {
     display: none;
   }
 }
-@media (min-width: 939px) {
+@media (min-width: 726px) {
   .narrow-col {
     display: none;
   }
