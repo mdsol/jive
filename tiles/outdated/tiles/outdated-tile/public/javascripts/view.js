@@ -4,6 +4,10 @@ var timer = false;
 // how many pixels to cut off from bottom of widget
 var shrinkBy = 25;
 
+function resize() {
+    gadgets.window.adjustHeight( gadgets.window.getHeight() - shrinkBy );
+}
+
 jive.tile.onOpen(function(config, options) {
 
     config.title = config.title || "Recent Outdated Content";
@@ -175,7 +179,7 @@ jive.tile.onOpen(function(config, options) {
             if (timer) {
                 console.log("showDocs " + (Date.now() - lap) + " ms");
             }
-            gadgets.window.adjustHeight( gadgets.window.getHeight() - shrinkBy );
+            resize();
         }
 
     });
@@ -183,5 +187,5 @@ jive.tile.onOpen(function(config, options) {
 
 // resize tile if the window changes size (responsive)
 $(window).resize(function() {
-    gadgets.window.adjustHeight( gadgets.window.getHeight() - shrinkBy );
+    resize();
 });
