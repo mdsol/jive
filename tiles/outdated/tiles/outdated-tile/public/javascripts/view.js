@@ -107,6 +107,20 @@ jive.tile.onOpen(function(config, options) {
             });
         }
 
+        function formatDate(date) {
+            var dateStr = date.getDate() + "";
+            if (dateStr.length < 2) {
+                dateStr = "0" + dateStr;
+            }
+            var monthStr = (date.getMonth() + 1) + "";
+            if (monthStr.length < 2) {
+                monthStr = "0" + monthStr;
+            }
+            var yearStr = date.getFullYear() + "";
+
+            return dateStr + "/" + monthStr + "/" + yearStr;
+        }
+
         function showDocs() {
             // sort by reverse chronological order if needed
             if (config.place === "sub") {
@@ -149,7 +163,7 @@ jive.tile.onOpen(function(config, options) {
                 authorUrl.appendChild(author);
                 td2.appendChild(authorUrl);
                 var postDate = new Date(doc.postDate);
-                var postDateNode = document.createTextNode(postDate.toLocaleDateString());
+                var postDateNode = document.createTextNode(formatDate(postDate));
                 td3.appendChild(postDateNode);
                 tr.appendChild(td1);
                 tr.appendChild(td2);
