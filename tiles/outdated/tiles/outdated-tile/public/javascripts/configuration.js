@@ -2,6 +2,10 @@
     jive.tile.onOpen(function(config, options) {
         gadgets.window.adjustHeight();
 
+        // taken from the jquery-validation plugin and modified
+        // https://github.com/jzaefferer/jquery-validation
+        var urlRegex = /^(?:(?:(?:https?|ftp):)\/\/)?(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})).?)(?::\d{2,5})?(?:[/?#]\S*)?$/;
+
         // make sure config has default values
         if (config.data === undefined) {
             config.data = {
@@ -55,6 +59,11 @@
                 valid = false;
             }
 
+            if (data.linkUrl.value !== "" && !urlRegex.test(data.linkUrl.value)) {
+                showError(data.linkUrl);
+                valid = false;
+            }
+
             return valid;
         }
         
@@ -62,25 +71,28 @@
             errInput.classList.add("error-box");
         }
 
-        // update config object after clicking submit
         $("#btn-submit").click( function() {
-            config.data.title = title.value;
-            config.data.numDocs = numDocs.value;
-            for (var choice of radios) {
-                if (choice.checked) {
-                    config.data.place = choice.value;
-                    break;
-                }
-            }
-            config.data.showLink = showLink.checked;
-            config.data.linkText = linkText.value;
-            config.data.linkUrl = linkUrl.value;
             var checkData = {
                 numDocs: numDocs,
                 showLink: showLink,
-                linkText: linkText
+                linkText: linkText,
+                linkUrl: linkUrl
             }
             if (validate(checkData)) {
+                // get all of the new values
+                config.data.title = title.value;
+                config.data.numDocs = numDocs.value;
+                for (var choice of radios) {
+                    if (choice.checked) {
+                        config.data.place = choice.value;
+                        break;
+                    }
+                }
+                config.data.showLink = showLink.checked;
+                config.data.linkText = linkText.value;
+                config.data.linkUrl = linkUrl.value;
+                
+                // submit
                 jive.tile.close(config, {} );
             } else {
                 gadgets.window.adjustHeight();
