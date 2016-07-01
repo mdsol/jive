@@ -2,22 +2,30 @@
 var timer = false;
 
 // how many pixels to cut off from bottom of widget
-var shrinkBy = 10;
+var shrinkByLink = 10;
+var shrinkByNoLink = 27;
 
 // default url ending
 var defaultUrl = "/content?filterID=contentstatus%5Bpublished%5D~objecttype~showall~action~action%5Boutdated%5D"
-function resize() {
-    gadgets.window.adjustHeight( gadgets.window.getHeight() - shrinkBy );
-}
-
 jive.tile.onOpen(function(config, options) {
 
     config.title = config.title || "Recent Outdated Content";
     config.numDocs = config.numDocs || 10;
     config.place = config.place || "sub";
-    config.showLink = config.showLink || true;
+    config.showLink = config.showLink === undefined ? true : config.showLink;
     config.linkText = config.linkText || "See More Outdated Content";
     config.linkUrl = config.linkUrl || "";
+
+    // resize tile if the window changes size (responsive)
+    $(window).resize(function() {
+        resize(config.showLink);
+    });
+
+    // resizes window
+    function resize(showLink) {
+        var shrinkBy = showLink ? shrinkByLink : shrinkByNoLink;
+        gadgets.window.adjustHeight( gadgets.window.getHeight() - shrinkBy );
+    }
 
     jive.tile.getContainer(function(container) {
         var docList = [];
@@ -25,7 +33,7 @@ jive.tile.onOpen(function(config, options) {
         if (timer) {
             var start = Date.now(), lap;
         }
-        if (config.linkUrl === "") {
+        if (config.showLink && config.linkUrl === "") {
             setDefaultUrl(container.placeID, config);
         }
         getOutdated(container.placeID);
@@ -199,21 +207,18 @@ jive.tile.onOpen(function(config, options) {
                 tr.appendChild(td3);
                 table.appendChild(tr);
             }
-            link.setAttribute("href", config.linkUrl);
-            var linkText = document.createTextNode(config.linkText);
-            link.appendChild(linkText);
+            if (config.showLink) {
+                link.setAttribute("href", config.linkUrl);
+                var linkText = document.createTextNode(config.linkText);
+                link.appendChild(linkText);
+            }
             $(".glyphicon-refresh").hide();
 
             if (timer) {
                 console.log("showDocs " + (Date.now() - lap) + " ms");
             }
-            resize();
+            resize(config.showLink);
         }
 
     });
-});
-
-// resize tile if the window changes size (responsive)
-$(window).resize(function() {
-    resize();
 });

@@ -60,7 +60,7 @@
                 valid = false;
             }
 
-            if (data.linkUrl.value !== "" && !urlRegex.test(data.linkUrl.value)) {
+            if (data.showLink.checked && data.linkUrl.value !== "" && !urlRegex.test(data.linkUrl.value)) {
                 showError(data.linkUrl);
                 valid = false;
             }
@@ -90,12 +90,14 @@
                     }
                 }
                 config.data.showLink = showLink.checked;
-                config.data.linkText = linkText.value;
                 
-                if (linkUrl.value !== "" && !httpRegex.test(linkUrl.value)) {
-                    linkUrl.value = "http://" + linkUrl.value;
+                if (showLink.checked) {
+                    config.data.linkText = linkText.value;
+                    if (linkUrl.value !== "" && !httpRegex.test(linkUrl.value)) {
+                        linkUrl.value = "http://" + linkUrl.value;
+                    }
+                    config.data.linkUrl = linkUrl.value;
                 }
-                config.data.linkUrl = linkUrl.value;
                 
                 // submit
                 jive.tile.close(config, {} );
