@@ -5,8 +5,9 @@ var timer = false;
 var shrinkByLink = 10;
 var shrinkByNoLink = 27;
 
-// default url ending
-var defaultUrl = "/content?filterID=contentstatus%5Bpublished%5D~objecttype~showall~action~action%5Boutdated%5D"
+// default url endings
+var defaultUrlThis = "/content?filterID=contentstatus%5Bpublished%5D~objecttype~showall~action~action%5Boutdated%5D";
+var defaultUrlAll = "/content?filterID=all~objecttype~showall~action~action%5Boutdated%5D";
 jive.tile.onOpen(function(config, options) {
 
     config.title = config.title || "Recent Outdated Content";
@@ -34,7 +35,7 @@ jive.tile.onOpen(function(config, options) {
             var start = Date.now(), lap;
         }
         if (config.showLink && config.linkUrl === "") {
-            setDefaultUrl(container.placeID, config);
+            setDefaultUrl(container.placeID, container.parent, config);
         }
         getOutdated(container.placeID);
 
@@ -127,20 +128,26 @@ jive.tile.onOpen(function(config, options) {
             });
         }
         
-        function setDefaultUrl(placeID, config) {
-            var reqSubspace = osapi.jive.corev3.places.get({
-                uri: "/places/" + placeID
-            });
-            reqSubspace.execute(function(res) {
-                if (res.error) {
-                    var code = res.error.code;
-                    var message = res.error.message;
-                    console.log(code + " " + message);
-                    // present the user with an appropriate error message
-                } else {
-                    config.linkUrl = res.resources.html.ref + defaultUrl;
-                }
-            });
+        function setDefaultUrl(placeID, parentUrl, config) {
+            if (config.place === "all") {
+                var endOfBaseUrl = parentUrl.indexOf("/", "https://".length);
+                config.linkUrl = parentUrl.substring(0, endOfBaseUrl);
+                config.linkUrl += defaultUrlAll;
+            } else {
+                var reqSubspace = osapi.jive.corev3.places.get({
+                    uri: "/places/" + placeID
+                });
+                reqSubspace.execute(function(res) {
+                    if (res.error) {
+                        var code = res.error.code;
+                        var message = res.error.message;
+                        console.log(code + " " + message);
+                        // present the user with an appropriate error message
+                    } else {
+                        config.linkUrl = res.resources.html.ref + defaultUrlThis;
+                    }
+                });
+            }
         }
 
         function formatDate(date) {
