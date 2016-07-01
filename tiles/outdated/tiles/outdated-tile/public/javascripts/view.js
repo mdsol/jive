@@ -2,7 +2,7 @@
 var timer = false;
 
 // how many pixels to cut off from bottom of widget
-var shrinkBy = 25;
+var shrinkBy = 10;
 
 function resize() {
     gadgets.window.adjustHeight( gadgets.window.getHeight() - shrinkBy );
@@ -13,6 +13,9 @@ jive.tile.onOpen(function(config, options) {
     config.title = config.title || "Recent Outdated Content";
     config.numDocs = config.numDocs || 10;
     config.place = config.place || "sub";
+    config.showLink = config.showLink || true;
+    config.linkText = config.linkText || "See More Outdated Content";
+    config.linkUrl = config.linkUrl || "";
 
     jive.tile.getContainer(function(container) {
         var docList = [];
@@ -135,6 +138,7 @@ jive.tile.onOpen(function(config, options) {
 
             var ul = document.getElementById("ul-list");
             var table = document.getElementById("content-table");
+            var link = document.getElementById("link");
 
             for (var doc of docList) {
                 // create list node
@@ -174,6 +178,9 @@ jive.tile.onOpen(function(config, options) {
                 tr.appendChild(td3);
                 table.appendChild(tr);
             }
+            link.setAttribute("href", config.linkUrl);
+            var linkText = document.createTextNode(config.linkText);
+            link.appendChild(linkText);
             $(".glyphicon-refresh").hide();
 
             if (timer) {
