@@ -5,6 +5,7 @@
         // taken from the jquery-validation plugin and modified
         // https://github.com/jzaefferer/jquery-validation
         var urlRegex = /^(?:(?:(?:https?|ftp):)\/\/)?(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})).?)(?::\d{2,5})?(?:[/?#]\S*)?$/;
+        var httpRegex = /^https?:\/\//;
 
         // make sure config has default values
         if (config.data === undefined) {
@@ -90,6 +91,10 @@
                 }
                 config.data.showLink = showLink.checked;
                 config.data.linkText = linkText.value;
+                
+                if (linkUrl.value !== "" && !httpRegex.test(linkUrl.value)) {
+                    linkUrl.value = "http://" + linkUrl.value;
+                }
                 config.data.linkUrl = linkUrl.value;
                 
                 // submit
