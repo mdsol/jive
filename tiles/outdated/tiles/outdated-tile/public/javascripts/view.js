@@ -61,7 +61,8 @@ jive.tile.onOpen(function(config, options) {
                         // present the user with an appropriate error message
                     } else {
                         var options = {
-                            count: 100
+                            count: 100, // most likely not more than 100
+                            filter: "type(space,project,group)"
                         }
                         res.getPlaces(options).execute(function(res) {
                             if (res.error) {
@@ -72,9 +73,7 @@ jive.tile.onOpen(function(config, options) {
                             } else {
                                 var resList = res.list;
                                 for (place of resList) {
-                                    if (place.type !== "blog") {
-                                        getOutdated(place.placeID);
-                                    }
+                                    getOutdated(place.placeID);
                                 }
                                 pending--;
                                 if (pending == 0) {
