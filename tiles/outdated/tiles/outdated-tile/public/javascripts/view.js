@@ -60,7 +60,10 @@ jive.tile.onOpen(function(config, options) {
                         console.log(code + " " + message);
                         // present the user with an appropriate error message
                     } else {
-                        res.getPlaces().execute(function(res) {
+                        var options = {
+                            count: 100
+                        }
+                        res.getPlaces(options).execute(function(res) {
                             if (res.error) {
                                 var code = res.error.code;
                                 var message = res.error.message;
