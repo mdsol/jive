@@ -24,17 +24,6 @@ jive.tile.onOpen(function(config, options) {
     config.linkText = config.linkText || "See More Outdated Content";
     config.linkUrl = config.linkUrl || "";
 
-    // resize tile if the window changes size (responsive)
-    $(window).resize(function() {
-        resize(config.showLink);
-    });
-
-    // resizes window
-    function resize(showLink) {
-        var shrinkBy = showLink ? shrinkByLink : shrinkByNoLink;
-        gadgets.window.adjustHeight( gadgets.window.getHeight() - shrinkBy );
-    }
-
     jive.tile.getContainer(function(container) {
         var docList = [];
         var pending = 0;
