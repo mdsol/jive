@@ -117,6 +117,15 @@ ul {
   margin-bottom: 0px;
 }
 
+#result-list li [class*=jive-icon-] {
+  left: 5px; /* -13 from default */
+}
+
+#result-list li a {
+  padding-left: 29px; /* -13 from default */
+  padding-right: 0;
+}
+
 .j-pop {
   border-radius: 0;
   border: 0;
