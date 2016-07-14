@@ -41,102 +41,53 @@ jive.tile.onOpen(function(config, options) {
         if (timer) {
             var start = Date.now(), lap;
         }
-        if (config.showLink && config.linkUrl === "") {
-            setDefaultUrl(container.placeID, container.parent, config);
-        }
-        getOutdated(container.placeID);
+        /*if (config.showLink && config.linkUrl === "") {
+          setDefaultUrl(container.placeID, container.parent, config);
+          }*/
+        getQuestions(container.placeID);
 
-        function getOutdated(placeID) {
-            // get sub-places of this place
-            if (config.place === "sub") {
-                var reqSubspace = osapi.jive.corev3.places.get({
-                    uri: "/places/" + placeID
-                });
-                pending++;
-                reqSubspace.execute(function(res) {
-                    if (res.error) {
-                        var code = res.error.code;
-                        var message = res.error.message;
-                        console.log(code + " " + message);
-                        // present the user with an appropriate error message
-                    } else {
-                        var options = {
-                            count: 100, // most likely not more than 100
-                            filter: "type(space,project,group)"
-                        }
-                        res.getPlaces(options).execute(function(res) {
-                            if (res.error) {
-                                var code = res.error.code;
-                                var message = res.error.message;
-                                console.log(code + " " + message);
-                                // present the user with an appropriate error message
-                            } else {
-                                var resList = res.list;
-                                for (place of resList) {
-                                    getOutdated(place.placeID);
-                                }
-                                pending--;
-                                if (pending == 0) {
-                                    if (timer) {
-                                        lap = Date.now();
-                                        console.log("getOutdated " + (lap - start) + " ms");
-                                    }
-                                    showDocs();
-                                }
-                            }
-                        });
-                    }
-                });
-            }
+        function getQuestions(placeID) {
 
-            // get the outdated content
-            var reqOptions = {
-                outcomeType: "outdated",
-                count: config.numDocs,
-                sort: "latestActivityDesc"
-            }
-            if (config.place === "sub" || config.place === "this") {
-                reqOptions.place = "/places/" + placeID;
-            }
-            var reqContent = osapi.jive.corev3.contents.get(reqOptions);
-            pending++;
-            if (timer) {
-                var reqTime = Date.now();
-            }
-            reqContent.execute(function(res) {
+            var reqQuestions = osapi.jive.corev3.contents.get({
+                search: "accessing github",
+                type: "discussion",
+                count: 10
+            });
+            reqQuestions.execute(function(res) {
                 if (res.error) {
                     var code = res.error.code;
                     var message = res.error.message;
                     console.log(code + " " + message);
                     // present the user with an appropriate error message
                 } else {
-                    if (timer) {
-                        console.log("request content from " + placeID + ": " + (Date.now() - reqTime) + " ms");
+                    var results = res.list;
+                    var ul = document.getElementById("result-list");
+
+                    for (r of results) {
+                        var li = document.createElement("li");
+                        var a = document.createElement("a");
+                        a.setAttribute('target', "_top");
+                        a.setAttribute('href', r.resources.html.ref);
+                        var icon = document.createElement("span");
+                        icon.classList.add(r.iconCss, "jive-icon-med");
+                        var subj = document.createElement("span");
+                        subj.classList.add("lnk");
+                        subj.appendChild( document.createTextNode(r.subject) );
+                        var em = document.createElement("em");
+                        emText = document.createTextNode("asked by " + r.author.displayName + " on " + "Date");
+                        em.appendChild(emText);
+
+                        a.appendChild(icon);
+                        a.appendChild(subj);
+                        a.appendChild(em);
+                        li.appendChild(a);
+                        ul.appendChild(li);
                     }
-                    for (let el of res.list) {
-                        docList.push({
-                            subject: el.subject,
-                            url: el.resources.html.ref,
-                            author: el.author.displayName,
-                            authorUrl: el.author.resources.html.ref,
-                            icon: el.iconCss,
-                            avatar: el.author.resources.avatar.ref,
-                            lastAct: el.lastActivity,
-                            postDate: el.published
-                        });
-                    }
-                    pending--;
-                    if (pending == 0) {
-                        if (timer) {
-                            lap = Date.now();
-                            console.log("getOutdated " + (lap - start) + " ms");
-                        }
-                        showDocs();
-                    }
+                    gadgets.window.adjustHeight();
                 }
             });
         }
-        
+
         function setDefaultUrl(placeID, parentUrl, config) {
             if (config.place === "all") {
                 var endOfBaseUrl = parentUrl.indexOf("/", "https://".length);
@@ -196,7 +147,7 @@ jive.tile.onOpen(function(config, options) {
                 a.appendChild(docSubj);
                 li.appendChild(a);  
                 ul.appendChild(li);
-                
+
                 // create table row node
                 var tr = document.createElement("tr");
                 var td1 = document.createElement("td");
