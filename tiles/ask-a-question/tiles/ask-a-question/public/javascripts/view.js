@@ -46,7 +46,8 @@ jive.tile.onOpen(function(config, options) {
             var reqQuestions = osapi.jive.corev3.contents.get({
                 search: query,
                 type: "discussion",
-                count: 100
+                count: 100,
+                fields: "question,resolved,subject,author.displayName,published,iconCss"
             });
             reqQuestions.execute(function(res) {
                 if (res.error) {
