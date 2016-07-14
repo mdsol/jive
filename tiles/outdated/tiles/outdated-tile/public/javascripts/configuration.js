@@ -82,7 +82,7 @@
             if (validate(checkData)) {
                 // get all of the new values
                 config.data.title = title.value;
-                config.data.numDocs = numDocs.value;
+                config.data.numDocs = Number(numDocs.value);
                 for (var choice of radios) {
                     if (choice.checked) {
                         config.data.place = choice.value;
