@@ -1,5 +1,6 @@
 // flag for recording time and logging to console
-var timer = false;
+var timer = true;
+var start, lap;
 
 // how many pixels to cut off from bottom of widget
 var shrinkByLink = 10;
@@ -27,15 +28,15 @@ jive.tile.onOpen(function(config, options) {
     jive.tile.getContainer(function(container) {
         var docList = [];
         var pending = 0;
-        if (timer) {
-            var start = Date.now(), lap;
-        }
         /*if (config.showLink && config.linkUrl === "") {
           setDefaultUrl(container.placeID, container.parent, config);
           }*/
         gadgets.window.adjustHeight();
         $("#question-input").keypress(function(e) {
             if (e.which == 13) {
+                if (timer) {
+                    start = Date.now();
+                }
                 getQuestions($(this).val());
             }
         })
@@ -45,7 +46,7 @@ jive.tile.onOpen(function(config, options) {
             var reqQuestions = osapi.jive.corev3.contents.get({
                 search: query,
                 type: "discussion",
-                count: 10
+                count: 100
             });
             reqQuestions.execute(function(res) {
                 if (res.error) {
@@ -54,6 +55,10 @@ jive.tile.onOpen(function(config, options) {
                     console.log(code + " " + message);
                     // present the user with an appropriate error message
                 } else {
+                    if (timer) {
+                        lap = Date.now();
+                        console.log("query took " + (lap - start) + " ms");
+                    }
                     var results = res.list;
                     var ul = document.getElementById("result-list");
 
@@ -63,24 +68,29 @@ jive.tile.onOpen(function(config, options) {
                     }
 
                     for (r of results) {
-                        var li = document.createElement("li");
-                        var a = document.createElement("a");
-                        a.setAttribute('target', "_top");
-                        a.setAttribute('href', r.resources.html.ref);
-                        var icon = document.createElement("span");
-                        icon.classList.add(r.iconCss, "jive-icon-med");
-                        var subj = document.createElement("span");
-                        subj.classList.add("lnk");
-                        subj.appendChild( document.createTextNode(r.subject) );
-                        var em = document.createElement("em");
-                        emText = document.createTextNode("asked by " + r.author.displayName + " on " + formatDate(r.published));
-                        em.appendChild(emText);
+                        if (r.question) {
+                            var li = document.createElement("li");
+                            var a = document.createElement("a");
+                            a.setAttribute('target', "_top");
+                            a.setAttribute('href', r.resources.html.ref);
+                            var icon = document.createElement("span");
+                            icon.classList.add(r.iconCss, "jive-icon-med");
+                            var subj = document.createElement("span");
+                            subj.classList.add("lnk");
+                            subj.appendChild( document.createTextNode(r.subject) );
+                            var em = document.createElement("em");
+                            emText = document.createTextNode("asked by " + r.author.displayName + " on " + formatDate(r.published));
+                            em.appendChild(emText);
 
-                        a.appendChild(icon);
-                        a.appendChild(subj);
-                        a.appendChild(em);
-                        li.appendChild(a);
-                        ul.appendChild(li);
+                            a.appendChild(icon);
+                            a.appendChild(subj);
+                            a.appendChild(em);
+                            li.appendChild(a);
+                            ul.appendChild(li);
+                        }
+                    }
+                    if (timer) {
+                        console.log("creating nodes took " + (Date.now() - lap) + " ms");
                     }
                     gadgets.window.adjustHeight();
                 }
