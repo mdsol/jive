@@ -93,7 +93,8 @@ jive.tile.onOpen(function(config, options) {
             var reqOptions = {
                 outcomeType: "outdated",
                 count: config.numDocs,
-                sort: "latestActivityDesc"
+                sort: "latestActivityDesc",
+                fields: "subject,author.displayName,iconCss,lastActivity,published"
             }
             if (config.place === "sub" || config.place === "this") {
                 reqOptions.place = "/places/" + placeID;
