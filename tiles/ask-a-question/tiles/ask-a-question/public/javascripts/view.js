@@ -1,10 +1,6 @@
 // flag for recording time and logging to console
-var timer = true;
+var timer = false;
 var start, lap;
-
-// how many pixels to cut off from bottom of widget
-var shrinkByLink = 10;
-var shrinkByNoLink = 27;
 
 // 0-11 mapped to month name
 var months = [
@@ -17,21 +13,17 @@ var months = [
 var defaultUrlThis = "/content?filterID=contentstatus%5Bpublished%5D~objecttype~showall~action~action%5Boutdated%5D";
 var defaultUrlAll = "/content?filterID=all~objecttype~showall~action~action%5Boutdated%5D";
 jive.tile.onOpen(function(config, options) {
+    gadgets.window.adjustHeight();
 
-    config.title = config.title || "Recent Outdated Content";
-    config.numDocs = config.numDocs || 10;
+    // set defaults for config
+    config.numResults = config.numResults || 10;
+    config.qType = config.qType || "all";
     config.place = config.place || "sub";
-    config.showLink = config.showLink === undefined ? true : config.showLink;
-    config.linkText = config.linkText || "See More Outdated Content";
-    config.linkUrl = config.linkUrl || "";
 
     jive.tile.getContainer(function(container) {
         var docList = [];
         var pending = 0;
-        /*if (config.showLink && config.linkUrl === "") {
-          setDefaultUrl(container.placeID, container.parent, config);
-          }*/
-        gadgets.window.adjustHeight();
+
         $("#question-input").keypress(function(e) {
             if (e.which == 13) {
                 if (timer) {
@@ -68,6 +60,7 @@ jive.tile.onOpen(function(config, options) {
                         ul.removeChild(ul.lastChild);
                     }
 
+                    var i = 0; // num docs added
                     for (r of results) {
                         if (r.question) {
                             var li = document.createElement("li");
@@ -88,6 +81,11 @@ jive.tile.onOpen(function(config, options) {
                             a.appendChild(em);
                             li.appendChild(a);
                             ul.appendChild(li);
+                            
+                            i++;
+                            if (i === config.numResults) {
+                                break;
+                            }
                         }
                     }
                     if (timer) {

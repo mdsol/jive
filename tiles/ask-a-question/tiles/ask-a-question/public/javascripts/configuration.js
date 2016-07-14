@@ -67,7 +67,7 @@
             if (validate(checkData)) {
                 // get all of the new values
                 config.data.title = title.value;
-                config.data.numResults = numResults.value;
+                config.data.numResults = Number(numResults.value);
                 for (var choice of qType) {
                     if (choice.checked) {
                         config.data.qType = choice.value;
