@@ -11,34 +11,32 @@
         if (config.data === undefined) {
             config.data = {
                 title: "Ask a Question",
-                numDocs: 10,
-                place: "sub",
-                showLink: true,
-                linkText: "See More Outdated Content",
-                linkUrl: ""
+                numResults: 10,
+                qType: "all",
+                place: "sub"
             };
         };
         
         var title = document.getElementById("title");
-        var numDocs = document.getElementById("num-docs");
-        var radios = document.getElementsByName("place");
-        var showLink = document.getElementById("show-link");
-        var linkText = document.getElementById("link-text");
-        var linkUrl = document.getElementById("link-url");
+        var numResults = document.getElementById("num-results");
+        var qType = document.getElementsByName("q-type");
+        var place = document.getElementsByName("place");
 
         // populate the dialog with existing config value
         title.value = config.data.title;
-        numDocs.value = config.data.numDocs;
-        for (let choice of radios) {
+        numResults.value = config.data.numResults;
+        for (let choice of qType) {
+            if (choice.value === config.data.qType) {
+                choice.checked = true;
+                break;
+            }
+        }
+        for (let choice of place) {
             if (choice.value === config.data.place) {
                 choice.checked = true;
                 break;
             }
         }
-        showLink.checked = config.data.showLink;
-        $("#link-options").toggle(showLink.checked);
-        linkText.value = config.data.linkText;
-        linkUrl.value = config.data.linkUrl;
         gadgets.window.adjustHeight();
 
         function validate(data) {
@@ -48,20 +46,10 @@
                 el.classList.remove("error-box");
             }
 
-            numDocsVal = Number(data.numDocs.value);
-            if (numDocsVal % 1 !== 0 || numDocsVal < 1 || numDocsVal > 100) {
+            numResultsVal = Number(data.numResults.value);
+            if (numResultsVal % 1 !== 0 || numResultsVal < 1 || numResultsVal > 100) {
                 // test if not positive integer between 1 and 100
-                showError(data.numDocs);
-                valid = false;
-            }
-
-            if (data.showLink.checked && data.linkText.value === "") {
-                showError(data.linkText);
-                valid = false;
-            }
-
-            if (data.showLink.checked && data.linkUrl.value !== "" && !urlRegex.test(data.linkUrl.value)) {
-                showError(data.linkUrl);
+                showError(data.numResults);
                 valid = false;
             }
 
@@ -74,29 +62,23 @@
 
         $("#btn-submit").click( function() {
             var checkData = {
-                numDocs: numDocs,
-                showLink: showLink,
-                linkText: linkText,
-                linkUrl: linkUrl
+                numResults: numResults,
             }
             if (validate(checkData)) {
                 // get all of the new values
                 config.data.title = title.value;
-                config.data.numDocs = numDocs.value;
-                for (var choice of radios) {
+                config.data.numResults = numResults.value;
+                for (var choice of qType) {
+                    if (choice.checked) {
+                        config.data.qType = choice.value;
+                        break;
+                    }
+                }
+                for (var choice of place) {
                     if (choice.checked) {
                         config.data.place = choice.value;
                         break;
                     }
-                }
-                config.data.showLink = showLink.checked;
-                
-                if (showLink.checked) {
-                    config.data.linkText = linkText.value;
-                    if (linkUrl.value !== "" && !httpRegex.test(linkUrl.value)) {
-                        linkUrl.value = "http://" + linkUrl.value;
-                    }
-                    config.data.linkUrl = linkUrl.value;
                 }
                 
                 // submit
