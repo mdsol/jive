@@ -33,12 +33,17 @@ jive.tile.onOpen(function(config, options) {
         /*if (config.showLink && config.linkUrl === "") {
           setDefaultUrl(container.placeID, container.parent, config);
           }*/
-        getQuestions(container.placeID);
+        gadgets.window.adjustHeight();
+        $("#question-input").keypress(function(e) {
+            if (e.which == 13) {
+                getQuestions($(this).val());
+            }
+        })
 
-        function getQuestions(placeID) {
+        function getQuestions(query) {
 
             var reqQuestions = osapi.jive.corev3.contents.get({
-                search: "accessing github",
+                search: query,
                 type: "discussion",
                 count: 10
             });
@@ -52,6 +57,11 @@ jive.tile.onOpen(function(config, options) {
                     var results = res.list;
                     var ul = document.getElementById("result-list");
 
+                    // remove existing results
+                    while (ul.hasChildNodes()) {
+                        ul.removeChild(ul.lastChild);
+                    }
+
                     for (r of results) {
                         var li = document.createElement("li");
                         var a = document.createElement("a");
@@ -63,7 +73,7 @@ jive.tile.onOpen(function(config, options) {
                         subj.classList.add("lnk");
                         subj.appendChild( document.createTextNode(r.subject) );
                         var em = document.createElement("em");
-                        emText = document.createTextNode("asked by " + r.author.displayName + " on " + "Date");
+                        emText = document.createTextNode("asked by " + r.author.displayName + " on " + formatDate(r.published));
                         em.appendChild(emText);
 
                         a.appendChild(icon);
@@ -99,15 +109,9 @@ jive.tile.onOpen(function(config, options) {
             }
         }
 
-        function formatDate(date) {
-            var dateStr = date.getDate() + "";
-            if (dateStr.length < 2) {
-                dateStr = "0" + dateStr;
-            }
-            var monthStr = months[date.getMonth()].substring(0, 3);
-            var yearStr = date.getFullYear() + "";
-
-            return dateStr + "-" + monthStr + "-" + yearStr;
+        function formatDate(dateStr) {
+            var date = new Date(dateStr);
+            return (date.getMonth()+1) + "/" + date.getDate() + "/" + date.getFullYear();
         }
 
         function showDocs() {
