@@ -34,6 +34,10 @@ jive.tile.onOpen(function(config, options) {
         })
 
         function getQuestions(query, startIndex = 0) {
+            if (results.length !== 0) {
+                showLoading();
+            }
+            results = [];
 
             options = {
                 search: query,
@@ -105,7 +109,7 @@ jive.tile.onOpen(function(config, options) {
                 ul.appendChild(li);
             }
 
-            results = [];
+            hideLoading();
 
             if (timer) {
                 console.log("creating nodes took " + (Date.now() - lap) + " ms");
@@ -118,5 +122,14 @@ jive.tile.onOpen(function(config, options) {
             return (date.getMonth()+1) + "/" + date.getDate() + "/" + date.getFullYear();
         }
 
+        function showLoading() {
+            $("#loading").show();
+            $("#result-list").css("opacity", 0.5);
+        }
+
+        function hideLoading() {
+            $("#loading").hide();
+            $("#result-list").css("opacity", 1);
+        }
     });
 });

@@ -71,8 +71,15 @@ label {
   margin-top: 20px;
 }
 
+#loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(50%);
+  display: none;
+}
+
 .glyphicon-refresh {
-  display: inline-block;
   font-size: 3em;
   -webkit-animation:spin 4s linear infinite;
   -moz-animation:spin 4s linear infinite;
