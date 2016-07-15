@@ -41,14 +41,17 @@ jive.tile.onOpen(function(config, options) {
             url += "&subject=" + $("#question-input").val();
 
             parent.window.location = url;
-        })
+        });
 
         function getQuestions(query, startIndex = 0) {
+
+            // hide the ask button
+            $("#ask").hide();
+
             // hide results if no query
             if (query === "") {
                 clearResults();
                 hideLoading();
-                $("#ask").hide();
                 gadgets.window.adjustHeight();
                 return;
             } else {
