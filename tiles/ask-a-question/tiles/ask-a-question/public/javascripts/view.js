@@ -113,94 +113,9 @@ jive.tile.onOpen(function(config, options) {
             gadgets.window.adjustHeight();
         }
 
-        function setDefaultUrl(placeID, parentUrl, config) {
-            if (config.place === "all") {
-                var endOfBaseUrl = parentUrl.indexOf("/", "https://".length);
-                config.linkUrl = parentUrl.substring(0, endOfBaseUrl);
-                config.linkUrl += defaultUrlAll;
-            } else {
-                var reqSubspace = osapi.jive.corev3.places.get({
-                    uri: "/places/" + placeID
-                });
-                reqSubspace.execute(function(res) {
-                    if (res.error) {
-                        var code = res.error.code;
-                        var message = res.error.message;
-                        console.log(code + " " + message);
-                        // present the user with an appropriate error message
-                    } else {
-                        config.linkUrl = res.resources.html.ref + defaultUrlThis;
-                    }
-                });
-            }
-        }
-
         function formatDate(dateStr) {
             var date = new Date(dateStr);
             return (date.getMonth()+1) + "/" + date.getDate() + "/" + date.getFullYear();
-        }
-
-        function showDocs() {
-            // sort by reverse chronological order if needed
-            if (config.place === "sub") {
-                docList.sort(function(a, b) {
-                    return b.lastAct - a.lastAct;
-                });
-            }
-
-            var ul = document.getElementById("ul-list");
-            var table = document.getElementById("content-table");
-            var link = document.getElementById("link");
-
-            for (var doc of docList) {
-                // create list node
-                var li = document.createElement("li");
-                li.classList.add("listItem", "showIcon");
-                var a = document.createElement("a");
-                a.setAttribute('target', "_top");
-                a.setAttribute('href', doc.url);
-                var icon = document.createElement('span');
-                icon.classList.add(doc.icon, "jive-icon-med");
-                var docSubj = document.createTextNode(doc.subject);
-                a.appendChild(icon);  
-                a.appendChild(docSubj);
-                li.appendChild(a);  
-                ul.appendChild(li);
-
-                // create table row node
-                var tr = document.createElement("tr");
-                var td1 = document.createElement("td");
-                var td2 = td1.cloneNode(), td3 = td1.cloneNode();
-                td1.appendChild(a.cloneNode(true));
-                var authorUrl = a.cloneNode();
-                authorUrl.setAttribute("href", doc.authorUrl);
-                var avatar = document.createElement("img");
-                avatar.classList.add("img-circle", "avatar");
-                avatar.setAttribute("src", doc.avatar);
-                avatar.setAttribute("height", "30px");
-                authorUrl.appendChild(avatar);
-                var author = document.createTextNode(doc.author);
-                authorUrl.appendChild(author);
-                td2.appendChild(authorUrl);
-                var postDate = new Date(doc.postDate);
-                var postDateNode = document.createTextNode(formatDate(postDate));
-                td3.appendChild(postDateNode);
-                tr.appendChild(td1);
-                tr.appendChild(td2);
-                tr.appendChild(td3);
-                table.appendChild(tr);
-            }
-            if (config.showLink) {
-                link.setAttribute("href", config.linkUrl);
-                var linkText = document.createTextNode(config.linkText);
-                link.appendChild(linkText);
-            }
-            $(".glyphicon-refresh").hide();
-
-            if (timer) {
-                console.log("showDocs " + (Date.now() - lap) + " ms");
-            }
-            resize(config.showLink);
         }
 
     });
