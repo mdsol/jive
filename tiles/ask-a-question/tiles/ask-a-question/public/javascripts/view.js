@@ -22,22 +22,28 @@ jive.tile.onOpen(function(config, options) {
 
     jive.tile.getContainer(function(container) {
         var results = [];
-        var pending = 0;
 
-        $("#question-input").keypress(function(e) {
-            if (e.which == 13) {
-                if (timer) {
-                    start = Date.now();
-                }
-                getQuestions($(this).val());
+        $("#question-input").on("input", function(e) {
+            if (timer) {
+                start = Date.now();
             }
-        })
+            getQuestions($(this).val());
+        });
 
         function getQuestions(query, startIndex = 0) {
-            if (results.length !== 0) {
-                showLoading();
+            // hide results if no query
+            if (query === "") {
+                clearResults();
+                hideLoading();
+                gadgets.window.adjustHeight();
+                return;
             }
-            results = [];
+
+            // make room for loading icon
+            if ($("#result-list").children().length === 0) {
+                gadgets.window.adjustHeight( 2*gadgets.window.getHeight() );
+            }
+            showLoading();
 
             options = {
                 search: query,
@@ -61,6 +67,9 @@ jive.tile.onOpen(function(config, options) {
                         lap = Date.now();
                         console.log("query took " + (lap - start) + " ms");
                     }
+                    if (query !== $("#question-input").val()) {
+                        return;
+                    }
 
                     for (var r of res.list) {
                         if (r.question && (config.qType === "all" || r.resolved.indexOf(config.qType) !== -1)) {
@@ -82,11 +91,7 @@ jive.tile.onOpen(function(config, options) {
 
         function showResults() {
             var ul = document.getElementById("result-list");
-
-            // remove existing results
-            while (ul.hasChildNodes()) {
-                ul.removeChild(ul.lastChild);
-            }
+            clearResults();
 
             for (var r of results) {
                 var li = document.createElement("li");
@@ -109,6 +114,7 @@ jive.tile.onOpen(function(config, options) {
                 ul.appendChild(li);
             }
 
+            results = [];
             hideLoading();
 
             if (timer) {
@@ -130,6 +136,13 @@ jive.tile.onOpen(function(config, options) {
         function hideLoading() {
             $("#loading").hide();
             $("#result-list").css("opacity", 1);
+        }
+
+        function clearResults() {
+            var ul = document.getElementById("result-list");
+            while (ul.hasChildNodes()) {
+                ul.removeChild(ul.lastChild);
+            }
         }
     });
 });
