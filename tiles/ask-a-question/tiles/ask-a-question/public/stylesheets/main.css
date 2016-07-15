@@ -75,7 +75,7 @@ label {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translateX(50%);
+  transform: translateX(-50%);
   display: none;
 }
 
@@ -138,4 +138,8 @@ ul {
   border: 0;
   box-shadow: none;
   position: static;
+}
+
+#no-results-msg {
+  display: none;
 }

@@ -37,6 +37,8 @@ jive.tile.onOpen(function(config, options) {
                 hideLoading();
                 gadgets.window.adjustHeight();
                 return;
+            } else {
+                $("#no-results-msg").hide();
             }
 
             // make room for loading icon
@@ -112,6 +114,10 @@ jive.tile.onOpen(function(config, options) {
                 a.appendChild(em);
                 li.appendChild(a);
                 ul.appendChild(li);
+            }
+
+            if (results.length === 0) {
+                $("#no-results-msg").show();
             }
 
             results = [];
