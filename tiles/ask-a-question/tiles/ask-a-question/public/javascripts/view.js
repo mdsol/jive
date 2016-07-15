@@ -21,7 +21,7 @@ jive.tile.onOpen(function(config, options) {
     config.place = config.place || "sub";
 
     jive.tile.getContainer(function(container) {
-        var docList = [];
+        var results = [];
         var pending = 0;
 
         $("#question-input").keypress(function(e) {
@@ -33,13 +33,14 @@ jive.tile.onOpen(function(config, options) {
             }
         })
 
-        function getQuestions(query) {
+        function getQuestions(query, startIndex = 0) {
 
             var reqQuestions = osapi.jive.corev3.contents.get({
                 search: query,
                 type: "discussion",
                 count: 100,
-                fields: "question,resolved,subject,author.displayName,published,iconCss"
+                fields: "question,resolved,subject,author.displayName,published,iconCss",
+                startIndex: startIndex
             });
             reqQuestions.execute(function(res) {
                 if (res.error) {
@@ -52,48 +53,60 @@ jive.tile.onOpen(function(config, options) {
                         lap = Date.now();
                         console.log("query took " + (lap - start) + " ms");
                     }
-                    var results = res.list;
-                    var ul = document.getElementById("result-list");
 
-                    // remove existing results
-                    while (ul.hasChildNodes()) {
-                        ul.removeChild(ul.lastChild);
-                    }
-
-                    var i = 0; // num docs added
-                    for (r of results) {
-                        if (r.question) {
-                            var li = document.createElement("li");
-                            var a = document.createElement("a");
-                            a.setAttribute('target', "_top");
-                            a.setAttribute('href', r.resources.html.ref);
-                            var icon = document.createElement("span");
-                            icon.classList.add(r.iconCss, "jive-icon-med");
-                            var subj = document.createElement("span");
-                            subj.classList.add("lnk");
-                            subj.appendChild( document.createTextNode(r.subject) );
-                            var em = document.createElement("em");
-                            emText = document.createTextNode("asked by " + r.author.displayName + " on " + formatDate(r.published));
-                            em.appendChild(emText);
-
-                            a.appendChild(icon);
-                            a.appendChild(subj);
-                            a.appendChild(em);
-                            li.appendChild(a);
-                            ul.appendChild(li);
-                            
-                            i++;
-                            if (i === config.numResults) {
-                                break;
-                            }
+                    for (var r of res.list) {
+                        if (r.question && (config.qType === "all" || r.resolved.indexOf(config.qType) !== -1)) {
+                            results.push(r);
+                        }
+                        if (results.length === config.numResults) {
+                            break;
                         }
                     }
-                    if (timer) {
-                        console.log("creating nodes took " + (Date.now() - lap) + " ms");
+
+                    if (res.links && res.links.next && results.length < config.numResults) {
+                        getQuestions(query, startIndex + 100);
+                    } else {
+                        showResults();
                     }
-                    gadgets.window.adjustHeight();
                 }
             });
+        }
+
+        function showResults() {
+            var ul = document.getElementById("result-list");
+
+            // remove existing results
+            while (ul.hasChildNodes()) {
+                ul.removeChild(ul.lastChild);
+            }
+
+            for (var r of results) {
+                var li = document.createElement("li");
+                var a = document.createElement("a");
+                a.setAttribute('target', "_top");
+                a.setAttribute('href', r.resources.html.ref);
+                var icon = document.createElement("span");
+                icon.classList.add(r.iconCss, "jive-icon-med");
+                var subj = document.createElement("span");
+                subj.classList.add("lnk");
+                subj.appendChild( document.createTextNode(r.subject) );
+                var em = document.createElement("em");
+                emText = document.createTextNode("asked by " + r.author.displayName + " on " + formatDate(r.published));
+                em.appendChild(emText);
+
+                a.appendChild(icon);
+                a.appendChild(subj);
+                a.appendChild(em);
+                li.appendChild(a);
+                ul.appendChild(li);
+            }
+
+            results = [];
+
+            if (timer) {
+                console.log("creating nodes took " + (Date.now() - lap) + " ms");
+            }
+            gadgets.window.adjustHeight();
         }
 
         function setDefaultUrl(placeID, parentUrl, config) {
