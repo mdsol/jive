@@ -48,6 +48,7 @@ jive.tile.onOpen(function(config, options) {
             if (query === "") {
                 clearResults();
                 hideLoading();
+                $("#ask").hide();
                 gadgets.window.adjustHeight();
                 return;
             } else {
@@ -128,6 +129,7 @@ jive.tile.onOpen(function(config, options) {
                 li.appendChild(a);
                 ul.appendChild(li);
             }
+            $("#ask").show();
 
             if (results.length === 0) {
                 $("#no-results-msg").show();
