@@ -13,7 +13,7 @@
                 title: "Ask a Question",
                 numResults: 10,
                 qType: "all",
-                place: "sub"
+                place: "all"
             };
         };
         

@@ -18,7 +18,7 @@ jive.tile.onOpen(function(config, options) {
     // set defaults for config
     config.numResults = config.numResults || 10;
     config.qType = config.qType || "all";
-    config.place = config.place || "sub";
+    config.place = config.place || "all";
 
     jive.tile.getContainer(function(container) {
         var results = [];
@@ -35,14 +35,18 @@ jive.tile.onOpen(function(config, options) {
 
         function getQuestions(query, startIndex = 0) {
 
-            var reqQuestions = osapi.jive.corev3.contents.get({
+            options = {
                 search: query,
                 type: "discussion",
                 count: 100,
                 fields: "question,resolved,subject,author.displayName,published,iconCss",
                 startIndex: startIndex
-            });
-            reqQuestions.execute(function(res) {
+            }
+            if (config.place === "this") {
+                options.place = "/places/" + container.placeID;
+            }
+            
+            osapi.jive.corev3.contents.get(options).execute(function(res) {
                 if (res.error) {
                     var code = res.error.code;
                     var message = res.error.message;
