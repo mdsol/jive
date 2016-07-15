@@ -143,3 +143,9 @@ ul {
 #no-results-msg {
   display: none;
 }
+
+#ask {
+  width: 100%;
+  color: black;
+  font-weight: bold;
+}

@@ -12,6 +12,8 @@ var months = [
 // default url endings
 var defaultUrlThis = "/content?filterID=contentstatus%5Bpublished%5D~objecttype~showall~action~action%5Boutdated%5D";
 var defaultUrlAll = "/content?filterID=all~objecttype~showall~action~action%5Boutdated%5D";
+var questionUrl = "/discussion/create.jspa?question=true&containerType=14";
+
 jive.tile.onOpen(function(config, options) {
     gadgets.window.adjustHeight();
 
@@ -29,6 +31,17 @@ jive.tile.onOpen(function(config, options) {
             }
             getQuestions($(this).val());
         });
+
+        $("#ask").click(function(e) {
+            var parser = document.createElement("a");
+            parser.href = container.parent;
+
+            var url = parser.origin + questionUrl;
+            url += "&containerID=" + container.id;
+            url += "&subject=" + $("#question-input").val();
+
+            parent.window.location = url;
+        })
 
         function getQuestions(query, startIndex = 0) {
             // hide results if no query
