@@ -2,16 +2,7 @@
 var timer = false;
 var start, lap;
 
-// 0-11 mapped to month name
-var months = [
-    "January"  , "February", "March"   , "April",
-    "May"      , "June"    , "July"    , "August",
-    "September", "October" , "November", "December"
-];
-
-// default url endings
-var defaultUrlThis = "/content?filterID=contentstatus%5Bpublished%5D~objecttype~showall~action~action%5Boutdated%5D";
-var defaultUrlAll = "/content?filterID=all~objecttype~showall~action~action%5Boutdated%5D";
+// post a question URL
 var questionUrl = "/discussion/create.jspa?question=true&containerType=14";
 
 jive.tile.onOpen(function(config, options) {
@@ -115,8 +106,8 @@ jive.tile.onOpen(function(config, options) {
             for (var r of results) {
                 var li = document.createElement("li");
                 var a = document.createElement("a");
-                a.setAttribute('target', "_top");
-                a.setAttribute('href', r.resources.html.ref);
+                a.setAttribute("target", "_top");
+                a.setAttribute("href", r.resources.html.ref);
                 var icon = document.createElement("span");
                 icon.classList.add(r.iconCss, "jive-icon-med");
                 var subj = document.createElement("span");
