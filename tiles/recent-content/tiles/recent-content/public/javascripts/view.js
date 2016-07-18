@@ -138,23 +138,13 @@ jive.tile.onOpen(function(config, options) {
         
         function setDefaultUrl(placeID, parentUrl, config) {
             if (config.place === "all") {
-                var endOfBaseUrl = parentUrl.indexOf("/", "https://".length);
-                config.linkUrl = parentUrl.substring(0, endOfBaseUrl);
+                var p = document.createElement("a");
+                p.href = container.parent;
+
+                config.linkUrl = p.origin;
                 config.linkUrl += defaultUrlAll;
             } else {
-                var reqSubspace = osapi.jive.corev3.places.get({
-                    uri: "/places/" + placeID
-                });
-                reqSubspace.execute(function(res) {
-                    if (res.error) {
-                        var code = res.error.code;
-                        var message = res.error.message;
-                        console.log(code + " " + message);
-                        // present the user with an appropriate error message
-                    } else {
-                        config.linkUrl = res.resources.html.ref + defaultUrlThis;
-                    }
-                });
+                config.linkUrl = container.resources.html.ref + defaultUrlThis;
             }
         }
 
