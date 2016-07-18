@@ -1,0 +1,16 @@
+{
+    "displayName" : "recent-content",
+    "name" : "recent-content",
+    "description" : "recent-content",
+    "style": "CUSTOM_VIEW",
+    "displayWidth" : "ALL",
+    "dataProviderKey": "internal",
+    "pageTypes" : [ "PLACE", "USER" ],
+    "icons": {
+        "16": "https://developer.jivesoftware.com/DeveloperAssets/images/icons/jivedev-xsmall.png",
+        "48": "https://developer.jivesoftware.com/DeveloperAssets/images/icons/jivedev-small.png",
+        "128": "https://developer.jivesoftware.com/DeveloperAssets/images/icons/jivedev-med.png"
+    },
+    "config": "/recent-content/configuration.html",
+    "view": "/recent-content/view.html"
+}
