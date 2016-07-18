@@ -1,5 +1,7 @@
 **/node_modules/
-**/extension_src/
+**/extension_src/public/
+**/extension_src/definition.json
+**/extension_src/meta.json
 **/db/
 **/extension.zip
 *.swp
