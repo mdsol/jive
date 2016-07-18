@@ -13,7 +13,7 @@ var months = [
 ];
 
 // default url endings
-var defaultUrlThis = "/content?filterID=contentstatus%5Bpublished%5D~objecttype~showall~action~action%5Boutdated%5D";
+var defaultUrlThis = "/content?sortKey=contentstatus%5Bpublished%5D~recentActivityDateDesc&sortOrder=0";
 var defaultUrlAll = "/content?filterID=all~objecttype~showall~action~action%5Boutdated%5D";
 jive.tile.onOpen(function(config, options) {
 
