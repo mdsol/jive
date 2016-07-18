@@ -1,7 +1,7 @@
 {
-    "displayName" : "ask-a-question",
+    "displayName" : "Ask A Question",
     "name" : "ask-a-question",
-    "description" : "ask-a-question",
+    "description" : "Find previously asked and answered questions, or ask a new one.",
     "style": "CUSTOM_VIEW",
     "displayWidth" : "ALL",
     "dataProviderKey": "internal",
