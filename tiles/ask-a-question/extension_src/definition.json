@@ -15,9 +15,9 @@
                 "USER"
             ],
             "icons": {
-                "16": "https://developer.jivesoftware.com/DeveloperAssets/images/icons/jivedev-xsmall.png",
-                "48": "https://developer.jivesoftware.com/DeveloperAssets/images/icons/jivedev-small.png",
-                "128": "https://developer.jivesoftware.com/DeveloperAssets/images/icons/jivedev-med.png"
+                "16": "icon16.png",
+                "48": "icon48.png",
+                "128": "icon128.png"
             },
             "config": "/public/tiles/ask-a-question/configuration.html",
             "view": "/public/tiles/ask-a-question/view.html?features=core-v3,tile,responsive"
