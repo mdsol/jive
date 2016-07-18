@@ -5,6 +5,12 @@ var start, lap;
 // post a question URL
 var questionUrl = "/discussion/create.jspa?question=true&containerType=14";
 
+// array of placeIDs of subplaces prepended with "/places/"
+var places = [];
+
+// array of question search results
+var results = [];
+
 jive.tile.onOpen(function(config, options) {
     gadgets.window.adjustHeight();
 
@@ -14,7 +20,11 @@ jive.tile.onOpen(function(config, options) {
     config.place = config.place || "all";
 
     jive.tile.getContainer(function(container) {
-        var results = [];
+
+        places.push("/places/" + container.placeID);
+        if (config.place === "sub") {
+            getSubplaces(container.placeID);
+        }
 
         $("#question-input").on("input", function(e) {
             if (timer) {
@@ -33,6 +43,39 @@ jive.tile.onOpen(function(config, options) {
 
             parent.window.location = url;
         });
+
+        function getSubplaces(placeID) {
+            var reqSubspace = osapi.jive.corev3.places.get({
+                uri: "/places/" + placeID
+            });
+            reqSubspace.execute(function(res) {
+                if (res.error) {
+                    var code = res.error.code;
+                    var message = res.error.message;
+                    console.log(code + " " + message);
+                    // present the user with an appropriate error message
+                } else {
+                    var options = {
+                        count: 100, // most likely not more than 100
+                        filter: "type(space,project,group)"
+                    }
+                    res.getPlaces(options).execute(function(res) {
+                        if (res.error) {
+                            var code = res.error.code;
+                            var message = res.error.message;
+                            console.log(code + " " + message);
+                            // present the user with an appropriate error message
+                        } else {
+                            var resList = res.list;
+                            for (place of resList) {
+                                places.push("/places/" + place.placeID);
+                                getSubplaces(place.placeID);
+                            }
+                        }
+                    });
+                }
+            });
+        }
 
         function getQuestions(query, startIndex = 0) {
 
@@ -62,8 +105,8 @@ jive.tile.onOpen(function(config, options) {
                 fields: "question,resolved,subject,author.displayName,published,iconCss",
                 startIndex: startIndex
             }
-            if (config.place === "this") {
-                options.place = "/places/" + container.placeID;
+            if (config.place !== "all") {
+                options.place = places.join(",");
             }
             
             osapi.jive.corev3.contents.get(options).execute(function(res) {
