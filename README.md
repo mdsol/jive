@@ -3,8 +3,8 @@
 ## Requirements
 - Node.js
 
-## Quickstart
-1. Clone repository and cd to directory
+## Tile Quickstart
+1. Clone repository and cd to tile directory
 2. Install dependencies
  ```
  npm install
