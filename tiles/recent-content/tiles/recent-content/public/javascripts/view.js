@@ -43,47 +43,35 @@ jive.tile.onOpen(function(config, options) {
         if (config.showLink && config.linkUrl === "") {
             setDefaultUrl(container.placeID, container.parent, config);
         }
-        getContent(container.placeID);
+        getContent(container);
 
-        function getContent(placeID) {
+        function getContent(container) {
             // get sub-places of this place
             if (config.place === "sub") {
-                var reqSubspace = osapi.jive.corev3.places.get({
-                    uri: "/places/" + placeID
-                });
                 pending++;
-                reqSubspace.execute(function(res) {
+                var options = {
+                    count: 100, // most likely not more than 100
+                    filter: "type(space,project,group)"
+                }
+                container.getPlaces(options).execute(function(res) {
                     if (res.error) {
                         var code = res.error.code;
                         var message = res.error.message;
                         console.log(code + " " + message);
                         // present the user with an appropriate error message
                     } else {
-                        var options = {
-                            count: 100, // most likely not more than 100
-                            filter: "type(space,project,group)"
+                        var resList = res.list;
+                        for (place of resList) {
+                            getContent(place);
                         }
-                        res.getPlaces(options).execute(function(res) {
-                            if (res.error) {
-                                var code = res.error.code;
-                                var message = res.error.message;
-                                console.log(code + " " + message);
-                                // present the user with an appropriate error message
-                            } else {
-                                var resList = res.list;
-                                for (place of resList) {
-                                    getContent(place.placeID);
-                                }
-                                pending--;
-                                if (pending == 0) {
-                                    if (timer) {
-                                        lap = Date.now();
-                                        console.log("getContent " + (lap - start) + " ms");
-                                    }
-                                    showDocs();
-                                }
+                        pending--;
+                        if (pending == 0) {
+                            if (timer) {
+                                lap = Date.now();
+                                console.log("getContent " + (lap - start) + " ms");
                             }
-                        });
+                            showDocs();
+                        }
                     }
                 });
             }
@@ -95,7 +83,7 @@ jive.tile.onOpen(function(config, options) {
                 fields: "subject,author.displayName,iconCss,lastActivity,published"
             }
             if (config.place === "sub" || config.place === "this") {
-                reqOptions.place = "/places/" + placeID;
+                reqOptions.place = "/places/" + container.placeID;
             }
             var reqContent = osapi.jive.corev3.contents.get(reqOptions);
             pending++;
@@ -110,7 +98,7 @@ jive.tile.onOpen(function(config, options) {
                     // present the user with an appropriate error message
                 } else {
                     if (timer) {
-                        console.log("request content from " + placeID + ": " + (Date.now() - reqTime) + " ms");
+                        console.log("request content from " + container.placeID + ": " + (Date.now() - reqTime) + " ms");
                     }
                     for (let el of res.list) {
                         docList.push({
