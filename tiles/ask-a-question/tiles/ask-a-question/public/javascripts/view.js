@@ -94,7 +94,7 @@ jive.tile.onOpen(function(config, options) {
 
             // make room for loading icon
             if ($("#result-list").children().length === 0) {
-                gadgets.window.adjustHeight( 2*gadgets.window.getHeight() );
+                gadgets.window.adjustHeight( gadgets.window.getHeight() + $("#loading").height() * 1.5);
             }
             showLoading();
 
