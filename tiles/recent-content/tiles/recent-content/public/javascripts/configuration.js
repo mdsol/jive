@@ -13,6 +13,7 @@
                 title: "Recent Content",
                 numResults: 10,
                 place: "sub",
+                type: ["all"],
                 showLink: true,
                 linkText: "See More Recent Content",
                 linkUrl: ""
@@ -22,6 +23,7 @@
         var title = document.getElementById("title");
         var numResults = document.getElementById("num-results");
         var radios = document.getElementsByName("place");
+        var types = document.getElementsByName("type");
         var showLink = document.getElementById("show-link");
         var linkText = document.getElementById("link-text");
         var linkUrl = document.getElementById("link-url");

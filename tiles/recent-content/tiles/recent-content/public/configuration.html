@@ -1,38 +1,55 @@
 <html>
-<head>
+  <head>
     <link rel="stylesheet" type="text/css" href="/recent-content/stylesheets/main.css">
     <script src="/recent-content/javascripts/configuration.js"></script>
-</head>
+  </head>
 
-<body>
+  <body>
+    <form>
+      <div>
+        <label for="title"><strong>Tile Title</strong> (Optional)</label>
+        <input class="j-text" type="text" id="title"/>
+      </div>
+      <div>
+        <label for="num-docs"><strong>Number of Results</strong> (Max: 100)</label>
+        <input class="j-text" type="number" min="1" max="100" step="1" id="num-results" required/>
+      </div>
+      <div>
+        <label for="place"><strong>Content Location</strong></label>
+        <label><input type="radio" name="place" value="this">This Place</input></label>
+        <label><input type="radio" name="place" value="sub">This Place and Sub-Places</input></label>
+        <label><input type="radio" name="place" value="all">All Places</input></label>
+      </div>
+      <div>
+        <label for="type"><strong>Content Type</strong></label>
+        <div class="col">
+          <label><input type="checkbox" name="type" value="discussion">Discussions</input></label>
+          <label><input type="checkbox" name="type" value="document">Documents</input></label>
+        </div>
+        <div class="col">
+          <label><input type="checkbox" name="type" value="favorite">Favorites</input></label>
+          <label><input type="checkbox" name="type" value="poll">Polls</input></label>
+          <label id="all-label"><input type="checkbox" name="type" value="all">All Content Types</input></label>
+        </div>
+        <div class="col">
+          <label><input type="checkbox" name="type" value="post">Blog Posts</input></label>
+          <label><input type="checkbox" name="type" value="update">Status Updates</input></label>
+        </div>
+      </div>
+      <div id="footer-link">
+        <label for="show-link"><strong>Add Link</strong></label>
+        <label><input type="checkbox" id="show-link" checked>Display Link</input></label>
+        <div id="link-options" class="indent">
+          <label for="link-text"><strong>Link Text</strong></label>
+          <input class="j-text" type="text" id="link-text" required/>
+          <label for="link-url"><strong>URL</strong> (Optional: links to content page by default)</label>
+          <input class="j-text" type="text" id="link-url"/>
+        </div>
+      </div>
+      <div>
+      </div>
+      <button type="submit" class="j-btn-global js-button-done" id="btn-submit">Apply</button>
+    </form>
 
-<form>
-  <div>
-    <label for="title"><strong>Tile Title</strong> (Optional)</label>
-    <input class="j-text" type="text" id="title"/>
-  </div>
-  <div>
-    <label for="num-docs"><strong>Number of Documents</strong> (Max: 100)</label>
-    <input class="j-text" type="number" min="1" max="100" step="1" id="num-docs" required/>
-  </div>
-  <div>
-    <label for="place"><strong>Document Location</strong></label>
-    <label><input type="radio" name="place" value="this">This Place</input></label>
-    <label><input type="radio" name="place" value="sub">This Place and Sub-Places</input></label>
-    <label><input type="radio" name="place" value="all">All Places</input></label>
-  </div>
-    <label for="show-link"><strong>Add Link</strong></label>
-    <label><input type="checkbox" id="show-link" checked>Display Link</input></label>
-    <div id="link-options" class="indent">
-      <label for="link-text"><strong>Link Text</strong></label>
-      <input class="j-text" type="text" id="link-text" required/>
-      <label for="link-url"><strong>URL</strong> (Optional: links to content page by default)</label>
-      <input class="j-text" type="text" id="link-url"/>
-    </div>
-  <div>
-  </div>
-  <button type="submit" class="j-btn-global js-button-done" id="btn-submit">Apply</button>
-</form>
-
-</body>
+  </body>
 </html>

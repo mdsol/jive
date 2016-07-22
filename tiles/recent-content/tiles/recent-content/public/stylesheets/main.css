@@ -116,3 +116,20 @@ th {
 ul {
   margin-bottom: 0px;
 }
+
+.col {
+  float: left;
+  width: 33%;
+}
+
+input[value="all"] {
+  text-align: center;
+}
+
+#footer-link {
+  clear: both;
+}
+
+#all-label {
+  margin-top: 20px;
+}
