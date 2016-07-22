@@ -3,7 +3,7 @@ var timer = false;
 var start, lap;
 
 // post a question URL
-var questionUrl = "/discussion/create.jspa?question=true&containerType=14";
+var questionUrl = "/discussion/create.jspa?question=true";
 
 // array of placeIDs of subplaces prepended with "/places/"
 var places = [];
@@ -161,6 +161,7 @@ jive.tile.onOpen(function(config, options) {
             var parser = document.createElement("a");
             parser.href = container.parent;
             var url = parser.origin + questionUrl;
+            url += "&containerType=" + container.typeCode;
             url += "&containerID=" + container.id;
             url += "&subject=" + $("#question-input").val();
             $("#ask").attr("href", url);
