@@ -33,17 +33,6 @@ jive.tile.onOpen(function(config, options) {
             getQuestions($(this).val());
         });
 
-        $("#ask").click(function(e) {
-            var parser = document.createElement("a");
-            parser.href = container.parent;
-
-            var url = parser.origin + questionUrl;
-            url += "&containerID=" + container.id;
-            url += "&subject=" + $("#question-input").val();
-
-            parent.window.location = url;
-        });
-
         function getSubplaces(placeID) {
             var reqSubspace = osapi.jive.corev3.places.get({
                 uri: "/places/" + placeID
@@ -166,6 +155,15 @@ jive.tile.onOpen(function(config, options) {
                 li.appendChild(a);
                 ul.appendChild(li);
             }
+
+            // change link for ask button
+            var parser = document.createElement("a");
+            parser.href = container.parent;
+            var url = parser.origin + questionUrl;
+            url += "&containerID=" + container.id;
+            url += "&subject=" + $("#question-input").val();
+            $("#ask").attr("href", url);
+
             $("#ask").css("display", "inline-block");
 
             if (results.length === 0) {
