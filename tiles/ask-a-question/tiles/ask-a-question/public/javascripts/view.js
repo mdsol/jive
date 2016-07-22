@@ -159,7 +159,7 @@ jive.tile.onOpen(function(config, options) {
 
             // change link for ask button
             var parser = document.createElement("a");
-            parser.href = container.parent;
+            parser.href = container.resources.html.ref;
             var url = parser.origin + questionUrl;
             url += "&containerType=" + container.typeCode;
             url += "&containerID=" + container.id;
