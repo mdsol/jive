@@ -71,14 +71,15 @@ jive.tile.onOpen(function(config, options) {
             // hide the ask button
             $("#ask").hide();
 
+            // hide no results message
+            $("#no-results-msg").hide();
+
             // hide results if no query
-            if (query === "") {
+            if (query === "" || query === "\\") {
                 clearResults();
                 hideLoading();
                 gadgets.window.adjustHeight();
                 return;
-            } else {
-                $("#no-results-msg").hide();
             }
 
             // make room for loading icon
