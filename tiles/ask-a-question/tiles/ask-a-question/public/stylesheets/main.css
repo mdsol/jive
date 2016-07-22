@@ -150,3 +150,7 @@ ul {
   font-weight: bold;
   display: none;
 }
+
+.btn {
+  margin-top: 10px;
+}

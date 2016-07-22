@@ -166,7 +166,7 @@ jive.tile.onOpen(function(config, options) {
                 li.appendChild(a);
                 ul.appendChild(li);
             }
-            $("#ask").show();
+            $("#ask").css("display", "inline-block");
 
             if (results.length === 0) {
                 $("#no-results-msg").show();
