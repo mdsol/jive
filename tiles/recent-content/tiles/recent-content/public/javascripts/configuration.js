@@ -11,7 +11,7 @@
         if (config.data === undefined) {
             config.data = {
                 title: "Recent Content",
-                numDocs: 10,
+                numResults: 10,
                 place: "sub",
                 showLink: true,
                 linkText: "See More Recent Content",
@@ -20,7 +20,7 @@
         };
         
         var title = document.getElementById("title");
-        var numDocs = document.getElementById("num-docs");
+        var numResults = document.getElementById("num-results");
         var radios = document.getElementsByName("place");
         var showLink = document.getElementById("show-link");
         var linkText = document.getElementById("link-text");
@@ -28,7 +28,7 @@
 
         // populate the dialog with existing config value
         title.value = config.data.title;
-        numDocs.value = config.data.numDocs;
+        numResults.value = config.data.numResults;
         for (let choice of radios) {
             if (choice.value === config.data.place) {
                 choice.checked = true;
@@ -48,10 +48,10 @@
                 el.classList.remove("error-box");
             }
 
-            numDocsVal = Number(data.numDocs.value);
-            if (numDocsVal % 1 !== 0 || numDocsVal < 1 || numDocsVal > 100) {
+            numResultsVal = Number(data.numResults.value);
+            if (numResultsVal % 1 !== 0 || numResultsVal < 1 || numResultsVal > 100) {
                 // test if not positive integer between 1 and 100
-                showError(data.numDocs);
+                showError(data.numResults);
                 valid = false;
             }
 
@@ -74,7 +74,7 @@
 
         $("#btn-submit").click( function() {
             var checkData = {
-                numDocs: numDocs,
+                numResults: numResults,
                 showLink: showLink,
                 linkText: linkText,
                 linkUrl: linkUrl
@@ -82,7 +82,7 @@
             if (validate(checkData)) {
                 // get all of the new values
                 config.data.title = title.value;
-                config.data.numDocs = Number(numDocs.value);
+                config.data.numResults = Number(numResults.value);
                 for (var choice of radios) {
                     if (choice.checked) {
                         config.data.place = choice.value;
