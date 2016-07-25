@@ -37,6 +37,11 @@
                 break;
             }
         }
+        for (let choice of types) {
+            if (config.data.type[0] === "all" || config.data.type.indexOf(choice.value) !== -1) {
+                choice.checked = true;
+            }
+        }
         showLink.checked = config.data.showLink;
         $("#link-options").toggle(showLink.checked);
         linkText.value = config.data.linkText;
@@ -54,6 +59,12 @@
             if (numResultsVal % 1 !== 0 || numResultsVal < 1 || numResultsVal > 100) {
                 // test if not positive integer between 1 and 100
                 showError(data.numResults);
+                valid = false;
+            }
+
+            var types = $("input[type='checkbox'][name='type']");
+            if (!types.is(":checked")) {
+                showError(document.getElementById("type-cols"));
                 valid = false;
             }
 

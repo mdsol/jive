@@ -67,6 +67,12 @@ label {
   background: #f7ddd9;
 }
 
+div.error-box {
+  background-color: #f7ddd9;
+  border: none;
+  box-shadow: none;
+}
+
 #btn-submit {
   margin-top: 20px;
 }
@@ -132,4 +138,9 @@ input[value="all"] {
 
 #all-label {
   margin-top: 20px;
+}
+
+#type-cols {
+  float: left;
+  width: 100%;
 }
