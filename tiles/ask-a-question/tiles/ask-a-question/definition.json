@@ -7,9 +7,9 @@
     "dataProviderKey": "internal",
     "pageTypes" : [ "PLACE", "USER" ],
     "icons": {
-        "16": "icon16.png",
-        "48": "icon48.png",
-        "128": "icon128.png"
+        "16": "extension-16.png",
+        "48": "extension-48.png",
+        "128": "extension-128.png"
     },
     "config": "/ask-a-question/configuration.html",
     "view": "/ask-a-question/view.html?features=core-v3,tile,responsive"

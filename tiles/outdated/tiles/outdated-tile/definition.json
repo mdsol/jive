@@ -1,7 +1,7 @@
 {
     "displayName" : "Recent Outdated Content",
     "name" : "outdated-tile",
-    "description" : "Displays outdated content sorted by last recent activity",
+    "description" : "Displays outdated content sorted by latest activity.",
     "style": "CUSTOM_VIEW",
     "displayWidth" : "ALL",
     "dataProviderKey": "internal",

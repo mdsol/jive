@@ -6,7 +6,7 @@
 		"id": "90f66811-71c4-44bf-b5a5-cf6bffa0849f",
 		"uuid": "90f66811-71c4-44bf-b5a5-cf6bffa0849f",
 		"name": "Recent Outdated Content",
-		"description": "Displays outdated content sorted by last recent activity",
+		"description": "Displays outdated content sorted by latest activity.",
 		"icon_16": "extension-16.png",
 		"icon_48": "extension-48.png",
 		"icon_128": "extension-128.png",
