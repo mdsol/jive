@@ -102,6 +102,16 @@
                         break;
                     }
                 }
+                if ($("input[name='type'][value='all']").is(":checked")) {
+                    config.data.type = ["all"];
+                } else {
+                    config.data.type = [];
+                    for (var choice of types) {
+                        if (choice.checked) {
+                            config.data.type.push(choice.value);
+                        }
+                    }
+                }
                 config.data.showLink = showLink.checked;
                 
                 if (showLink.checked) {
