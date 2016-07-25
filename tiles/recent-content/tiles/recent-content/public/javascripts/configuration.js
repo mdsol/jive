@@ -62,8 +62,7 @@
                 valid = false;
             }
 
-            var types = $("input[type='checkbox'][name='type']");
-            if (!types.is(":checked")) {
+            if (! $(types).is(":checked")) {
                 showError(document.getElementById("type-cols"));
                 valid = false;
             }
@@ -89,6 +88,7 @@
             var checkData = {
                 numResults: numResults,
                 showLink: showLink,
+                types: types,
                 linkText: linkText,
                 linkUrl: linkUrl
             }
