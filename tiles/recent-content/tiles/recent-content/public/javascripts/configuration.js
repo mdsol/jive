@@ -40,6 +40,9 @@
         for (let choice of types) {
             if (config.data.type[0] === "all" || config.data.type.indexOf(choice.value) !== -1) {
                 choice.checked = true;
+                if (choice.value === "all") {
+                    choice.disabled = true;
+                }
             }
         }
         showLink.checked = config.data.showLink;
@@ -136,5 +139,26 @@ $(document).ready(function() {
     $("#show-link").change(function() {
         $("#link-options").toggle();
         gadgets.window.adjustHeight();
+    });
+
+    var allType = $("input[name='type'][value='all']");
+    var otherTypes = $("input[name='type']:not([value='all'])");
+    $("input[name='type']").change(function() {
+        if (this.value === "all" && this.checked) {
+            // check all of the checkboxes if "all" checkbox is checked
+            // disable the "all" checkbox
+            otherTypes.prop("checked", true);
+            this.disabled = true;
+        } else if (this.value !== "all" && !this.checked){
+            // uncheck the "all" checkbox if something else was unchecked
+            // enable the "all" checkbox
+            allType.prop("checked", false);
+            allType.prop("disabled", false);
+        } else if (otherTypes.filter(":checked").length === 6) {
+            // check the "all" checkbox if all the rest are checked
+            // disable the "all" checkbox
+            allType.prop("checked", true);
+            allType.prop("disabled", true);
+        }
     });
 });
