@@ -7,9 +7,9 @@
 		"uuid": "32646e90-f365-4d5f-95b6-d03615bcd708",
 		"name": "Ask A Question",
 		"description": "Find previously asked and answered questions, or ask a new one.",
-		"icon_16": "icon16.png",
-		"icon_48": "icon48.png",
-		"icon_128": "icon128.png",
+		"icon_16": "extension-16.png",
+		"icon_48": "extension-48.png",
+		"icon_128": "extension-128.png",
 		"releasedOn": "2016-07-13T18:57:08.159Z"
 	},
 	"otherPropertiesToConsider" : {
