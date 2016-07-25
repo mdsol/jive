@@ -17,8 +17,10 @@ var defaultUrlThis = "/content?sortKey=contentstatus%5Bpublished%5D~recentActivi
 var defaultUrlAll = "/content?sortKey=all~recentActivityDateDesc&sortOrder=0";
 jive.tile.onOpen(function(config, options) {
 
+    // default config vals if no values given
     config.numDocs = config.numDocs || 10;
     config.place = config.place || "sub";
+    config.type = config.type || ["all"];
     config.showLink = config.showLink === undefined ? true : config.showLink;
     config.linkText = config.linkText || "See More Recent Content";
     config.linkUrl = config.linkUrl || "";
@@ -47,11 +49,10 @@ jive.tile.onOpen(function(config, options) {
 
         function getContent(container) {
             // get sub-places of this place
-            if (config.place === "sub") {
+            if (config.place === "sub" && container.type !== "blog") {
                 pending++;
                 var options = {
-                    count: 100, // most likely not more than 100
-                    filter: "type(space,project,group)"
+                    count: 100 // most likely not more than 100
                 }
                 container.getPlaces(options).execute(function(res) {
                     if (res.error) {
@@ -82,8 +83,13 @@ jive.tile.onOpen(function(config, options) {
                 sort: "latestActivityDesc",
                 fields: "subject,author.displayName,iconCss,lastActivity,published"
             }
+            // add place if not "all places"
             if (config.place === "sub" || config.place === "this") {
                 reqOptions.place = "/places/" + container.placeID;
+            }
+            // add type if not "all types"
+            if (config.type[0] !== "all") {
+                reqOptions.type = config.type.join(",");
             }
             var reqContent = osapi.jive.corev3.contents.get(reqOptions);
             pending++;

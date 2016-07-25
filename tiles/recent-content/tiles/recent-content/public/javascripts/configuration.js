@@ -13,7 +13,7 @@
                 title: "Recent Content",
                 numResults: 10,
                 place: "sub",
-                type: ["all"],
+                type: ["all"], // type is only ever ["all"] or an array of document types that doesn't include "all"
                 showLink: true,
                 linkText: "See More Recent Content",
                 linkUrl: ""
