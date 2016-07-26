@@ -1,3 +1,4 @@
+# tiles
 **/node_modules/
 **/extension_src/public/
 **/extension_src/definition.json
@@ -5,3 +6,6 @@
 **/db/
 **/extension.zip
 *.swp
+
+# userprofileupdater
+/userprofileupdater/config.json
