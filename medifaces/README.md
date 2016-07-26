@@ -8,7 +8,7 @@ Inspiration
 -----------
 
 In April/May 2013 Ian Sparks took a Coursera course on Gamification. One of the real-world uses of gamification,
-briefly mentioned in the course, was Zappo's who have a game where you identify your co-workers. I thought
+briefly mentioned in the course, was Zappo's who have a game where you identify your co-workers. He thought
 that something similar might be fun at Medidata.
 
 Deployment
