@@ -166,22 +166,37 @@ jive.tile.onOpen(function(config, options) {
             var link = document.getElementById("link");
 
             for (var doc of docList) {
+
                 // create list node
                 var li = document.createElement("li");
-                li.classList.add("listItem", "showIcon");
+                li.classList.add("listItem", "showIcon", "ic24");
+
+                // create link
                 var a = document.createElement("a");
-                a.setAttribute('target', "_top");
-                a.setAttribute('href', doc.url);
-                var icon = document.createElement('span');
+                a.setAttribute("target", "_top");
+                a.setAttribute("href", doc.url);
+                var icon = document.createElement("span");
                 var iconClasses = doc.icon.split(" ");
-                for (c of iconClasses) {
+                for (var c of iconClasses) {
                     icon.classList.add(c);
                 }
-                icon.classList.add("jive-icon-med");
+                icon.classList.add("jive-icon-big");
                 var docSubj = document.createTextNode(doc.subject);
                 a.appendChild(icon);  
                 a.appendChild(docSubj);
+
+                // create timestamp + author
+                var tsDiv = document.createElement("div");
+                tsDiv.className = "linkDescription font-color-meta j-timestamp";
+                tsDiv.appendChild( document.createTextNode(moment(doc.postDate).fromNow() + "  ") );
+                var authorUrl = a.cloneNode();
+                authorUrl.setAttribute("href", doc.authorUrl);
+                var author = document.createTextNode("by " + doc.author);
+                authorUrl.appendChild(author);
+                tsDiv.appendChild(authorUrl);
+
                 li.appendChild(a);  
+                li.appendChild(tsDiv);
                 ul.appendChild(li);
                 
                 // create table row node
@@ -189,18 +204,16 @@ jive.tile.onOpen(function(config, options) {
                 var td1 = document.createElement("td");
                 var td2 = td1.cloneNode(), td3 = td1.cloneNode();
                 td1.appendChild(a.cloneNode(true));
-                var authorUrl = a.cloneNode();
-                authorUrl.setAttribute("href", doc.authorUrl);
+                var authorUrl2 = authorUrl.cloneNode();
                 var avatar = document.createElement("img");
                 avatar.classList.add("img-circle", "avatar");
                 avatar.setAttribute("src", doc.avatar);
                 avatar.setAttribute("height", "30px");
-                authorUrl.appendChild(avatar);
-                var author = document.createTextNode(doc.author);
-                authorUrl.appendChild(author);
-                td2.appendChild(authorUrl);
-                var postDate = new Date(doc.postDate);
-                var postDateNode = document.createTextNode(formatDate(postDate));
+                authorUrl2.appendChild(avatar);
+                authorUrl2.appendChild(author.cloneNode());
+                td2.appendChild(authorUrl2);
+                var postDate = formatDate(new Date(doc.postDate));
+                var postDateNode = document.createTextNode(postDate);
                 td3.appendChild(postDateNode);
                 tr.appendChild(td1);
                 tr.appendChild(td2);

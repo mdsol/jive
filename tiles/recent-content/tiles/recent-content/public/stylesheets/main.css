@@ -144,3 +144,8 @@ input[value="all"] {
   float: left;
   width: 100%;
 }
+
+#ul-list .font-color-meta a {
+  color: #008fbe;
+  fill: #008fbe;
+}
