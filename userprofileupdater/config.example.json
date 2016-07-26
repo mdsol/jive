@@ -1,0 +1,7 @@
+{
+    "auth": {
+        "user": "ADMIN_USERNAME",
+        "pass": "ADMIN_PASSWORD"
+    },
+    "jiveURL": "https://example.jiveon.com"
+}
