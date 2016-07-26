@@ -1,0 +1,48 @@
+{% extends "master.html" %}
+{% block title %}Sorry! Bad profile picture in Medidata Express!{% endblock title %}
+
+{% block script %}
+
+$("#refresh-img").click(function() {
+    $(this).prop("disabled",true);
+    $.ajax({
+        type: "POST",
+        url: '/me',
+        async: true,
+        data: JSON.stringify({ 'refresh-img' : true}),
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        error: function (error) {
+            alert('There was some problem with the server. Sorry. Try refreshing the page and trying again.');
+            console.log(error);
+        },
+        success: function(data) {
+            if (data.hasOwnProperty('error')) {
+                $("#refresh-img").prop("disabled",false);
+                do_alert.error(data.error);
+            } else {
+                window.location.replace("/");
+            }
+        }
+    });
+});
+
+{% endblock script %}
+
+{% block content %}
+
+<!-- Example row of columns -->
+<div class="row-fluid">
+    <div class="span6 offset3">
+        <h2>Medidata Express users with valid profile picture only</h2>
+        <p>Medifaces is for people with valid Medidata Express profile pictures. Your Medidata Express picture has been flagged as being difficult to identify. To play Medifaces, please <a href="https://mdsol.jiveon.com/docs/DOC-1006">upload a new profile picture to Medidata Express</a> and click the button below!</p>
+        <p>If your picture was flagged in error, <a href="mailto:express@mdsol.com?Subject=I believe my Medifaces picture was flagged in error&amp;Body=Hi Team,
+
+I would love to play Medifaces, but I believe my Medifaces picture was flagged in error.   Please investigate and get back to me.
+
+Thanks,">please let us know</a>.</p>
+        <div class="text-center"><button id="refresh-img" class="btn">Refresh my picture</button></div>
+    </div>
+</div>
+
+{% endblock content %}

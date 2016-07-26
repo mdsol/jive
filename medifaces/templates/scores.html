@@ -1,0 +1,102 @@
+{% extends "master.html" %}
+{% block title %}Medifaces: Scores and Achievements{% endblock title %}
+{% block content %}
+
+<!-- Example row of columns -->
+<div class="row-fluid">
+    <div class="span10 offset1">
+        <h2>What's the score?</h2>
+        <p>Scores refreshed every <span class="label label-info">10 minutes</span></p>
+        <div class="tabbable">
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#players" data-toggle="tab"><span class='hidden-phone'>Top 100 </span>Players</a></li>
+                <li><a href="#departments" data-toggle="tab">Departments</a></li>
+                <li><a href="#locations" data-toggle="tab">Locations</a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="players">
+                    {# Players section #}
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th class="">Points</th>
+                            <th>Name</th>
+                            <th>Title</th>
+                            <th>Level</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for player in players %}
+                        <tr>
+                            <td>{{player[5]}}</td>
+                            <td>
+                                <a href="https://mdsol.jiveon.com/people/{{player[1]}}" target="new">{{player[0].decode('latin-1')}}</a>
+                            </td>
+                            <td>{{player[7]}}</td>
+                            <td>{{player[3]}}<span class='hidden-phone'> ({{player[4]}})</span></td>
+                        </tr>
+                        {% endfor %}
+
+                        </tbody>
+
+                    </table>
+                </div>
+                <div class="tab-pane" id="departments">
+                    {# Department section #}
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th class="">Department</th>
+                            <th>Points</th>
+                            <th>Total Players</th>
+                            <th>Avg. Score</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for dept in depts %}
+                        <tr>
+                            <td>{{dept.0}}</td>
+                            <td>
+                                {{dept.1}}
+                            </td>
+                            <td>{{dept.2}}</td>
+                            <td>{{dept.3}}<span class='hidden-phone'> ( {{dept.4}} )</span></td>
+                        </tr>
+                        {% endfor %}
+
+                        </tbody>
+
+                    </table>
+                </div>
+                <div class="tab-pane" id="locations">
+                    {# Country section #}
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th class="">Location</th>
+                            <th>Points</th>
+                            <th>Total Players</th>
+                            <th>Avg. Score</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for location in locations %}
+                        <tr>
+                            <td>{{location.0}}</td>
+                            <td>
+                                {{location.1}}
+                            </td>
+                            <td>{{location.2}}</td>
+                            <td>{{location.3}}<span class='hidden-phone'> ( {{location.4}} )</span></td>
+                        </tr>
+                        {% endfor %}
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,19 @@
+{% extends "master.html" %}
+
+     {% block content %}
+
+      <!-- Jumbotron -->
+      <div class="jumbotron">
+        <h1>Medifaces ;)</h1>
+        <p class="lead">Get Awesome!</p>
+
+        {% if user_registered == 1 %}
+           <a class="btn btn-large btn-success" href="/play">Play!</a>
+        {% else %}
+           <a class="btn btn-large btn-success" href="/register">Register to get started</a>
+         {% endif %}
+      </div>
+
+     {% endblock content %}
+
+

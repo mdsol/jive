@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}Medifaces. 100% More Awesome{% endblock title %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Ian at mdsol">
+
+    <!-- Le styles -->
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="/static/css/local.css" rel="stylesheet">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+    <script src="/static/js/html5shiv.js"></script>
+    <![endif]-->
+
+	<!-- icon by Christopher Mandel, resized by https://realfavicongenerator.net -->
+	<link rel="apple-touch-icon" sizes="120x120" href="/static/icons/apple-touch-icon.png">
+	<link rel="icon" type="image/png" href="/static/icons/favicon-32x32.png" sizes="32x32">
+	<link rel="icon" type="image/png" href="/static/icons/favicon-16x16.png" sizes="16x16">
+	<link rel="manifest" href="/static/icons/manifest.json">
+	<link rel="mask-icon" href="/static/icons/safari-pinned-tab.svg" color="#2d89ef">
+	<link rel="shortcut icon" href="/static/icons/favicon.ico">
+	<meta name="apple-mobile-web-app-title" content="Medifaces">
+	<meta name="application-name" content="Medifaces">
+	<meta name="msapplication-config" content="/static/icons/browserconfig.xml">
+	<meta name="theme-color" content="#2d89ef">
+
+</head>
+
+<body>
+
+
+<div class="container">
+
+    <div class="navbar hidden-phone">
+        <div class="navbar-inner">
+            <div class="container">
+                <ul class="nav">
+                    <li {% if selected == "home" %}class="active"{% endif %}><a class="muted" href="/">Medifaces</a></li>
+                    <li {% if selected == "play" %}class="active"{% endif %}><a href="/play">Play!</a></li>
+                    <li {% if selected == "review" %}class="active"{% endif %}><a href="/review">Review</a></li>
+                    <li {% if selected == "scores" %}class="active"{% endif %}><a href="/scores">Scores</a></li>
+                    <li {% if selected == "me" %}class="active"{% endif %}><a href="/me">My Profile</a></li>
+                    <li {% if selected == "about" %}class="active"{% endif %}><a href="/about">About</a></li>
+                    <li {% if selected == "feedback" %}class="active"{% endif %}><a href="https://mdsol.jiveon.com/groups/medifaces">Feedback</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="navbar visible-phone">
+        <div class="navbar-inner">
+            <a class="btn btn-navbar collapsed" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
+            <div class="container">
+                <a class="brand muted" href="/">Medifaces</a>
+            </div>
+            <div class="nav-collapse collapse">
+                <ul class="nav">
+                    <li><a href="/play">Play!</a></li>
+                    <li><a href="/review">Review</a></li>
+                    <li><a href="/scores">Scores</a></li>
+                    <li><a href="/me">My Profile</a></li>
+                    <li><a href="/about">About</a></li>
+                    <li><a href="https://mdsol.jiveon.com/community/medifaces">Feedback</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <div id="displayrow" class="row-fluid" style="display:none;">
+        <div class="span12">
+            <div id="alert_wrapper"></div>
+        </div>
+    </div>
+
+
+    {% if msg %}
+    <div class="row-fluid">
+        <div class="span12">
+            <div class="alert alert-info">
+                <a class="close" data-dismiss="alert">×</a><span>{{ msg }}</span>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    {% block content %}
+       {# Content Here #}
+    {% endblock content %}
+
+    <div class="float-msg alert alert-info">
+    </div>
+
+    <hr>
+
+    <div class="footer">
+        <p>Medifaces v2.0 &copy; Medidata Solutions Worldwide Inc 2013-{{ date.year }}</p>
+    </div>
+
+</div>
+<!-- /container -->
+
+<!-- Le javascript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-68029780-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<script src="/static/js/jquery.js"></script>
+<script src="/static/js/jquery-ui.js"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/jquery.sparkline.min.js"></script>
+{% block imports %}
+{% endblock imports %}
+{% block pagescripts %}
+{% endblock pagescripts %}
+
+<script language="JavaScript">
+
+    do_alert = function () {
+    }
+    do_alert.error = function (message) {
+        $('#alert_wrapper').html('<div class="alert alert-error"><a class="close" data-dismiss="alert">×</a><span>' + message + '</span></div>');
+        $('#displayrow').show();
+        document.getElementById("alert_wrapper").scrollIntoView();
+    }
+    do_alert.success = function (message) {
+        $('#alert_wrapper').html('<div class="alert alert-success"><a class="close" data-dismiss="alert">×</a><span>' + message + '</span></div>');
+        $('#displayrow').show();
+        document.getElementById("alert_wrapper").scrollIntoView();
+    }
+
+    {% block script %}
+    {% endblock script %}
+</script>
+  {% block endbody %}
+  {% endblock endbody %}
+</body>
+</html>

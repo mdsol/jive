@@ -1,0 +1,252 @@
+body {
+    padding-top: 20px;
+    padding-bottom: 60px;
+}
+
+/* Custom container */
+.container {
+    margin: 0 auto;
+    max-width: 1000px;
+}
+
+.container > hr {
+    margin: 60px 0;
+}
+
+/* Main marketing message and sign up button */
+.jumbotron {
+    margin: 80px 0;
+    text-align: center;
+}
+
+.jumbotron h1 {
+    font-size: 100px;
+    line-height: 1;
+}
+
+.jumbotron .lead {
+    font-size: 24px;
+    line-height: 1.25;
+}
+
+.jumbotron .btn {
+    font-size: 21px;
+    padding: 14px 24px;
+}
+
+/* Supporting marketing content */
+.marketing {
+    margin: 60px 0;
+}
+
+.marketing p + h4 {
+    margin-top: 28px;
+}
+
+/* Customize the navbar links to be fill the entire space of the .navbar */
+.hidden-phone.navbar .navbar-inner {
+    padding: 0;
+}
+
+.hidden-phone.navbar .nav {
+    margin: 0;
+    display: table;
+    width: 100%;
+}
+
+.hidden-phone.navbar .nav li {
+    display: table-cell;
+    width: 1%;
+    float: none;
+}
+
+.hidden-phone.navbar .nav li a {
+    font-weight: bold;
+    text-align: center;
+    border-left: 1px solid rgba(255, 255, 255, .75);
+    border-right: 1px solid rgba(0, 0, 0, .1);
+}
+
+.hidden-phone.navbar .nav li:first-child a {
+    border-left: 0;
+    border-radius: 3px 0 0 3px;
+}
+
+.hidden-phone.navbar .nav li:last-child a {
+    border-right: 0;
+    border-radius: 0 3px 3px 0;
+}
+
+/* phone navbar */
+.visible-phone.navbar .brand {
+    font-weight: bold;
+    text-align: center;
+}
+
+#gamecenter {
+    text-align: center;
+}
+
+.supplied_data {
+    padding-top:5px;
+    font-style:italic;
+}
+
+.guesstable {
+  margin-top:5px;
+  text-align:left;
+}
+
+#game_result_outer {
+    padding:10px;
+    font-size:150%;
+    line-height:1.2;
+}
+
+.guesstable tbody tr td:nth-child(2){
+     width: 60px;
+}
+
+#you_pic {
+    max-height: 45px;
+    margin-left: 0px;
+    float:left;
+}
+
+
+#p_level {
+    text-align: center;
+    font-size:200%;
+    font-weight:bold;
+    margin-top:0px;
+}
+
+
+#p_name {
+    text-align:center;
+    font-weight:bold;
+}
+
+#p_title, #p_level_name {
+   text-align:center;
+}
+
+#p_level_name {
+    margin-top:12px;
+    font-style:italic;
+    font-size:150%;
+}
+
+#pbar {
+    margin-top:5px;
+    margin-bottom:5px;
+}
+
+
+
+.thinhr {
+    clear:both;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+#points {
+   margin-top:5px;
+   color: #009800;
+}
+
+
+.correct {
+    color: #000000;
+}
+.incorrect {
+    color: #ff0000;
+}
+
+.centerbold {
+    font-weight: bold;
+    text-align: center;
+}
+
+.interactions {
+    min-height:305px;
+    height:305px;
+    overflow: auto;
+}
+
+.interactions p {
+    padding:0;
+    margin: 0;
+    font-size:80%;
+    font-style:italic;
+}
+
+#chatbox {
+    font-size:80%;
+    width:100%;
+}
+
+#messages > span {
+    display: block;
+    overflow: hidden;
+    padding-right: 15px;
+}
+
+#sendmsg {
+    display:block;
+    float:right;
+}
+
+.msg_from {
+    font-weight:bold;
+}
+
+#toxic {
+
+}
+h4.ex_employee {
+    color:#f00;
+}
+
+#player_img {
+    max-height: 200px;
+}
+
+#filter > label {
+    float:left;
+}
+
+#filter select {
+    width:50%;
+}
+
+#reset-filters {
+    margin: 20px 0;
+    display:none;
+}
+
+#filter > label {
+    line-height:30px;
+}
+
+#reset-game {
+    float:right;
+}
+
+/* Review page */
+#review_choices, #prompt, #answer {
+    display: none;
+}
+
+#refresh-img {
+    margin: 10px 0;
+}
+
+.float-msg {
+  display: none;
+  position: fixed;
+  bottom: 5%;
+  width: 80%;
+  left: 50%;
+  transform: translateX(-50%);
+}

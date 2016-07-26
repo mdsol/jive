@@ -1,0 +1,17 @@
+{% extends "master.html" %}
+{% block title %}Sorry! Medidata Only!{% endblock title %}
+{% block content %}
+
+<!-- Example row of columns -->
+<div class="row-fluid">
+    <div class="span6 offset3">
+        <h2>Medidata Express users only</h2>
+        <p> Hello. </p>
+        <p>According to Google, you are <b>{{ user_email }}</b> but you can't play because this email is <b>not registered</b> in Medidata Express.
+        </p>
+        <p>If you have a different address in Medidata Express you can always try <a href="/logout">logging out</a>
+            and then logging back in again with your Medidata account.
+        </p>
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,45 @@
+{% extends "master.html" %}
+{% block title %}Please Upload a Profile Picture!{% endblock title %}
+
+{% block script %}
+
+$("#refresh-img").click(function() {
+    $(this).prop("disabled",true);
+    $.ajax({
+        type: "POST",
+        url: '/me',
+        async: true,
+        data: JSON.stringify({ 'refresh-img' : true}),
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        error: function (error) {
+            alert('There was some problem with the server. Sorry. Try refreshing the page and trying again.');
+            console.log(error);
+        },
+        success: function(data) {
+            if (data.hasOwnProperty('error')) {
+                $("#refresh-img").prop("disabled",false);
+                do_alert.error(data.error);
+            } else {
+                window.location.replace("/");
+            }
+        }
+    });
+});
+
+{% endblock script %}
+
+{% block content %}
+
+<!-- Example row of columns -->
+<div class="row-fluid">
+    <div class="span6 offset3">
+        <h2>Medidata Express users with profile picture only</h2>
+        <p> Hello. </p>
+        <p>According to our records, you do not have a profile picture of yourself on Medidata Express.</p>
+        <p>To play Medifaces, please <a href="https://mdsol.jiveon.com/docs/DOC-1006">upload</a> one in Medidata Express and click the button below!</p>
+        <div class="text-center"><button id="refresh-img" class="btn">Refresh my picture</button></div>
+    </div>
+</div>
+
+{% endblock content %}

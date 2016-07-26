@@ -1,0 +1,407 @@
+{% extends "master.html" %}
+
+{% block pagescripts %}
+    <script src="https://cdn.pubnub.com/pubnub-3.1.min.js"></script>
+{% endblock pagescripts %}
+
+{% block script %}
+$(document).ready(function() {
+
+  //Firefox still doesn't support wav files.
+  var audio_level_up_url = "/static/sounds/level_up_2.wav";
+  var audio_fail_url = "/static/sounds/no.wav";
+  var audio_success_url = "/static/sounds/yes.wav";
+  var the_end_url = "/static/sounds/the_end.wav";
+  var audio_ping_url = "/static/sounds/ping.wav";
+
+  try {
+    var audio_level_up = new Audio(audio_level_up_url);
+    var audio_fail = new Audio(audio_fail_url);
+    var audio_success = new Audio(audio_success_url);
+  }
+   catch (e) {
+       console.log(e.message);
+  }
+
+    var player_id='{{ player_id }}';
+    var pubnub_subscribe_key="{{ pubnub_subscribe_key }}";
+    var pubnub_publish_key="{{ pubnub_publish_key }}";
+
+    filter = {department: "All", location: "All"};
+
+
+    function send_answer(choice) {
+        $("#loading").show();
+        $("button").prop("disabled",true);
+        $("#toxic").prop("disabled",true);
+        $("select").prop("disabled",true);
+
+        $.ajax({
+            type: "POST",
+            url: '/review',
+            async: true,
+            data: JSON.stringify({ 'player_id' : player_id, 'choice' : choice, 'filter': filter }),
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            error: function (error) {
+                alert('There was some problem with the server. Sorry. Try refreshing the page and trying again.');
+            },
+            success: function(data){
+                $('#loading').hide();
+                if (data.hasOwnProperty('error')) {
+                    do_alert.error(data.error);
+                }
+
+                if (data.hasOwnProperty('result')) {
+                    // if "result" is not "known" or "unknown", toxic was selected
+                    if (data["result"].indexOf("known") === -1) {
+                        $(".float-msg").text(data["result"]);
+                        $(".float-msg").show();
+                        setTimeout(function() {
+                            $(".float-msg").fadeOut("slow");
+                        }, 5000);
+                    }
+
+                   //Fade out the old and bring in the new
+                   setTimeout(function(){
+                       $('#player_img').fadeOut('slow',function() {
+
+                           //What if there are no players left.
+                           if (data.hasOwnProperty('no_players_left')) {
+                               no_players_left();
+                               return;
+                           }
+
+                           //save player's ID to let server know which table row to update
+                           player_id = data.player_id;
+
+                           $("#show_answer").show();
+                           $("#answer").hide();
+                           $("#prompt").hide();
+                           $("#review_choices").hide();
+
+                           //place player's info inside answer div
+                           $("#answer").text("This is " + data.answer);
+
+                           $('#player_img').attr("src", "data:image/jpeg;base64,"+data.image_url+"");
+                           $('#player_img').fadeIn('slow');
+                           $("button").prop("disabled",false);
+                           $("#toxic").prop("disabled",false);
+                           $("select").prop("disabled",false);
+
+                       }); //end fadeout
+                    }, 1000); //end timeout
+                } //endif result
+            } //end success
+        }); //end ajax
+    }
+
+    function new_filter() {
+        $("#loading").show();
+        $("button").prop("disabled",true);
+        $("#toxic").prop("disabled",true);
+        $("select").prop("disabled",true);
+        $("#show_answer").prop("disabled",true);
+
+        $.ajax({
+            type: "POST",
+            url: '/review',
+            async: true,
+            data: JSON.stringify({ 'filterchange' : true, 'filter': filter }),
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            error: function (error) {
+                alert('There was some problem with the server. Sorry. Try refreshing the page and trying again.');
+            },
+            success: function(data){
+                $('#loading').hide();
+                if (data.hasOwnProperty('error')) {
+                    do_alert.error(data.error);
+                }
+
+                //What if there are no players left.
+                if (data.hasOwnProperty('no_players_left')) {
+                    no_players_left();
+                    return;
+                } else if ($("#reset-filters").is(":visible")){
+                    $("#reset-filters").hide();
+                }
+
+                if (data.hasOwnProperty('result')) {
+
+                   //Fade out the old and bring in the new
+                   setTimeout(function(){
+                       $('#player_img').fadeOut('slow',function() {
+                           if (!player_id) {
+                               $('#gamecenter').find('h2').show();
+                               $("#toxic").parent().show();
+                               $("#show_answer").show();
+                           }
+
+                           //save player's ID to let server know which table row to update
+                           player_id = data.player_id;
+
+                           $("#show_answer").show();
+                           $("#answer").hide();
+                           $("#prompt").hide();
+                           $("#review_choices").hide();
+                           $("#game_result").hide();
+
+                           //place player's info inside answer div
+                           $("#answer").text("This is " + data.answer);
+
+                           $('#player_img').attr("src", "data:image/jpeg;base64,"+data.image_url+"");
+                           $('#player_img').fadeIn('slow');
+
+                           $("button").prop("disabled",false);
+                           $("#toxic").prop("disabled",false);
+                           $("select").prop("disabled",false);
+                           $("#show_answer").prop("disabled",false);
+
+                       }); //end fadeout
+                    }, 1000); //end timeout
+                } //endif result
+            } //end success
+        }); //end ajax
+    }
+
+    function no_players_left() {
+        $("#gamecenter").find('h2').hide();
+        $("#player_img").hide();
+        $("#toxic").parent().hide();
+        $("#show_answer").hide();
+        $("#prompt").hide();
+        $("#answer").hide();
+        $("#review_choices").hide();
+
+        var dep = $("#department option:selected").text();
+        var loc = $("#location option:selected").text();
+        if (dep == "All" && loc == "All") {
+            var no_players_left_msg = "You have collected all the Medidatians in the game! Until some more people sign up, you can't collect more Medidatians. Thanks for playing!";
+            $("#filter").hide();
+        } else {
+            var no_players_left_msg = "You have collected all the Medidatians in ";
+            if (dep == "All" || loc == "All") {
+                no_players_left_msg += (dep == "All" ? loc : dep) + ". ";
+            } else {
+                no_players_left_msg += loc + " and " + dep + ". "
+            }
+            no_players_left_msg += 'Select a new filter or click the "Reset Filters" button below.';
+            $("#reset-filters").show()
+        }
+
+        $('#game_result').text(no_players_left_msg);
+        $('#game_result').show();
+        player_id = null;
+        $("button").prop("disabled",false);
+        $("select").prop("disabled",false);
+        new Audio(the_end_url).play();
+    }
+
+    $("#show_answer").click(function() {
+        $(this).hide();
+        $("#answer").show();
+        $("#prompt").show();
+        $("#review_choices").show();
+    });
+
+    $("#review_choices").find("button").click(function() {
+        send_answer($(this).attr('id'));
+    });
+
+    $("#toxic").click(function() {
+       if (!$(this).attr('disabled')) {
+           if (confirm('Are you sure you want to report this player for a bad image?')) {
+               send_answer("toxic");
+           }
+       }
+    });
+
+    $("#filter").find("#department").change(function() {
+        filter.department = $(this).val();
+        new_filter();
+    });
+    $("#filter").find("#location").change(function() {
+        filter.location = $(this).val();
+        new_filter();
+    });
+
+    $("#reset-filters").click(function() {
+        $("#department").val("All");
+        $("#location").val("All");
+        filter.department = filter.location = "All";
+        $("#game_result").hide();
+        $(this).hide();
+        new_filter();
+    });
+
+    /*-----------------------------------------------------
+       PUBNUB
+    */
+        function addMessage(m) {
+                var messageEl= $("<p><span class='msg_from'>" + m.from + ": </span>" + m.text + "</p>");
+                $('#useractions').append(messageEl);
+ 
+                //Make sure we can see the message, scroll into view.
+                $('#useractions').animate({ scrollTop: messageEl.offset().top}, 'slow');
+
+                //Play a little sound
+                  try {
+                      if (window.chrome) {
+                         audio_ping = new Audio(audio_ping_url);
+                      }
+                      audio_ping.play();
+                  } catch (e) {
+                     console.log(e.message);
+                  }
+        }
+
+        (function(){
+
+
+        // INIT PubNub
+        var pubnub = PUBNUB.init({
+            subscribe_key : pubnub_subscribe_key,
+            publish_key : pubnub_publish_key,
+            ssl          : true
+        });
+
+
+        var chatbox = $('#chatbox'),
+            sendMessageButton = $('#sendmsg'),
+            useractions = $('#messageList');
+
+        // LISTEN
+        pubnub.subscribe({
+            restore: true,
+            channel : "medifaces",
+            callback : function(m){
+
+                addMessage(m);
+                console.log('Pubnub ' + m.text);
+
+            },
+            connect : function(channel) {
+                // SEND
+                console.log("Connected");
+            }
+        });
+
+
+          sendMessageButton.click(function (event) {
+            var message = chatbox.val();
+
+            if (message != '') {
+              pubnub.publish({
+                channel: 'medifaces',
+                message: { from: '{{ this_player.fullname }}', text: message }
+              });
+
+             //Clear the chatbox
+             chatbox.val('');
+            }
+          });
+
+          chatbox.bind('keydown', function (event) {
+            if((event.keyCode || event.charCode) !== 13) return true;
+            sendMessageButton.click();
+            return false;
+          });
+
+    })();
+});
+
+{% endblock script %}
+
+{% block content %}
+<!-- Example row of columns -->
+<div class="row-fluid">
+
+    <div class="span3">
+        <div class="thumbnail">
+            <img id="you_pic" src="data:image/jpeg;base64,{{this_player.picture_src}}" class="img-rounded"/>
+            <div id="p_name">{{ this_player.fullname}}</div>
+            <div id="p_title">{{ this_player.title }}</div>
+            {% if not no_players_left %}
+            <div id="filter">
+            <hr class="thinhr"/>
+                <h5 class="text-center">Filter by:</h5>
+                <label for="department">Department: </label>
+                <div class="text-right">
+                    <select id="department">
+                        <option value="All">All</option>
+                        {% for d in departments %}
+                        <option value="{{d}}">{{d}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <label for="location">Location: </label>
+                <div class="text-right">
+                    <select id="location">
+                        <option value="All">All</option>
+                        {% for loc in locations %}
+                        <option value="{{loc}}">{{loc}}</option>
+                        {% endfor %}
+                        <option value="Remote">Remote</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="span6">
+
+        <div id="gamecenter" class="thumbnail">
+            {% if not no_players_left %}
+            <div class="btn-group">
+              <button href="#" id="toxic" class="btn btn-small"><i> <img src="/static/img/toxic16.png" alt="toxic"></i> Report Bad Image</button>
+            </div>
+
+            <h2>Who is this Medidatian?</h2>
+            <img id="player_img" src="data:image/jpeg;base64,{{picture_url}}" class="img-rounded">
+
+            <div id="game_result_outer">
+                <div id="game_result"></div>
+                <div class="text-center"> <button class="btn btn-large" id="reset-filters">Reset Filters</button> </div>
+                <div><img id="loading" style="display:none;" src="/static/img/ajax-loader.gif" /></div>
+                <button id="show_answer" class="btn btn-large">Show Answer</button>
+                <p id="answer">This is {{ answer }}</p>
+                <p id="prompt">Did you know this person?</p>
+                <div id="review_choices" class="btn-group">
+                    <button href="#" id="known" class="btn btn-large">Yes</button>
+                    <button href="#" id="unknown" class="btn btn-large">No</button>
+                </div>
+            </div>
+
+            {% else %}
+            <div id="game_result_outer">
+                <div id="game_result">
+                    <p>You have collected all the Medidatians in the game! Until some more people sign up, you can't collect more Medidatians. Thanks for playing!</p>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="span3">
+        <div class="thumbnail">
+            <p class="centerbold">Messages</p>
+            <hr class="thinhr"/>
+            <div id="useractions" class="interactions">
+
+            </div>
+            <hr class="thinhr"/>
+            <div id="messages" class="form-inline">
+              <a class="btn" id="sendmsg">Send</a>
+              <span><input type="text" id="chatbox" placeholder="Chat..."></span>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+{% block endbody %}
+    <div id=pubnub ssl=on></div>
+{% endblock endbody %}

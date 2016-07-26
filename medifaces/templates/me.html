@@ -1,0 +1,186 @@
+{% extends "master.html" %}
+
+{% block title %}Medifaces: {{ fullname }}'s profile{% endblock title %}
+
+
+{% block script %}
+$("#sparkline").sparkline({{ last_20 }}, {
+    type: 'tristate',
+    height: '20',
+    barWidth: 5,
+    zeroAxis: true});
+
+$("#reset-game").click(function() {
+    if (confirm("Are you sure you want to reset the game? You will lose ALL your points and progress.")) {
+        $.ajax({
+            type: "POST",
+            url: '/me',
+            async: true,
+            data: JSON.stringify({ 'reset-game' : true}),
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            error: function (error) {
+                alert('There was some problem with the server. Sorry. Try refreshing the page and trying again.');
+            },
+            success: function(data) {
+                if (data.hasOwnProperty('error')) {
+                    do_alert.error(data.error);
+                } else {
+                    location.reload(true);
+                }
+            }
+        });
+    }
+});
+
+$("input[name='gender']",$('#gender_box')).change(function() {
+    var gender  = $(this).attr('id');
+    $.ajax({
+        type: "POST",
+        url: '/me',
+        async: true,
+        data: JSON.stringify({ 'gender' : gender}),
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        error: function (error) {
+            alert('There was some problem with the server. Sorry. Try refreshing the page and trying again.');
+        },
+        success: function(data) {
+            do_alert.success('Gender was changed to ' + gender);
+        }
+    });
+});
+
+$("#refresh-img").click(function() {
+    $(this).prop("disabled",true);
+    $.ajax({
+        type: "POST",
+        url: '/me',
+        async: true,
+        data: JSON.stringify({ 'refresh-img' : true}),
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        error: function (error) {
+            alert('There was some problem with the server. Sorry. Try refreshing the page and trying again.');
+            console.log(error);
+        },
+        success: function(data) {
+            if (data.hasOwnProperty('error')) {
+                $("#refresh-img").prop("disabled",false);
+                do_alert.error(data.error);
+            } else {
+                location.reload(true);
+            }
+        }
+    });
+});
+
+{% endblock script %}
+
+    {% block content %}
+
+    <div class="row-fluid">
+        <div class="span7 offset2">
+            <div class="thumbnail">
+                <h2 class="text-center">{{ fullname }}</h2>
+                <h4 class="text-center">{{ title }}</h4>
+
+                <img src="data:image/jpeg;base64,{{picture_src}}" class="img-rounded" />
+                <div class="text-center"><button id="refresh-img" class="btn">Refresh my picture</button></div>
+
+                <table class="table" style="margin-top:10px;">
+                    <tbody>
+                    {% if is_bad_image %}
+                        <tr style="color:#e9322d">
+                            <td colspan="2">
+                            <div class="text-center">
+                            <h2><img src="/static/img/toxic32.png">You've gone Toxic!</h2>
+                            <p>Oh no. Other players have reported your image as not fair. Are you using an avatar or a picture that doesn't show your face?</p>
+                            <p>To cure yourself you have to upload a new picture.</p>
+                            </div>
+                            </td>
+                        </tr>
+                    {% endif %}
+
+                        <tr>
+                            <th>Achievement</th>
+                            <td>Level {{ level }} - {{ level_name }} ( {{ points }} points )</td>
+                        </tr>
+
+                        <tr>
+                            <th>Department</th>
+                            <td>{{ department }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Biography</th>
+                            <td>{{ biography }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Player Since</th>
+                            <td>{{ picture_created }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Gender</th>
+                            <td>
+                               <div class="btn-group" data-toggle="buttons" id='gender_box'>
+                                    <label class="btn">
+                                        <input type="radio" name="gender" id="male" autocomplete="off" {% if gender == 1 %} checked {% endif %}> Male
+                                    </label>
+                                    <label class="btn">
+                                        <input type="radio" name="gender" id="female" autocomplete="off" {% if gender == 2 %} checked {% endif %}> Female
+                                    </label>
+                                    <label class="btn">
+                                        <input type="radio" name="gender" id="not_given" autocomplete="off" {% if gender == 0 %} checked {% endif %}> Not given
+                                    </label>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>                            
+                            <th>Location</th>
+                            <td>{{ location }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Your last 20 games<br></th>
+                            <td><span id="sparkline"></span><br/>
+                            ( {{ last_20_wins }} Wins / {{ last_20_losses }} Losses )
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th>Total Medidatians Collected</th>
+                            <td>
+                                {{ total_wins }} out of {{ total_players }}
+                                <button class="btn" id="reset-game" {% if total_wins == 0 %}disabled{% endif %}>
+                                    Reset Game
+                                </button>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th>Recent games:</th>
+                            {% if any_games %}
+                            <td>Out of the last {{ total_games_tested }} games you were correctly identified {{ identified }} times.</td>
+                            {% else %}
+                            <td>You have not appeared in any games yet.</td>
+                            {% endif %}
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+<!--
+        <div class="span2">
+            <ul class="nav nav-pills">
+              <li class="active"> <a href="#">Profile</a> </li>
+              <li><a href="/me/edit">Edit Profile</a></li>
+              <li><a href="/me/wins">Wins</a></li>
+            </ul>
+        </div>
+-->
+      </div>
+     {% endblock content %}
