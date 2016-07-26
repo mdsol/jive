@@ -1,0 +1,13 @@
+{
+  "name": "userprofileupdater",
+  "version": "1.0.0",
+  "description": "",
+  "main": "t:",
+  "dependencies": {
+    "request": "^2.74.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mdsol/jive/tree/master/userprofileupdater"
+  }
+}
