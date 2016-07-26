@@ -1,19 +1,4 @@
-# jive
+# Medidata's Jive Repo
 
-## Requirements
-- Node.js
+This repo is a collection of Integrations, projects and custom code to work with [JiveSoftware](https://www.jivesoftware.com/).  The code here was originally designed to meet business use cases for [Medidata](https://www.mdsol.com/)'s collaborative Intranet, but has been made public according to license indicated in each project folder.  We welcome collaboration on improving our Jive community integrations and custom code to further provide value to our business users.  Any questions about this repo should be addressed to [Nik Edmiidz on the JC](https://community.jivesoftware.com/people/edmiidz) or express@mdsol.com.
 
-## Tile Quickstart
-1. Clone repository and cd to tile directory
-2. Install dependencies
- ```
- npm install
- ```
-
-3. Create extension package from source
- ```
- jive-sdk build add-on --apphosting="jive"
- ```
-
-4. Upload and install the resulting "extension.zip"
-   file to your Jive instance
