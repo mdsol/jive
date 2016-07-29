@@ -55,6 +55,7 @@ WRONG_ANSWERS   = ["No, sorry", "Sorry", "Sorry, no"]
 PLAYER_SCORES   = 'player_scores'
 PLAYER_COUNT    = 'player_count'
 ALL_PLAYER_KEYS = 'all_player_keys'
+WIN_STREAKS     = 'win_streaks'
 
 
 class NoPlayersLeft(Exception):
@@ -226,6 +227,14 @@ class ScoreHandler(webapp2.RequestHandler):
             players = game.getUsersAllInfoRegistered()
             memcache.set(PLAYER_SCORES, players, TEN_MINUTE_TIMEOUT)
         template_values['players'] = players[:100]
+
+        # Fetch longest run win streaks
+        win_streaks = memcache.get(WIN_STREAKS)
+        if win_streaks is None:
+            win_streaks = game.getLongestWinStreaks()
+            memcache.set(WIN_STREAKS, win_streaks, TEN_MINUTE_TIMEOUT)
+        template_values['win_streaks'] = win_streaks
+
 
         #Loop through all players, add up by department and location
         locations = {}

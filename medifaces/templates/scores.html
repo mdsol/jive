@@ -12,6 +12,7 @@
                 <li class="active"><a href="#players" data-toggle="tab"><span class='hidden-phone'>Top 100 </span>Players</a></li>
                 <li><a href="#departments" data-toggle="tab">Departments</a></li>
                 <li><a href="#locations" data-toggle="tab">Locations</a></li>
+                <li><a href="#win-streaks" data-toggle="tab">Longest Win Streaks</a></li>
             </ul>
             <div class="tab-content">
                 <div class="tab-pane active" id="players">
@@ -88,6 +89,28 @@
                             </td>
                             <td>{{location.2}}</td>
                             <td>{{location.3}}<span class='hidden-phone'> ( {{location.4}} )</span></td>
+                        </tr>
+                        {% endfor %}
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tab-pane" id="win-streaks">
+                    {# Display longest running win streaks #}
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Longest Win Streak</th>
+                            <th>Name</th>
+                            <th>Title</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for ws in win_streaks %}
+                        <tr>
+                            <td>{{ws.2|int}} wins in a row</td>
+                            <td>{{ws.0}}</td>
+                            <td>{{ws.1}}</td>
                         </tr>
                         {% endfor %}
 

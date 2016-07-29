@@ -293,3 +293,31 @@ class Game():
         cursor.execute(query, values)
         db.commit()
         cursor.close()
+
+    def getLongestWinStreaks(self):
+        """Get list of up to 100 players with the longest win streaks."""
+
+        query = """
+            SELECT fullname, title, max(wins) AS longest_winning_streak
+            FROM (
+                SELECT 
+                g.jive_profile_id
+                , @winstreak := IF(game_state = "L", 0, IF(jive_profile_id = @prev_user, @winstreak + 1, 1)) AS wins
+                , @prev_user := jive_profile_id
+                FROM {medifaces_game_turn_tbl} g
+                , (SELECT @winstreak := 0, @prev_user := null) var_init
+                WHERE game_state != "N"
+                ORDER BY jive_profile_id, id
+            ) sq
+            JOIN {jive_profile_tbl} j ON j.id = sq.jive_profile_id
+            GROUP BY jive_profile_id
+            HAVING max(wins) > 0
+            ORDER BY longest_winning_streak DESC, fullname
+            LIMIT 100;""".format(medifaces_game_turn_tbl=config.MEDIFACES_GAME_TURN_TBL, jive_profile_tbl=config.JIVE_PROFILE_TBL)
+
+        cursor = db.cursor()
+        cursor.execute(query)
+        db.commit()
+        data = cursor.fetchall()
+        cursor.close()
+        return data
