@@ -14,7 +14,6 @@ var months = [
 
 // default url endings
 var defaultUrlThis = "/content?sortKey=contentstatus%5Bpublished%5D~recentActivityDateDesc&sortOrder=0";
-var defaultUrlAll = "/content?sortKey=all~recentActivityDateDesc&sortOrder=0";
 jive.tile.onOpen(function(config, options) {
 
     // default config vals if no values given
@@ -37,6 +36,15 @@ jive.tile.onOpen(function(config, options) {
     }
 
     jive.tile.getContainer(function(container) {
+        // set default URL if none set
+        if (config.linkUrl === "") {
+            var p = document.createElement("a");
+            p.href = container.parent;
+
+            config.linkUrl = p.origin;
+            config.linkUrl += defaultUrlThis;
+        }
+
         var docList = [];
         var pending = 0;
         if (timer) {
@@ -77,56 +85,58 @@ jive.tile.onOpen(function(config, options) {
                 });
             }
 
-            // get the recent content
-            var reqOptions = {
-                count: config.numDocs,
-                sort: "latestActivityDesc",
-                fields: "subject,author.displayName,iconCss,lastActivity,published"
-            }
-            // add place if not "all places"
-            if (config.place === "sub" || config.place === "this") {
-                reqOptions.place = "/places/" + container.placeID;
-            }
-            // add type if not "all types"
-            if (config.type[0] !== "all") {
-                reqOptions.type = config.type.join(",");
-            }
-            var reqContent = osapi.jive.corev3.contents.get(reqOptions);
-            pending++;
-            if (timer) {
-                var reqTime = Date.now();
-            }
-            reqContent.execute(function(res) {
-                if (res.error) {
-                    var code = res.error.code;
-                    var message = res.error.message;
-                    console.log(code + " " + message);
-                    // present the user with an appropriate error message
-                } else {
-                    if (timer) {
-                        console.log("request content from " + container.placeID + ": " + (Date.now() - reqTime) + " ms");
-                    }
-                    for (let el of res.list) {
-                        docList.push({
-                            subject: el.subject,
-                            url: el.resources.html.ref,
-                            author: el.author.displayName,
-                            authorUrl: el.author.resources.html.ref,
-                            icon: el.iconCss,
-                            avatar: el.author.resources.avatar.ref,
-                            lastAct: el.lastActivity,
-                            postDate: el.published
-                        });
-                    }
-                    pending--;
-                    if (pending == 0) {
-                        if (timer) {
-                            lap = Date.now();
-                            console.log("getContent " + (lap - start) + " ms");
-                        }
-                        showDocs();
-                    }
+            container.getBlog().execute(function(blog) {
+                // get the recent content
+                var reqOptions = {
+                    count: config.numDocs,
+                    sort: "latestActivityDesc",
+                    fields: "subject,author.displayName,iconCss,lastActivity,published"
                 }
+                // add place if not "all places"
+                if (config.place === "sub" || config.place === "this") {
+                    reqOptions.place = "/places/" + container.placeID + ",/places/" + blog.placeID;
+                }
+                // add type if not "all types"
+                if (config.type[0] !== "all") {
+                    reqOptions.type = config.type.join(",");
+                }
+                var reqContent = osapi.jive.corev3.contents.get(reqOptions);
+                pending++;
+                if (timer) {
+                    var reqTime = Date.now();
+                }
+                reqContent.execute(function(res) {
+                    if (res.error) {
+                        var code = res.error.code;
+                        var message = res.error.message;
+                        console.log(code + " " + message);
+                        // present the user with an appropriate error message
+                    } else {
+                        if (timer) {
+                            console.log("request content from " + container.placeID + ": " + (Date.now() - reqTime) + " ms");
+                        }
+                        for (let el of res.list) {
+                            docList.push({
+                                subject: el.subject,
+                                url: el.resources.html.ref,
+                                author: el.author.displayName,
+                                authorUrl: el.author.resources.html.ref,
+                                icon: el.iconCss,
+                                avatar: el.author.resources.avatar.ref,
+                                lastAct: el.lastActivity,
+                                postDate: el.published
+                            });
+                        }
+                        pending--;
+                        if (pending == 0) {
+                            if (timer) {
+                                lap = Date.now();
+                                console.log("getContent " + (lap - start) + " ms");
+                            }
+                            showDocs();
+                        }
+                    }
+                });
             });
         }
         
