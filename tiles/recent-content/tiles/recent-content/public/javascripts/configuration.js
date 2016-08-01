@@ -12,18 +12,18 @@
             this: {
                 discussion: "&filterID=contentstatus%5Bpublished%5D~objecttype~objecttype%5Bthread%5D",
                 document: "&filterID=contentstatus%5Bpublished%5D~objecttype~objecttype%5Bdocument%5D",
-                favorite: "",
+                idea: "&filterID=contentstatus%5Bpublished%5D~objecttype~objecttype%5Bidea%5D",
                 poll: "&filterID=contentstatus%5Bpublished%5D~objecttype~objecttype%5Bpoll%5D",
                 post: "&filterID=contentstatus%5Bpublished%5D~objecttype~objecttype%5Bblogpost%5D",
-                update: ""
+                event: "&filterID=contentstatus%5Bpublished%5D~objecttype~objecttype%5Bevent%5D~event%5Bupcoming%5D"
             },
             all: {
                 discussion: "&filterID=all~objecttype~objecttype%5Bthread%5D",
                 document: "&filterID=all~objecttype~objecttype%5Bdocument%5D",
-                favorite: "",
+                idea: "&filterID=all~objecttype~objecttype%5Bidea%5D",
                 poll: "&filterID=all~objecttype~objecttype%5Bpoll%5D",
                 post: "&filterID=all~objecttype~objecttype%5Bblogpost%5D",
-                update: ""
+                event: "&filterID=all~objecttype~objecttype%5Bevent%5D~event%5Bupcoming%5D"
             }
         };
         contentFilt.sub = contentFilt.this;
