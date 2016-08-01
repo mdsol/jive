@@ -187,7 +187,7 @@ jive.tile.onOpen(function(config, options) {
 
                 // create timestamp + author
                 var tsDiv = document.createElement("div");
-                tsDiv.className = "linkDescription font-color-meta j-timestamp";
+                tsDiv.className = "linkDescription";
                 tsDiv.appendChild( document.createTextNode(moment(doc.postDate).fromNow() + "  ") );
                 var authorUrl = a.cloneNode();
                 authorUrl.setAttribute("href", doc.authorUrl);

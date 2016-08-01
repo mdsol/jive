@@ -145,7 +145,14 @@ input[value="all"] {
   width: 100%;
 }
 
-#ul-list .font-color-meta a {
+.linkDescription {
+  color: #696057;
+}
+
+.linkDescription > a {
   color: #008fbe;
-  fill: #008fbe;
+}
+
+.listItem > a {
+  color: #0055b7;
 }
