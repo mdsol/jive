@@ -1,5 +1,5 @@
 // flag for recording time and logging to console
-var timer = true;
+var timer = false;
 
 // how many pixels to cut off from bottom of widget
 var shrinkByLink = 10;
@@ -38,11 +38,7 @@ jive.tile.onOpen(function(config, options) {
     jive.tile.getContainer(function(container) {
         // set default URL if none set
         if (config.linkUrl === "") {
-            var p = document.createElement("a");
-            p.href = container.parent;
-
-            config.linkUrl = p.origin;
-            config.linkUrl += defaultUrlThis;
+            config.linkUrl = container.resources.html.ref + defaultUrlThis;
         }
 
         var docList = [];
@@ -58,7 +54,7 @@ jive.tile.onOpen(function(config, options) {
 
         if (config.place === "sub") {
             getSubplaces(container);
-        } else if (config.place === "this" && config.type.indexOf("blog") !== -1) {
+        } else if (config.place === "this" && config.type.indexOf("post") !== -1) {
             container.getBlog().execute(function(blog) {
                 places.push("/places/" + blog.placeID);
                 getContent();
@@ -141,18 +137,6 @@ jive.tile.onOpen(function(config, options) {
                     showDocs();
                 }
             });
-        }
-        
-        function setDefaultUrl(placeID, parentUrl, config) {
-            if (config.place === "all") {
-                var p = document.createElement("a");
-                p.href = container.parent;
-
-                config.linkUrl = p.origin;
-                config.linkUrl += defaultUrlAll;
-            } else {
-                config.linkUrl = container.resources.html.ref + defaultUrlThis;
-            }
         }
 
         function formatDate(date) {
