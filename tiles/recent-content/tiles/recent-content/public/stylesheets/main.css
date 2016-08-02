@@ -156,3 +156,7 @@ input[value="all"] {
 .listItem > a {
   color: #0055b7;
 }
+
+tr > td:nth-last-child(-n+2) {
+  white-space: nowrap;
+}
