@@ -11,6 +11,6 @@
         "48": "extension-48.png",
         "128": "extension-128.png"
     },
-    "config": "/recent-content/configuration.html?core-v3,tile,jq-1.11,responsive",
-    "view": "/recent-content/view.html?core-v3,tile,jq-1.11,responsive"
+    "config": "/recent-content/configuration.html?features=core-v3,tile,responsive",
+    "view": "/recent-content/view.html?features=core-v3,tile,responsive"
 }
