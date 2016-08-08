@@ -17,7 +17,7 @@ var defaultUrlThis = "/content?sortKey=contentstatus%5Bpublished%5D~recentActivi
 jive.tile.onOpen(function(config, options) {
 
     // default config vals if no values given
-    config.numDocs = config.numDocs || 10;
+    config.numResults = config.numResults || 10;
     config.place = config.place || "sub";
     config.type = config.type || ["all"];
     config.showLink = config.showLink === undefined ? true : config.showLink;
@@ -103,7 +103,7 @@ jive.tile.onOpen(function(config, options) {
         function getContent(startIndex = 0) {
             // get the recent content
             var reqOptions = {
-                count: config.numDocs,
+                count: config.numResults,
                 startIndex: startIndex,
                 sort: "latestActivityDesc",
                 fields: "subject,author.displayName,iconCss,lastActivity,published,question,type"
@@ -142,13 +142,13 @@ jive.tile.onOpen(function(config, options) {
                                 lastAct: el.lastActivity,
                                 postDate: el.published
                             });
-                            if (docList.length >= config.numDocs) {
+                            if (docList.length >= config.numResults) {
                                 break;
                             }
                         }
                     }
-                    if ((!getQuestions || !getDiscussions) && (docList.length < config.numDocs) && res.links && res.links.next) {
-                        getContent(startIndex + config.numDocs);
+                    if ((!getQuestions || !getDiscussions) && (docList.length < config.numResults) && res.links && res.links.next) {
+                        getContent(startIndex + config.numResults);
                     } else {
                         showDocs();
                     }
@@ -231,7 +231,7 @@ jive.tile.onOpen(function(config, options) {
                 tr.appendChild(td3);
                 table.appendChild(tr);
 
-                if (ul.children.length >= config.numDocs) {
+                if (ul.children.length >= config.numResults) {
                     break;
                 }
             }
