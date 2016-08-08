@@ -133,7 +133,7 @@ jive.tile.onOpen(function(config, options) {
                     for (let el of res.list) {
                         if (el.type !== "discussion" || (getQuestions && el.question) || (getDiscussions && !el.question)) {
                             docList.push({
-                                subject: el.subject,
+                                subject: replaceCodes(el.subject),
                                 url: el.resources.html.ref,
                                 author: el.author.displayName,
                                 authorUrl: el.author.resources.html.ref,
@@ -246,6 +246,12 @@ jive.tile.onOpen(function(config, options) {
                 console.log("showDocs " + (Date.now() - showDocsBegin) + " ms");
             }
             resize(config.showLink);
+        }
+
+        function replaceCodes(str) {
+            str = str.replace(/&#160;/g, " ");
+            str = str.replace(/&amp;/g, "&");
+            return str;
         }
 
     });
