@@ -24,6 +24,13 @@ jive.tile.onOpen(function(config, options) {
     config.linkText = config.linkText || "See More Recent Content";
     config.linkUrl = config.linkUrl || "";
 
+    var indexOfQ = config.type.indexOf("question");
+    var getQuestions = indexOfQ !== -1;
+    var getDiscussions = config.type.indexOf("discussion") !== -1;
+    if (getQuestions) {
+        config.type.splice(indexOfQ, 1, "discussion");
+    }
+
     // resize tile if the window changes size (responsive)
     $(window).resize(function() {
         resize(config.showLink);
@@ -93,12 +100,13 @@ jive.tile.onOpen(function(config, options) {
             }
         }
 
-        function getContent() {
+        function getContent(startIndex = 0) {
             // get the recent content
             var reqOptions = {
                 count: config.numDocs,
+                startIndex: startIndex,
                 sort: "latestActivityDesc",
-                fields: "subject,author.displayName,iconCss,lastActivity,published"
+                fields: "subject,author.displayName,iconCss,lastActivity,published,question,type"
             }
             // add place if not "all places"
             if (config.place === "sub" || config.place === "this") {
@@ -123,18 +131,27 @@ jive.tile.onOpen(function(config, options) {
                         console.log("getContent: " + (Date.now() - reqTime) + " ms");
                     }
                     for (let el of res.list) {
-                        docList.push({
-                            subject: el.subject,
-                            url: el.resources.html.ref,
-                            author: el.author.displayName,
-                            authorUrl: el.author.resources.html.ref,
-                            icon: el.iconCss,
-                            avatar: el.author.resources.avatar.ref,
-                            lastAct: el.lastActivity,
-                            postDate: el.published
-                        });
+                        if (el.type !== "discussion" || (getQuestions && el.question) || (getDiscussions && !el.question)) {
+                            docList.push({
+                                subject: el.subject,
+                                url: el.resources.html.ref,
+                                author: el.author.displayName,
+                                authorUrl: el.author.resources.html.ref,
+                                icon: el.iconCss,
+                                avatar: el.author.resources.avatar.ref,
+                                lastAct: el.lastActivity,
+                                postDate: el.published
+                            });
+                            if (docList.length >= config.numDocs) {
+                                break;
+                            }
+                        }
                     }
-                    showDocs();
+                    if ((!getQuestions || !getDiscussions) && (docList.length < config.numDocs) && res.links && res.links.next) {
+                        getContent(startIndex + config.numDocs);
+                    } else {
+                        showDocs();
+                    }
                 }
             });
         }
