@@ -1,6 +1,13 @@
 jive.tile.onOpen(function(config, options) {
     jive.tile.getContainer(function(container) {
 
+        // 0-11 mapped to month name
+        var months = [
+            "January"  , "February", "March"   , "April",
+            "May"      , "June"    , "July"    , "August",
+            "September", "October" , "November", "December"
+        ];
+
         var places = [ "/places/" + container.placeID ];
         var ideaList = [];
 
@@ -98,11 +105,13 @@ jive.tile.onOpen(function(config, options) {
                 container.appendChild(outerDiv);
 
                 let left = outerDiv.cloneNode(false);
+                left.classList.add("col-sm-2");
                 let right = outerDiv.cloneNode(false);
+                right.classList.add("col-sm-10");
                 outerDiv.appendChild(left);
                 outerDiv.appendChild(right);
 
-                let leftText = document.createElement("p");
+                let leftText = document.createElement("div");
                 leftText.textContent += "Score: " + idea.score;
                 leftText.textContent += "\nStage: " + idea.stage;
                 leftText.textContent += "\nVotes: " + idea.voteCount;
@@ -116,12 +125,12 @@ jive.tile.onOpen(function(config, options) {
                 right.appendChild(header);
 
                 let details = document.createElement("div");
-                details.appendChild( document.createTextNode("Created on " + idea.postDate + " by ") );
+                details.appendChild( document.createTextNode("Created on " + formatDate(idea.postDate) + " by ") );
                 let authorLink = document.createElement("a");
                 authorLink.setAttribute("href", idea.authorUrl);
                 authorLink.textContent = idea.author;
                 details.appendChild(authorLink);
-                details.appendChild( document.createTextNode(" - Last Modified: " + idea.lastAct) );
+                details.appendChild( document.createTextNode(" - Last Modified: " + formatDate(idea.lastAct)) );
                 right.appendChild(details);
 
                 let content = document.createElement("div");
@@ -142,6 +151,31 @@ jive.tile.onOpen(function(config, options) {
             str = str.replace(/&#160;/g, " ");
             str = str.replace(/&amp;/g, "&");
             return str;
+        }
+
+        function formatDate(rawDate) {
+            var date = new Date(rawDate);
+            dateStr = "";
+            dateStr += months[date.getMonth()].substr(0,3) + " ";
+            dateStr += date.getDate() + ", ";
+            dateStr += date.getFullYear() + " ";
+
+            var hour = date.getHours();
+            var ampm = "AM";
+            var min = date.getMinutes();
+
+            if (hour >= 12) {
+                ampm = "PM";
+                hour -= 12;
+            }
+            if (hour === 0) {
+                hour = 12;
+            }
+            if (min < 10) {
+                min = "0" + min
+            }
+            dateStr += hour + ":" + min + " " + ampm;
+            return dateStr;
         }
 
     });
