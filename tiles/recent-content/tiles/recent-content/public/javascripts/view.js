@@ -66,7 +66,7 @@ jive.tile.onOpen(function(config, options) {
                 places.push("/places/" + blog.placeID);
                 getContent();
             });
-        }else {
+        } else {
             getContent();
         }
 
