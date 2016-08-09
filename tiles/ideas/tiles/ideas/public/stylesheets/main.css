@@ -205,3 +205,8 @@ tr > td:nth-last-child(-n+2) {
   position: relative;
   float: left;
 }
+
+h2 {
+  margin: 5px 0;
+  font-size: 1.7em;
+}
