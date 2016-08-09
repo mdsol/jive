@@ -1,23 +1,59 @@
 <html>
-<head>
+  <head>
     <link rel="stylesheet" type="text/css" href="/ideas/stylesheets/main.css">
     <script src="/ideas/javascripts/configuration.js"></script>
-</head>
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+  </head>
 
-<body>
+  <body>
+    <form>
+      <div>
+        <label for="title"><strong>Tile Title</strong> (Optional)</label>
+        <input class="j-text" type="text" id="title"/>
+      </div>
+      <div>
+        <label for="num-docs"><strong>Number of Results</strong> (Max: 100)</label>
+        <input class="j-text" type="number" min="1" max="100" step="1" id="num-results" required/>
+      </div>
+      <div>
+        <label for="place"><strong>Content Location</strong></label>
+        <label><input type="radio" name="place" value="this">This Place</input></label>
+        <label><input type="radio" name="place" value="sub">This Place and Sub-Places</input></label>
+        <label><input type="radio" name="place" value="all">All Places</input></label>
+      </div>
+      <div>
+        <label for="type"><strong>Content Type</strong></label>
+        <div id="type-cols">
+          <div class="col">
+            <label><input type="checkbox" name="type" value="discussion">Discussions</input></label>
+            <label><input type="checkbox" name="type" value="document">Documents</input></label>
+          </div>
+          <div class="col">
+            <label><input type="checkbox" name="type" value="question">Questions</input></label>
+            <label><input type="checkbox" name="type" value="idea">Ideas</input></label>
+            <label><input type="checkbox" name="type" value="poll">Polls</input></label>
+            <label id="all-label"><input type="checkbox" name="type" value="all">All Content Types</input></label>
+          </div>
+          <div class="col">
+            <label><input type="checkbox" name="type" value="post">Blog Posts</input></label>
+            <label><input type="checkbox" name="type" value="event">Events</input></label>
+          </div>
+        </div>
+      </div>
+      <div id="footer-link">
+        <label for="show-link"><strong>Add Link</strong></label>
+        <label><input type="checkbox" id="show-link" checked>Display Link</input></label>
+        <div id="link-options" class="indent">
+          <label for="link-text"><strong>Link Text</strong></label>
+          <input class="j-text" type="text" id="link-text" required/>
+          <label for="link-url"><strong>URL</strong> (Optional: links to content page by default)</label>
+          <input class="j-text" type="text" id="link-url"/>
+        </div>
+      </div>
+      <div>
+      </div>
+      <button type="submit" class="j-btn-global js-button-done" id="btn-submit">Apply</button>
+    </form>
 
-<div class="j-card">
-    <h2>Configuration</h2>
-
-    <p>
-        Enter configuration string:
-        <br />
-        <input class="j-text" type="text" id="config_string" style="margin-top: 3px"/>
-    </p>
-
-    <button class="j-btn" id="btn_submit">Submit</button>
-
-</div>
-
-</body>
+  </body>
 </html>
