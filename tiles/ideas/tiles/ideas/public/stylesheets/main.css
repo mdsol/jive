@@ -160,3 +160,48 @@ input[value="all"] {
 tr > td:nth-last-child(-n+2) {
   white-space: nowrap;
 }
+
+
+
+.score-block {
+  color: #333;
+  float: right;
+  width: 95%;
+  font-weight: bold;
+  padding: 5px;
+}
+
+.upvote, .downvote {
+  display: block;
+  background: #eee;
+  height: 13px;
+  text-align: center;
+}
+
+.upvote {
+  border-top-right-radius: 5px;
+  top: 0px;
+  margin-bottom: 2px;
+}
+
+.downvote {
+  border-bottom-right-radius: 5px;
+}
+
+.vote {
+  width: 30%;
+  float: right;
+}
+
+.score-num {
+  width: calc(70% - 2px);
+  text-align: center;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  background: #eee;
+  height: 28px;
+  line-height: 28px;
+  font-size: 1.7em;
+  position: relative;
+  float: left;
+}

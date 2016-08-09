@@ -111,11 +111,29 @@ jive.tile.onOpen(function(config, options) {
                 outerDiv.appendChild(left);
                 outerDiv.appendChild(right);
 
-                let leftText = document.createElement("div");
-                leftText.textContent += "Score: " + idea.score;
-                leftText.textContent += "\nStage: " + idea.stage;
-                leftText.textContent += "\nVotes: " + idea.voteCount;
-                left.appendChild(leftText);
+                // score block
+                let scoreBlock = document.createElement("div");
+                scoreBlock.classList.add("score-block");
+                left.appendChild(scoreBlock);
+                let updownvote = document.createElement("div");
+                updownvote.classList.add("vote");
+                scoreBlock.appendChild(updownvote);
+
+                let upvote = document.createElement("span");
+                upvote.classList.add("glyphicon", "glyphicon-menu-up", "upvote");
+                upvote.setAttribute("role", "button");
+                updownvote.appendChild(upvote);
+                let downvote = document.createElement("span");
+                downvote.classList.add("glyphicon", "glyphicon-menu-down", "downvote");
+                downvote.setAttribute("role", "button");
+                updownvote.appendChild(downvote);
+
+                let scoreNum = document.createElement("div");
+                scoreNum.classList.add("score-num");
+                scoreNum.textContent = idea.score;
+                scoreBlock.appendChild(scoreNum);
+                //scoreBlock.textContent += "\nStage: " + idea.stage;
+                //scoreBlock.textContent += "\nVotes: " + idea.voteCount;
 
                 let header = document.createElement("h2");
                 let subjectLink = document.createElement("a");
