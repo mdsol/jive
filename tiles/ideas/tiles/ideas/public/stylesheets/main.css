@@ -82,12 +82,14 @@ div.error-box {
 
 
 
+.left {
+  text-align: center;
+}
 
 .score-block {
   color: #333;
   float: right;
   width: 95%;
-  font-weight: bold;
   padding: 5px;
 }
 
@@ -95,7 +97,6 @@ div.error-box {
   display: block;
   background: #eee;
   height: 13px;
-  text-align: center;
 }
 
 .upvote {
@@ -115,7 +116,6 @@ div.error-box {
 
 .score-num {
   width: calc(70% - 2px);
-  text-align: center;
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
   background: #eee;
@@ -124,6 +124,7 @@ div.error-box {
   font-size: 1.7em;
   position: relative;
   float: left;
+  font-weight: bold;
 }
 
 h2 {
@@ -146,7 +147,6 @@ h2 {
 
 .idea-stage {
   display: inline-block;
-  text-align: center;
   width: 100%;
   margin: 4px 0;
 }
@@ -159,4 +159,12 @@ h2 {
 .yellow-status {
   background-color: #FFFEEE;
   color: #666666;
+}
+
+.idea-vote-count {
+  width: 100%;
+  display: inline-block;
+  font-size: 12.5px;
+  font-weight: normal;
+  color: #696057;
 }

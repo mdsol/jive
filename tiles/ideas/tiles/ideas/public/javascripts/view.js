@@ -108,9 +108,9 @@ jive.tile.onOpen(function(config, options) {
                 container.appendChild(outerDiv);
 
                 let left = outerDiv.cloneNode(false);
-                left.classList.add("col-sm-2");
+                left.classList.add("col-sm-2", "left");
                 let right = outerDiv.cloneNode(false);
-                right.classList.add("col-sm-10");
+                right.classList.add("col-sm-10", "right");
                 outerDiv.appendChild(left);
                 outerDiv.appendChild(right);
 
@@ -146,8 +146,9 @@ jive.tile.onOpen(function(config, options) {
                 stage.textContent = idea.stage;
                 scoreBlock.appendChild(stage);
 
-                //scoreBlock.textContent += "\nStage: " + idea.stage;
-                //scoreBlock.textContent += "\nVotes: " + idea.voteCount;
+                let voteCount = document.createElement("span");
+                voteCount.textContent = idea.voteCount + " votes";
+                scoreBlock.appendChild(voteCount);
 
                 let header = document.createElement("h2");
                 let subjectLink = document.createElement("a");
