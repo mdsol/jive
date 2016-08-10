@@ -187,9 +187,10 @@ jive.tile.onOpen(function(config, options) {
          * Delete tags and replace HTML codes
          */
         function fixFormatting(str) {
-            str = str.replace(/<[^>]+>/g, "");
-            str = str.replace(/&#160;/g, " ");
-            str = str.replace(/&amp;/g, "&");
+            str = str.replace(/<[^>]+>/g, " "); // replace tags with a space
+            str = str.replace(/&#160;/g, " "); // replace space code with space
+            str = str.replace(/&amp;/g, "&"); // replace amp code with &
+            str = str.replace(/\s{2,}/g, " "); // compact multiple spaces to 1
             return str;
         }
 
