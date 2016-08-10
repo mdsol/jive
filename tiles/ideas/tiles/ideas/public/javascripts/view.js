@@ -118,23 +118,29 @@ jive.tile.onOpen(function(config, options) {
                 let scoreBlock = document.createElement("div");
                 scoreBlock.classList.add("score-block");
                 left.appendChild(scoreBlock);
-                let updownvote = document.createElement("div");
-                updownvote.classList.add("vote");
-                scoreBlock.appendChild(updownvote);
-
-                let upvote = document.createElement("span");
-                upvote.classList.add("glyphicon", "glyphicon-menu-up", "upvote");
-                upvote.setAttribute("role", "button");
-                updownvote.appendChild(upvote);
-                let downvote = document.createElement("span");
-                downvote.classList.add("glyphicon", "glyphicon-menu-down", "downvote");
-                downvote.setAttribute("role", "button");
-                updownvote.appendChild(downvote);
 
                 let scoreNum = document.createElement("div");
                 scoreNum.classList.add("score-num");
                 scoreNum.textContent = idea.score;
                 scoreBlock.appendChild(scoreNum);
+
+                if (idea.stage === "Active") {
+                    let updownvote = document.createElement("div");
+                    updownvote.classList.add("vote");
+                    scoreBlock.appendChild(updownvote);
+                    let upvote = document.createElement("span");
+                    upvote.classList.add("glyphicon", "glyphicon-menu-up", "upvote");
+                    upvote.setAttribute("role", "button");
+                    updownvote.appendChild(upvote);
+                    let downvote = document.createElement("span");
+                    downvote.classList.add("glyphicon", "glyphicon-menu-down", "downvote");
+                    downvote.setAttribute("role", "button");
+                    updownvote.appendChild(downvote);
+
+                    scoreNum.style.width = "calc(70% - 2px)";
+                    scoreNum.style.borderTopRightRadius = "0";
+                    scoreNum.style.borderBottomRightRadius = "0";
+                }
 
                 let stage = document.createElement("span");
                 stage.classList.add("idea-stage");

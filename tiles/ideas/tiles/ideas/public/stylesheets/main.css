@@ -115,9 +115,8 @@ div.error-box {
 }
 
 .score-num {
-  width: calc(70% - 2px);
-  border-top-left-radius: 5px;
-  border-bottom-left-radius: 5px;
+  width: 100%;
+  border-radius: 5px;
   background: #eee;
   height: 28px;
   line-height: 28px;
