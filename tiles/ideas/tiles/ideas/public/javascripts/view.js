@@ -208,7 +208,7 @@ jive.tile.onOpen(function(config, options) {
                 let header = document.createElement("h2");
                 let subjectLink = document.createElement("a");
                 subjectLink.setAttribute("href", idea.url);
-                subjectLink.textContent = idea.subject;
+                subjectLink.textContent = fixFormatting(idea.subject);
                 header.appendChild(subjectLink);
                 right.appendChild(header);
 
@@ -239,6 +239,8 @@ jive.tile.onOpen(function(config, options) {
             str = str.replace(/<[^>]+>/g, " "); // replace tags with a space
             str = str.replace(/&#160;/g, " "); // replace space code with space
             str = str.replace(/&amp;/g, "&"); // replace amp code with &
+            str = str.replace(/&lt;/g, "<"); // replace lt code with <
+            str = str.replace(/&gt;/g, ">"); // replace gt code with >
             str = str.replace(/\s{2,}/g, " "); // compact multiple spaces to 1
             return str;
         }
