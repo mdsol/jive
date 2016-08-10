@@ -78,7 +78,9 @@ jive.tile.onOpen(function(config, options) {
                             voteCount: el.voteCount,
                             voted: el.voted,
                             promote: el.promote,
-                            content: el.content.text
+                            content: el.content.text,
+                            voteUp: el.voteUp,
+                            voteDown: el.voteDown
                         });
                     }
 
@@ -97,6 +99,7 @@ jive.tile.onOpen(function(config, options) {
             });*/
 
             var container = document.getElementById("idea-list");
+            var emptyFunc = function() {};
 
             for (let i = 0; i < config.numResults; i++) {
                 let idea = ideaList[i];
@@ -123,19 +126,47 @@ jive.tile.onOpen(function(config, options) {
                 scoreNum.classList.add("score-num");
                 scoreNum.textContent = idea.score;
                 scoreBlock.appendChild(scoreNum);
+                let scoreExclUser = idea.score - (idea.promote ? 1 : 0); // excl user vote
 
                 if (idea.stage === "Active") {
                     let updownvote = document.createElement("div");
                     updownvote.classList.add("vote");
                     scoreBlock.appendChild(updownvote);
+
                     let upvote = document.createElement("span");
-                    upvote.classList.add("glyphicon", "glyphicon-menu-up", "upvote");
-                    upvote.setAttribute("role", "button");
                     updownvote.appendChild(upvote);
                     let downvote = document.createElement("span");
+                    updownvote.appendChild(downvote);
+
+                    upvote.classList.add("glyphicon", "glyphicon-menu-up", "upvote");
+                    upvote.setAttribute("role", "button");
+                    let upfunc = function() {
+                        idea.voteUp().execute(emptyFunc);
+                        upvote.classList.add("selected");
+                        downvote.classList.remove("selected");
+                        upvote.removeAttribute("role");
+                        downvote.setAttribute("role", "button");
+                        scoreNum.textContent = scoreExclUser + 1;
+                    }
+                    upvote.addEventListener("click", upfunc);
+
                     downvote.classList.add("glyphicon", "glyphicon-menu-down", "downvote");
                     downvote.setAttribute("role", "button");
-                    updownvote.appendChild(downvote);
+                    let downfunc = function() {
+                        idea.voteDown().execute(emptyFunc);
+                        downvote.classList.add("selected");
+                        upvote.classList.remove("selected");
+                        downvote.removeAttribute("role");
+                        upvote.setAttribute("role", "button");
+                        scoreNum.textContent = scoreExclUser;
+                    }
+                    downvote.addEventListener("click", downfunc);
+
+                    if (idea.voted) {
+                        let sel = idea.promote ? upvote : downvote;
+                        sel.classList.add("selected");
+                        sel.removeAttribute("role");
+                    }
 
                     scoreNum.style.width = "calc(70% - 2px)";
                     scoreNum.style.borderTopRightRadius = "0";

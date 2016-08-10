@@ -105,8 +105,18 @@ div.error-box {
   margin-bottom: 2px;
 }
 
+.upvote.selected {
+  color: green;
+  background: #9d9;
+}
+
 .downvote {
   border-bottom-right-radius: 5px;
+}
+
+.downvote.selected {
+  color: #900;
+  background: #ebb;
 }
 
 .vote {
