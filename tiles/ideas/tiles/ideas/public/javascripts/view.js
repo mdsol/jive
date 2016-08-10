@@ -175,7 +175,7 @@ jive.tile.onOpen(function(config, options) {
                 let content = document.createElement("div");
                 content.classList.add("content");
                 let p = document.createElement("p");
-                p.textContent = fixFormatting(idea.content);
+                p.textContent = truncate( fixFormatting(idea.content), 500 );
                 content.appendChild(p);
                 right.appendChild(content);
             }
@@ -191,6 +191,22 @@ jive.tile.onOpen(function(config, options) {
             str = str.replace(/&#160;/g, " ");
             str = str.replace(/&amp;/g, "&");
             return str;
+        }
+
+        /*
+         * If str is longer than numChars characters, truncates str until the
+         * last space before the numChars character and adds an ellipsis
+         */
+        function truncate(str, numChars) {
+            if (str.length < numChars) {
+                return str;
+            }
+
+            var index = str.lastIndexOf(" ", numChars);
+            if (index === -1) {
+                index = numChars;
+            }
+            return str.substr(0, index) + " …";
         }
 
         function formatDate(rawDate) {
