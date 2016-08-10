@@ -11,11 +11,11 @@ jive.tile.onOpen(function(config, options) {
         var places = [ "/places/" + container.placeID ];
         var ideaList = [];
 
-        //if (config.place === "sub") {
-        //    getSubplaces(container);
-        //} else {
+        if (config.place === "sub") {
+            getSubplaces(container);
+        } else {
             getIdeas();
-        //}
+        }
 
         function getSubplaces(container) {
             // get sub-places of this place
@@ -101,7 +101,7 @@ jive.tile.onOpen(function(config, options) {
             var container = document.getElementById("idea-list");
             var emptyFunc = function() {};
 
-            for (let i = 0; i < config.numResults; i++) {
+            for (let i = 0; i < config.numResults && i < ideaList.length; i++) {
                 let idea = ideaList[i];
                 if (i > 0) {
                     container.appendChild( document.createElement("hr") );
