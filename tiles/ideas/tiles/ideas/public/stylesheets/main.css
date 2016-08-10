@@ -210,3 +210,13 @@ h2 {
   margin: 5px 0;
   font-size: 1.7em;
 }
+
+.content {
+  margin: 15px 0;
+}
+
+#idea-list > div {
+  display: inline-block;
+  width: 100%;
+  padding: 20px 0;
+}

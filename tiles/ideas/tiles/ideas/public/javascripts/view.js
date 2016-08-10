@@ -100,6 +100,9 @@ jive.tile.onOpen(function(config, options) {
 
             for (let i = 0; i < config.numResults; i++) {
                 let idea = ideaList[i];
+                if (i > 0) {
+                    container.appendChild( document.createElement("hr") );
+                }
 
                 let outerDiv = document.createElement("div");
                 container.appendChild(outerDiv);
@@ -152,6 +155,7 @@ jive.tile.onOpen(function(config, options) {
                 right.appendChild(details);
 
                 let content = document.createElement("div");
+                content.classList.add("content");
                 let p = document.createElement("p");
                 p.textContent = fixFormatting(idea.content);
                 content.appendChild(p);
