@@ -92,9 +92,9 @@ jive.tile.onOpen(function(config, options) {
         }
 
         function showIdeas() {
-            ideaList.sort(function(a, b) {
+            /*ideaList.sort(function(a, b) {
                 return b.score - a.score;
-            });
+            });*/
 
             var container = document.getElementById("idea-list");
 
@@ -135,6 +135,17 @@ jive.tile.onOpen(function(config, options) {
                 scoreNum.classList.add("score-num");
                 scoreNum.textContent = idea.score;
                 scoreBlock.appendChild(scoreNum);
+
+                let stage = document.createElement("span");
+                stage.classList.add("idea-stage");
+                if (idea.stage === "Active" || idea.stage === "For future consideration") {
+                    stage.classList.add("green-status");
+                } else if (idea.stage === "In progress" || idea.stage === "Partially implemented") {
+                    stage.classList.add("yellow-status");
+                }
+                stage.textContent = idea.stage;
+                scoreBlock.appendChild(stage);
+
                 //scoreBlock.textContent += "\nStage: " + idea.stage;
                 //scoreBlock.textContent += "\nVotes: " + idea.voteCount;
 

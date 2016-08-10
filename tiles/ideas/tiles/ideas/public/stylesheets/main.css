@@ -143,3 +143,20 @@ h2 {
   display: inline-block;
   width: 100%;
 }
+
+.idea-stage {
+  display: inline-block;
+  text-align: center;
+  width: 100%;
+  margin: 4px 0;
+}
+
+.green-status {
+  background-color: #EEFFEE;
+  color: #666666; 
+}
+
+.yellow-status {
+  background-color: #FFFEEE;
+  color: #666666;
+}
