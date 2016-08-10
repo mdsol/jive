@@ -12,6 +12,7 @@ jive.tile.onOpen(function(config, options) {
         var ideaList = [];
 
         if (config.place === "sub") {
+            var pending = 0;
             getSubplaces(container);
         } else {
             getIdeas();
@@ -19,32 +20,29 @@ jive.tile.onOpen(function(config, options) {
 
         function getSubplaces(container) {
             // get sub-places of this place
-            if (container.type !== "blog") {
-                pending++;
-                var options = {
-                    count: 100 // most likely not more than 100
-                }
-                container.getPlaces(options).execute(function(res) {
-                    if (res.error) {
-                        var code = res.error.code;
-                        var message = res.error.message;
-                        console.log(code + " " + message);
-                        // present the user with an appropriate error message
-                    } else {
-                        for (place of res.list) {
+            pending++;
+            var options = {
+                count: 100 // most likely not more than 100
+            }
+            container.getPlaces(options).execute(function(res) {
+                if (res.error) {
+                    var code = res.error.code;
+                    var message = res.error.message;
+                    console.log(code + " " + message);
+                    // present the user with an appropriate error message
+                } else {
+                    for (place of res.list) {
+                        if (place.type !== "blog") {
                             places.push("/places/" + place.placeID);
                             getSubplaces(place);
                         }
-                        pending--;
-                        if (pending == 0) {
-                            if (timer) {
-                                console.log("getSubplaces " + (Date.now() - start) + " ms");
-                            }
-                            getIdeas();
-                        }
                     }
-                });
-            }
+                    pending--;
+                    if (pending === 0) {
+                        getIdeas();
+                    }
+                }
+            });
         }
 
         function getIdeas(startIndex = 0) {
