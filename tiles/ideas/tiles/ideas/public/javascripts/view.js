@@ -1,5 +1,12 @@
 jive.tile.onOpen(function(config, options) {
     jive.tile.getContainer(function(container) {
+        // default config vals if no values given
+        config.numResults = config.numResults || 6;
+        config.place = config.place || "this";
+        config.sort = config.sort || "scoreDesc"
+        if (config.showLink === undefined) { config.showLink = true; }
+        config.linkText = config.linkText || "See More Ideas";
+        config.linkUrl = config.linkUrl || container.resources.html.ref + "/content?filterID=contentstatus%5Bpublished%5D~objecttype~objecttype%5Bidea%5D&sortKey=contentstatus%5Bpublished%5D~objecttype~objecttype%5Bidea%5D~ideaScoreDesc&sortOrder=0";
 
         // 0-11 mapped to month name
         var months = [
@@ -10,6 +17,13 @@ jive.tile.onOpen(function(config, options) {
 
         var places = [ "/places/" + container.placeID ];
         var ideaList = [];
+
+        var sortFns = {
+            "scoreDesc": function(a, b) { return b.score - a.score; },
+            "scoreAsc": function(a, b) { return a.score - b.score; },
+            "votesDesc": function(a, b) { return b.voteCount - a.voteCount; },
+            "votesAsc": function(a, b) { return a.voteCount - b.voteCount; }
+        };
 
         if (config.place === "sub") {
             var pending = 0;
@@ -47,9 +61,15 @@ jive.tile.onOpen(function(config, options) {
 
         function getIdeas(startIndex = 0) {
             var reqOptions = {
-                count: 100,
+                count: config.numResults,
                 startIndex: startIndex,
                 type: "idea"
+            }
+
+            if (config.sort in sortFns) {
+                reqOptions.count = 100;
+            } else {
+                reqOptions.sort = config.sort;
             }
             // add place if not "all places"
             if (config.place === "sub" || config.place === "this") {
@@ -92,9 +112,9 @@ jive.tile.onOpen(function(config, options) {
         }
 
         function showIdeas() {
-            /*ideaList.sort(function(a, b) {
-                return b.score - a.score;
-            });*/
+            if (config.sort in sortFns) {
+                ideaList.sort(sortFns[config.sort]);
+            }
 
             var container = document.getElementById("idea-list");
             var emptyFunc = function() {};

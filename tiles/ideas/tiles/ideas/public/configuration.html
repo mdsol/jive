@@ -22,23 +22,13 @@
         <label><input type="radio" name="place" value="all">All Places</input></label>
       </div>
       <div>
-        <label for="type"><strong>Content Type</strong></label>
-        <div id="type-cols">
-          <div class="col">
-            <label><input type="checkbox" name="type" value="discussion">Discussions</input></label>
-            <label><input type="checkbox" name="type" value="document">Documents</input></label>
-          </div>
-          <div class="col">
-            <label><input type="checkbox" name="type" value="question">Questions</input></label>
-            <label><input type="checkbox" name="type" value="idea">Ideas</input></label>
-            <label><input type="checkbox" name="type" value="poll">Polls</input></label>
-            <label id="all-label"><input type="checkbox" name="type" value="all">All Content Types</input></label>
-          </div>
-          <div class="col">
-            <label><input type="checkbox" name="type" value="post">Blog Posts</input></label>
-            <label><input type="checkbox" name="type" value="event">Events</input></label>
-          </div>
-        </div>
+        <label for="sort"><strong>Sort By</strong></label>
+        <label><input type="radio" name="sort" value="scoreDesc">Score</input></label>
+        <label><input type="radio" name="sort" value="votesDesc">Number of Votes</input></label>
+        <label><input type="radio" name="sort" value="dateCreatedDesc">Date Created (Newest to Oldest)</input></label>
+        <label><input type="radio" name="sort" value="dateCreatedAsc">Date Created (Oldest to Newest)</input></label>
+        <label><input type="radio" name="sort" value="latestActivityDesc">Latest Activity (Newest to Oldest)</input></label>
+        <label><input type="radio" name="sort" value="latestActivityAsc">Latest Activity (Oldest to Newest)</input></label>
       </div>
       <div id="footer-link">
         <label for="show-link"><strong>Add Link</strong></label>
