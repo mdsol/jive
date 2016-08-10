@@ -1,5 +1,4 @@
 body {
-    color: #5e5e5e;
     font: 13px "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
     background-color: #fff; /* Added because default bg color is gray */
     min-width: inherit; /* Added because tile does not stay within bounds and gets cut off */
@@ -7,34 +6,15 @@ body {
 
 button.j-btn {
     color: #fff;
+    padding: 7px 16px;
     text-shadow: 0 1px 0 rgba(0, 0, 0, 0.4);
     border: 1px solid #3169aa;
     border-color: rgba(46, 106, 182, 0.8);
     background: #408bd0;
     background: linear-gradient(to bottom, #62acde 0%, #4a8cca 100%);
     font-weight: 600;
-}
-
-button {
-    color: #3778C7;
-    padding: 7px 16px;
-    text-align: center;
-    border: 1px solid #bbb;
-    border-radius: 3px;
-    background: #fff;
-    background: #fff linear-gradient(to bottom, rgba(255, 255, 255, 0.07) 0%, rgba(0, 0, 0, 0.07) 100%);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 1px 2px rgba(0, 0, 0, 0.13);
     cursor: pointer;
-    display: inline-block;
-    line-height: normal;
-    text-shadow: 0 1px 0 white;
-    font-family: inherit;
-    font-size: 14px;
-    font-weight: 500;
-    background-clip: padding-box;
-    margin: 10px 0;
-    text-decoration: none;
-    outline: none;
+    border-radius: 3px;
 }
 
 /* type=text was deleted in order to apply this to other
@@ -88,29 +68,6 @@ div.error-box {
 @-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
 @keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
 
-@media (max-width: 725px) {
-  .fullpage-col {
-    display: none;
-  }
-}
-@media (min-width: 726px) {
-  .narrow-col {
-    display: none;
-  }
-}
-
-.avatar {
-  margin-right: 10px;
-}
-
-#content-table td {
-  vertical-align: middle;
-}
-
-th {
-  font-weight: bold;
-}
-
 .indent {
   margin-left: 20px;
 }
@@ -119,47 +76,10 @@ th {
   margin-top: 15px;
 }
 
-ul {
-  margin-bottom: 0px;
-}
-
-.col {
-  float: left;
-  width: 33%;
-}
-
-input[value="all"] {
-  text-align: center;
-}
-
 #footer-link {
   clear: both;
 }
 
-#all-label {
-  margin-top: 20px;
-}
-
-#type-cols {
-  float: left;
-  width: 100%;
-}
-
-.linkDescription {
-  color: #696057;
-}
-
-.linkDescription > a {
-  color: #008fbe;
-}
-
-.listItem > a {
-  color: #0055b7;
-}
-
-tr > td:nth-last-child(-n+2) {
-  white-space: nowrap;
-}
 
 
 
@@ -213,6 +133,10 @@ h2 {
 
 .content {
   margin: 15px 0;
+}
+
+#idea-list {
+  margin: 20px 0;
 }
 
 #idea-list > div {
