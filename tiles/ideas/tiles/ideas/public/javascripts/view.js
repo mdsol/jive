@@ -229,6 +229,7 @@ jive.tile.onOpen(function(config, options) {
                 right.appendChild(content);
             }
 
+            document.getElementById("loading").style.display = "none";
             gadgets.window.adjustHeight();
         }
 
