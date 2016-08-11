@@ -25,6 +25,7 @@ jive.tile.onOpen(function(config, options) {
             "votesAsc": function(a, b) { return a.voteCount - b.voteCount; }
         };
 
+
         if (config.place === "sub") {
             var pending = 0;
             getSubplaces(container);
@@ -229,6 +230,8 @@ jive.tile.onOpen(function(config, options) {
                 right.appendChild(content);
             }
 
+            setLink(); // set "See More" link
+
             document.getElementById("loading").style.display = "none";
             gadgets.window.adjustHeight();
         }
@@ -287,5 +290,13 @@ jive.tile.onOpen(function(config, options) {
             return dateStr;
         }
 
+        function setLink() {
+            if (config.showLink) {
+                var link = document.getElementById("link");
+                link.textContent = config.linkText;
+                link.setAttribute("href", config.linkUrl);
+                link.style.display = "inline";
+            }
+        }
     });
 });

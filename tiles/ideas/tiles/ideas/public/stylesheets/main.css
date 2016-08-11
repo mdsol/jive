@@ -181,3 +181,7 @@ h2 {
 #loading {
   color: #5e5e5e;
 }
+
+#link {
+  display: none;
+}

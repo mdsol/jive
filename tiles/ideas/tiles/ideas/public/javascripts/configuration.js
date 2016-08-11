@@ -12,8 +12,28 @@
             p.href = container.parent;
 
             // default url start
-            var defaultUrlThis = container.resources.html.ref + "/content?filterID=contentstatus%5Bpublished%5D~objecttype~objecttype%5Bidea%5D&sortKey=contentstatus%5Bpublished%5D~objecttype~objecttype%5Bidea%5D~ideaScoreDesc&sortOrder=0";
-            var defaultUrlAll = p.origin + "/content?sortKey=all~recentActivityDateDesc&sortOrder=0";
+            var defaultUrlThis = container.resources.html.ref + "/content?filterID=contentstatus%5Bpublished%5D~objecttype~objecttype%5Bidea%5D";
+            var defaultUrlAll = p.origin + "/content?filterID=all~objecttype~objecttype%5Bidea%5D";
+
+            var sortUrlEndings = {
+                "all": {
+                    "scoreDesc": "&sortKey=all~objecttype~objecttype%5Bidea%5D~ideaScoreDesc&sortOrder=0",
+                    "scoreAsc": "&sortKey=all~objecttype~objecttype%5Bidea%5D~ideaScoreAsc&sortOrder=1",
+                    "votesDesc": "&sortKey=all~objecttype~objecttype%5Bidea%5D~ideaPopularityDesc&sortOrder=0",
+                    "latestActivityDesc": "&sortKey=all~objecttype~objecttype%5Bidea%5D~recentActivityDateDesc&sortOrder=0",
+                },
+                "this": {
+                    "scoreDesc": "&sortKey=contentstatus%5Bpublished%5D~objecttype~objecttype%5Bidea%5D~ideaScoreDesc&sortOrder=0",
+                    "scoreAsc": "&sortKey=contentstatus%5Bpublished%5D~ideaScoreAsc&sortOrder=1&itemView=detail",
+                    "votesDesc": "&sortKey=contentstatus%5Bpublished%5D~objecttype~objecttype%5Bidea%5D~ideaPopularityDesc&sortOrder=0",
+                    "votesAsc": "&sortKey=contentstatus%5Bpublished%5D~ideaPopularityAsc&sortOrder=1&itemView=detail",
+                    "latestActivityAsc": "&sortKey=contentstatus%5Bpublished%5D~recentActivityDateAsc&sortOrder=1&itemView=detail",
+                    "latestActivityDesc": "&sortKey=contentstatus%5Bpublished%5D~objecttype~objecttype%5Bidea%5D~recentActivityDateDesc&sortOrder=0",
+                    "dateCreatedAsc": "&sortKey=contentstatus%5Bpublished%5D~creationDateAsc&sortOrder=1&itemView=detail",
+                    "dateCreatedDesc": "&sortKey=contentstatus%5Bpublished%5D~creationDateDesc&sortOrder=0&itemView=detail"
+                }
+            }
+            sortUrlEndings.sub = sortUrlEndings.this;
 
             // make sure config has default values
             if (config.data === undefined) {
@@ -24,7 +44,7 @@
                     sort: "scoreDesc",
                     showLink: true,
                     linkText: "See More Ideas",
-                    linkUrl: container.resources.html.ref + defaultUrlThis
+                    linkUrl: defaultUrlThis
                 };
             };
 
@@ -119,8 +139,8 @@
                             linkUrl.value = "http://" + linkUrl.value;
                         } else if (linkUrl.value === "") {
                             linkUrl.value = (config.data.place === "all" ? defaultUrlAll : defaultUrlThis);
-                            if (config.data.type.length === 1 && config.data.type[0] !== "all") {
-                                linkUrl.value += contentFilt[config.data.place][config.data.type[0]];
+                            if (config.data.sort in sortUrlEndings[config.data.place]) {
+                                linkUrl.value += sortUrlEndings[config.data.place][config.data.sort];
                             }
                         }
                         config.data.linkUrl = linkUrl.value;
