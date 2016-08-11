@@ -208,6 +208,7 @@ jive.tile.onOpen(function(config, options) {
 
                 let header = document.createElement("h2");
                 let subjectLink = document.createElement("a");
+                subjectLink.setAttribute("target", "_top");
                 subjectLink.setAttribute("href", idea.url);
                 subjectLink.textContent = fixFormatting(idea.subject);
                 header.appendChild(subjectLink);
@@ -216,6 +217,7 @@ jive.tile.onOpen(function(config, options) {
                 let details = document.createElement("div");
                 details.appendChild( document.createTextNode("Created on " + formatDate(idea.postDate) + " by ") );
                 let authorLink = document.createElement("a");
+                authorLink.setAttribute("target", "_top");
                 authorLink.setAttribute("href", idea.authorUrl);
                 authorLink.textContent = idea.author;
                 details.appendChild(authorLink);
