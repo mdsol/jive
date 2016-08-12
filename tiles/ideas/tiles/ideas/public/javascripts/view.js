@@ -1,7 +1,6 @@
 jive.tile.onOpen(function(config, options) {
     jive.tile.getContainer(function(container) {
         jive.tile.getExtendedProps(function(props) {
-            var beginning = Date.now();
             // default config vals if no values given
             config.numResults = config.numResults || 6;
             config.place = config.place || "this";
@@ -33,14 +32,10 @@ jive.tile.onOpen(function(config, options) {
 
             if (config.place === "sub") {
                 var pending = 0;
-                var start;
                 getSubplaces(container);
             }
 
             function getSubplaces(container) {
-                if (pending === 0) {
-                    start = Date.now();
-                }
                 // get sub-places of this place
                 pending++;
                 var options = {
@@ -61,7 +56,6 @@ jive.tile.onOpen(function(config, options) {
                         }
                         pending--;
                         if (pending === 0) {
-                            console.log((Date.now() - start) + " ms for getSubplaces");
                             jive.tile.updateExtendedProps({"places": places.join(",")}, emptyFunc);
                             if (props.places === undefined) {
                                 props.places = places.join(",");
@@ -77,7 +71,6 @@ jive.tile.onOpen(function(config, options) {
                     return;
                 }
 
-                var start = Date.now();
                 var reqOptions = {
                     count: config.numResults,
                     startIndex: startIndex,
@@ -123,9 +116,8 @@ jive.tile.onOpen(function(config, options) {
                                 voteDown: el.voteDown
                             });
                         }
-                        console.log(Date.now() - start + " ms for getIdeas");
 
-                        if (res.links && res.links.next) {
+                        if (res.getNextPage && !reqOptions.sort) {
                             getIdeas(startIndex + 100);
                         } else {
                             showIdeas();
@@ -135,7 +127,6 @@ jive.tile.onOpen(function(config, options) {
             }
 
             function showIdeas() {
-                var start = Date.now();
                 if (config.sort in sortFns) {
                     ideaList.sort(sortFns[config.sort]);
                 }
@@ -259,8 +250,6 @@ jive.tile.onOpen(function(config, options) {
                 document.getElementById("loading").style.display = "none";
                 gadgets.window.adjustHeight();
 
-                console.log(Date.now() - start + " ms for showIdeas");
-                console.log(Date.now() - beginning + " ms total");
             }
 
             /*
