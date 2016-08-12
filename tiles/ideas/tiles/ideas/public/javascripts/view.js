@@ -28,12 +28,16 @@ jive.tile.onOpen(function(config, options) {
 
         if (config.place === "sub") {
             var pending = 0;
+            var start;
             getSubplaces(container);
         } else {
             getIdeas();
         }
 
         function getSubplaces(container) {
+            if (pending === 0) {
+                start = Date.now();
+            }
             // get sub-places of this place
             pending++;
             var options = {
@@ -54,6 +58,7 @@ jive.tile.onOpen(function(config, options) {
                     }
                     pending--;
                     if (pending === 0) {
+                        console.log((Date.now() - start) + " ms for getSubplaces");
                         getIdeas();
                     }
                 }
@@ -61,10 +66,12 @@ jive.tile.onOpen(function(config, options) {
         }
 
         function getIdeas(startIndex = 0) {
+            var start = Date.now();
             var reqOptions = {
                 count: config.numResults,
                 startIndex: startIndex,
-                type: "idea"
+                type: "idea",
+                fields: "subject,author.displayName,lastActivityDate,published,stage,score,voteCount,voted,promote,content.text"
             }
 
             if (config.sort in sortFns) {
@@ -106,6 +113,7 @@ jive.tile.onOpen(function(config, options) {
                     if (res.links && res.links.next) {
                         getIdeas(startIndex + 100);
                     } else {
+                        console.log(Date.now() - start + " ms for getIdeas");
                         showIdeas();
                     }
                 }
@@ -113,6 +121,7 @@ jive.tile.onOpen(function(config, options) {
         }
 
         function showIdeas() {
+            var start = Date.now();
             if (config.sort in sortFns) {
                 ideaList.sort(sortFns[config.sort]);
             }
@@ -236,6 +245,8 @@ jive.tile.onOpen(function(config, options) {
 
             document.getElementById("loading").style.display = "none";
             gadgets.window.adjustHeight();
+            
+            console.log(Date.now() - start + " ms for showIdeas");
         }
 
         /*
