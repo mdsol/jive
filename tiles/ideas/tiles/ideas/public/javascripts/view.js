@@ -41,7 +41,9 @@ jive.tile.onOpen(function(config, options) {
             // get sub-places of this place
             pending++;
             var options = {
-                count: 100 // most likely not more than 100
+                count: 100, // most likely not more than 100
+                fields: "placeID",
+                filter: "type(space,project,group)"
             }
             container.getPlaces(options).execute(function(res) {
                 if (res.error) {
@@ -51,10 +53,8 @@ jive.tile.onOpen(function(config, options) {
                     // present the user with an appropriate error message
                 } else {
                     for (place of res.list) {
-                        if (place.type !== "blog") {
-                            places.push("/places/" + place.placeID);
-                            getSubplaces(place);
-                        }
+                        getSubplaces(place);
+                        places.push("/places/" + place.placeID);
                     }
                     pending--;
                     if (pending === 0) {
