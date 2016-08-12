@@ -19,7 +19,7 @@ jive.tile.onOpen(function(config, options) {
 
             var emptyFunc = function() {}; // does nothing
 
-            var places = [ "/places/" + container.placeID ];
+            var places = [];
             var ideaList = [];
 
             var sortFns = {
@@ -63,13 +63,20 @@ jive.tile.onOpen(function(config, options) {
                         if (pending === 0) {
                             console.log((Date.now() - start) + " ms for getSubplaces");
                             jive.tile.updateExtendedProps({"places": places.join(",")}, emptyFunc);
-                            //getIdeas();
+                            if (props.places === undefined) {
+                                props.places = places.join(",");
+                                getIdeas();
+                            }
                         }
                     }
                 });
             }
 
             function getIdeas(startIndex = 0) {
+                if (config.place === "sub" && props.places === undefined) {
+                    return;
+                }
+
                 var start = Date.now();
                 var reqOptions = {
                     count: config.numResults,
@@ -84,8 +91,11 @@ jive.tile.onOpen(function(config, options) {
                     reqOptions.sort = config.sort;
                 }
                 // add place if not "all places"
-                if (config.place === "sub" || config.place === "this") {
-                    reqOptions.place = props.places;
+                if (config.place !== "all") {
+                    reqOptions.place = "/places/" + container.placeID;
+                    if (config.place === "sub") {
+                        reqOptions.place += "," + props.places;
+                    }
                 }
                 var reqContent = osapi.jive.corev3.contents.get(reqOptions);
                 reqContent.execute(function(res) {
