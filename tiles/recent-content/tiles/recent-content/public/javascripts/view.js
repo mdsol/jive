@@ -20,9 +20,10 @@ jive.tile.onOpen(function(config, options) {
     config.numResults = config.numResults || 10;
     config.place = config.place || "sub";
     config.type = config.type || ["all"];
-    config.showLink = config.showLink === undefined ? true : config.showLink;
+    if (config.showLink === undefined) { config.showLink = true };
     config.linkText = config.linkText || "See More Recent Content";
     config.linkUrl = config.linkUrl || "";
+    if (config.featured === undefined) { config.featured = false; };
 
     var indexOfQ = config.type.indexOf("question");
     var getQuestions = indexOfQ !== -1;
