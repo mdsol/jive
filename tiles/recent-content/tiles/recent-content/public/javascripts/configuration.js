@@ -45,7 +45,8 @@
                     type: ["all"], // type is only ever ["all"] or an array of document types that doesn't include "all"
                     showLink: true,
                     linkText: "See More Recent Content",
-                    linkUrl: container.resources.html.ref + defaultUrlThis
+                    linkUrl: container.resources.html.ref + defaultUrlThis,
+                    featured: false
                 };
             };
 
@@ -56,6 +57,8 @@
             var showLink = document.getElementById("show-link");
             var linkText = document.getElementById("link-text");
             var linkUrl = document.getElementById("link-url");
+            var featured = document.getElementById("featured");
+
 
             // populate the dialog with existing config value
             title.value = config.data.title;
@@ -78,6 +81,7 @@
             $("#link-options").toggle(showLink.checked);
             linkText.value = config.data.linkText;
             linkUrl.value = config.data.linkUrl;
+            featured.checked = config.data.featured;
             gadgets.window.adjustHeight();
 
             function validate(data) {
@@ -123,7 +127,7 @@
                     types: types,
                     linkText: linkText,
                     linkUrl: linkUrl
-                }
+                };
                 if (validate(checkData)) {
                     // get all of the new values
                     config.data.title = title.value;
@@ -158,6 +162,8 @@
                         }
                         config.data.linkUrl = linkUrl.value;
                     }
+
+                    config.data.featured = featured.checked;
 
                     // submit
                     jive.tile.close(config, {} );
