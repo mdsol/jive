@@ -143,9 +143,9 @@ jive.tile.onOpen(function(config, options) {
                     container.appendChild(outerDiv);
 
                     let left = outerDiv.cloneNode(false);
-                    left.classList.add("col-sm-2", "left");
+                    left.classList.add("col-sm-2", "left", "col-xs-6", "col-xs-offset-3", "col-sm-offset-0");
                     let right = outerDiv.cloneNode(false);
-                    right.classList.add("col-sm-10", "right");
+                    right.classList.add("col-sm-10", "right", "col-xs-12");
                     outerDiv.appendChild(left);
                     outerDiv.appendChild(right);
 
@@ -314,6 +314,8 @@ jive.tile.onOpen(function(config, options) {
                     link.style.display = "inline";
                 }
             }
+
+            window.onresize = gadgets.window.adjustHeight;
         });
     });
 });
