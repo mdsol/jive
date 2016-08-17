@@ -1,15 +1,15 @@
 {
-    "displayName" : "ideas",
+    "displayName" : "Ideas",
     "name" : "ideas",
-    "description" : "ideas",
+    "description" : "Display a list of ideas.",
     "style": "CUSTOM_VIEW",
     "displayWidth" : "ALL",
     "dataProviderKey": "internal",
     "pageTypes" : [ "PLACE", "USER" ],
     "icons": {
-        "16": "https://developer.jivesoftware.com/DeveloperAssets/images/icons/jivedev-xsmall.png",
-        "48": "https://developer.jivesoftware.com/DeveloperAssets/images/icons/jivedev-small.png",
-        "128": "https://developer.jivesoftware.com/DeveloperAssets/images/icons/jivedev-med.png"
+        "16": "extension-16.png",
+        "48": "extension-48.png",
+        "128": "extension-128.png"
     },
     "config": "/ideas/configuration.html",
     "view": "/ideas/view.html?features=core-v3,tile,responsive"
