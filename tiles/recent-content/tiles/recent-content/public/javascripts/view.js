@@ -108,7 +108,7 @@ jive.tile.onOpen(function(config, options) {
                 startIndex: startIndex,
                 sort: "latestActivityDesc",
                 fields: "subject,author.displayName,iconCss,lastActivity,published,question,type"
-            }
+            };
             // add place if not "all places"
             if (config.place === "sub" || config.place === "this") {
                 reqOptions.place = places.join(",");
@@ -124,7 +124,11 @@ jive.tile.onOpen(function(config, options) {
 
             if (config.featured) {
                 osapi.jive.corev3.places.get({uri: reqOptions.place}).execute(function(res) {
-                    res.getFeaturedContent({filter: "type(" + reqOptions.type + ")",fields: reqOptions.fields}).execute(handleResults);
+                    options = { fields: reqOptions.fields };
+                    if (config.type[0] !== "all") {
+                        options.filter = "type(" + reqOptions.type + ")";
+                    }
+                    res.getFeaturedContent(options).execute(handleResults);
                 });
             } else {
                 osapi.jive.corev3.contents.get(reqOptions).execute(handleResults);
@@ -141,7 +145,7 @@ jive.tile.onOpen(function(config, options) {
                         console.log("getContent: " + (Date.now() - reqTime) + " ms");
                     }
                     for (let el of res.list) {
-                        if (el.type !== "discussion" || (getQuestions && el.question) || (getDiscussions && !el.question)) {
+                        if (config.type[0] === "all" || el.type !== "discussion" || (getQuestions && el.question) || (getDiscussions && !el.question)) {
                             docList.push({
                                 subject: replaceCodes(el.subject),
                                 url: el.resources.html.ref,
@@ -180,6 +184,12 @@ jive.tile.onOpen(function(config, options) {
         function showDocs() {
             if (timer) {
                 var showDocsBegin = Date.now();
+            }
+
+            if (config.featured) {
+                docList.sort(function(a, b) {
+                    return b.lastAct - a.lastAct;
+                });
             }
 
             var ul = document.getElementById("ul-list");
