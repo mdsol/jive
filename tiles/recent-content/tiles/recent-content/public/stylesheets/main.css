@@ -160,3 +160,7 @@ input[value="all"] {
 tr > td:nth-last-child(-n+2) {
   white-space: nowrap;
 }
+
+input[type="checkbox"] {
+  vertical-align: middle;
+}

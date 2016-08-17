@@ -195,4 +195,15 @@ $(document).ready(function() {
             allType.prop("disabled", true);
         }
     });
+
+    $("#featured").change(function() {
+        if (this.checked) {
+            $("input[name='place'][value='this']").prop("checked", true);
+        }
+    });
+    $("input[name='place']").change(function() {
+        if ($(this).filter(":checked").val() !== "this") {
+            document.getElementById("featured").checked = false;
+        }
+    });
 });
