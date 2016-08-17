@@ -116,11 +116,20 @@ jive.tile.onOpen(function(config, options) {
             if (config.type[0] !== "all") {
                 reqOptions.type = config.type.join(",");
             }
-            var reqContent = osapi.jive.corev3.contents.get(reqOptions);
+
             if (timer) {
                 var reqTime = Date.now();
             }
-            reqContent.execute(function(res) {
+
+            if (config.featured) {
+                osapi.jive.corev3.places.get({uri: reqOptions.place}).execute(function(res) {
+                    res.getFeaturedContent({filter: "type(" + reqOptions.type + ")",fields: reqOptions.fields}).execute(handleResults);
+                });
+            } else {
+                osapi.jive.corev3.contents.get(reqOptions).execute(handleResults);
+            }
+            
+            function handleResults(res) {
                 if (res.error) {
                     var code = res.error.code;
                     var message = res.error.message;
@@ -153,7 +162,7 @@ jive.tile.onOpen(function(config, options) {
                         showDocs();
                     }
                 }
-            });
+            }
         }
 
         function formatDate(date) {
@@ -177,7 +186,6 @@ jive.tile.onOpen(function(config, options) {
             var link = document.getElementById("link");
 
             for (var doc of docList) {
-
                 // create list node
                 var li = document.createElement("li");
                 li.classList.add("listItem", "showIcon", "ic24");
