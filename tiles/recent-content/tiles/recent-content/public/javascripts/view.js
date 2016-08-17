@@ -32,9 +32,9 @@ jive.tile.onOpen(function(config, options) {
     }
 
     // resize tile if the window changes size (responsive)
-    $(window).resize(function() {
+    window.onresize = function() {
         resize(config.showLink);
-    });
+    };
 
     // resizes window
     function resize(showLink) {
@@ -240,7 +240,7 @@ jive.tile.onOpen(function(config, options) {
                 var linkText = document.createTextNode(config.linkText);
                 link.appendChild(linkText);
             }
-            $(".glyphicon-refresh").hide();
+            document.getElementsByClassName("glyphicon-refresh")[0].style.display = "none";
 
             if (timer) {
                 console.log("showDocs " + (Date.now() - showDocsBegin) + " ms");
