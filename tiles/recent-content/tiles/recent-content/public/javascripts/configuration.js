@@ -26,7 +26,7 @@
                 event: "&filterID=all~objecttype~objecttype%5Bevent%5D~event%5Bupcoming%5D"
             }
         };
-        contentFilt.sub = contentFilt.this;
+        contentFilt.choose = contentFilt.sub = contentFilt.this;
 
         jive.tile.getContainer(function (container) {
             var p = document.createElement("a");
@@ -46,7 +46,7 @@
                     type: ["all"], // type is only ever ["all"] or an array of document types that doesn't include "all"
                     showLink: true,
                     linkText: "See More Recent Content",
-                    linkUrl: container.resources.html.ref + defaultUrlThis,
+                    linkUrl: defaultUrlThis,
                     featured: false
                 };
             };
@@ -198,7 +198,7 @@
                         document.getElementById("place-url").classList.add("error-box");
                         gadgets.window.adjustHeight();
                     } else {
-                        console.log(placeID);
+                        config.data.linkUrl = linkUrl.value = linkUrl.value.replace(container.resources.html.ref, url);
                         config.data.placeID = placeID;
                         callback();
                     }
