@@ -227,7 +227,7 @@ $(document).ready(function() {
             // enable the "all" checkbox
             allType.prop("checked", false);
             allType.prop("disabled", false);
-        } else if (otherTypes.filter(":checked").length === 6) {
+        } else if (otherTypes.filter(":checked").length === otherTypes.length) {
             // check the "all" checkbox if all the rest are checked
             // disable the "all" checkbox
             allType.prop("checked", true);
