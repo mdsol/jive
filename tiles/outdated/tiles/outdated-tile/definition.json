@@ -5,7 +5,7 @@
     "style": "CUSTOM_VIEW",
     "displayWidth" : "ALL",
     "dataProviderKey": "internal",
-    "pageTypes" : [ "PLACE", "USER" ],
+    "pageTypes" : ["PLACE", "USER", "NEWS", "MOBILE"],
     "icons": {
         "16": "https://developer.jivesoftware.com/DeveloperAssets/images/icons/jivedev-xsmall.png",
         "48": "https://developer.jivesoftware.com/DeveloperAssets/images/icons/jivedev-small.png",
