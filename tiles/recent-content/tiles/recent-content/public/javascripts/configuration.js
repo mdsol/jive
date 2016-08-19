@@ -165,12 +165,41 @@
 
                     config.data.featured = featured.checked;
 
-                    // submit
-                    jive.tile.close(config, {} );
+                    if (config.data.place === "choose") {
+                        getPlaceIdForUrl(document.getElementById("place-url").value, function() {
+                            jive.tile.close(config, {});
+                        });
+                    } else {
+                        // submit
+                        jive.tile.close(config, {} );
+                    }
                 } else {
                     gadgets.window.adjustHeight();
                 }
             });
+
+            function getPlaceIdForUrl(url, callback) {
+                url = url.replace(/\/+$/, ""); // remove trailing slashes
+                osapi.jive.corev3.places.search({
+                    search: url.split("/").pop()
+                }).execute(function(data) {
+                    var placeID;
+                    for (let el of data.list) {
+                        if (el.resources.html.ref === url) {
+                            placeID = el.placeID;
+                            break;
+                        }
+                    }
+                    if (placeID === undefined) {
+                        console.log("err");
+                    } else {
+                        console.log(placeID);
+                        config.data.placeID = placeID;
+                    }
+
+                    callback();
+                });
+            }
         });
     });
 })();
