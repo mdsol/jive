@@ -43,7 +43,16 @@ jive.tile.onOpen(function(config, options) {
         gadgets.window.adjustHeight( gadgets.window.getHeight() - shrinkBy );
     }
 
-    jive.tile.getContainer(function(container) {
+    var getContainer;
+    if (config.place === "choose") {
+        getContainer = function(callback) {
+            osapi.jive.corev3.places.get({uri: "/places/" + config.placeID}).execute(callback);
+        };
+    } else {
+        getContainer = jive.tile.getContainer;
+    }
+
+    getContainer(function(container) {
         // set default URL if none set
         if (config.linkUrl === "") {
             config.linkUrl = container.resources.html.ref + defaultUrlThis;
@@ -62,7 +71,8 @@ jive.tile.onOpen(function(config, options) {
 
         if (config.place === "sub") {
             getSubplaces(container);
-        } else if (config.place === "this" && config.type.indexOf("post") !== -1) {
+        } else if ((config.place === "this" || config.place === "choose") &&
+                (config.type.indexOf("post") !== -1 || config.type[0] === "all")) {
             container.getBlog().execute(function(blog) {
                 places.push("/places/" + blog.placeID);
                 getContent();
@@ -110,7 +120,7 @@ jive.tile.onOpen(function(config, options) {
                 fields: "subject,author.displayName,iconCss,lastActivity,published,question,type"
             };
             // add place if not "all places"
-            if (config.place === "sub" || config.place === "this") {
+            if (config.place !== "all") {
                 reqOptions.place = places.join(",");
             }
             // add type if not "all types"
