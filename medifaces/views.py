@@ -444,7 +444,7 @@ class MeHandler(webapp2.RequestHandler):
         dic = json.loads( result[result.find('{'):] )
         
         try:
-            img_url = dic['photos'][0]['value']
+            img_url = dic['thumbnailUrl']
         except KeyError:
             return {"error": "Couldn't find your profile picture in Medidata Express. Please upload one and try again!"}
 
