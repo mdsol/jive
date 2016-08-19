@@ -42,6 +42,7 @@
                     title: "Recent Content",
                     numResults: 10,
                     place: "sub",
+                    placeUrl: "",
                     type: ["all"], // type is only ever ["all"] or an array of document types that doesn't include "all"
                     showLink: true,
                     linkText: "See More Recent Content",
@@ -58,6 +59,7 @@
             var linkText = document.getElementById("link-text");
             var linkUrl = document.getElementById("link-url");
             var featured = document.getElementById("featured");
+            var placeUrl = document.getElementById("place-url");
 
 
             // populate the dialog with existing config value
@@ -69,6 +71,7 @@
                     break;
                 }
             }
+            placeUrl.value = config.data.placeUrl;
             for (let choice of types) {
                 if (config.data.type[0] === "all" || config.data.type.indexOf(choice.value) !== -1) {
                     choice.checked = true;
@@ -164,6 +167,7 @@
                     }
 
                     config.data.featured = featured.checked;
+                    config.data.placeUrl = placeUrl.value;
 
                     if (config.data.place === "choose") {
                         getPlaceIdForUrl(document.getElementById("place-url").value, function() {
@@ -191,13 +195,13 @@
                         }
                     }
                     if (placeID === undefined) {
-                        console.log("err");
+                        document.getElementById("place-url").classList.add("error-box");
+                        gadgets.window.adjustHeight();
                     } else {
                         console.log(placeID);
                         config.data.placeID = placeID;
+                        callback();
                     }
-
-                    callback();
                 });
             }
         });
