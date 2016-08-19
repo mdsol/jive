@@ -441,7 +441,7 @@ class MeHandler(webapp2.RequestHandler):
         uri = "https://mdsol.jiveon.com/api/core/v3/people/email/" + email
         base64string = base64.encodestring('{0}:{1}'.format(config.jive_username,config.jive_password))[:-1]
         result = urlfetch.fetch(url=uri, deadline=15, headers={'Authorization': 'Basic ' + base64string}).content
-        dic = json.loads( result[result.find('\n')+1:] )
+        dic = json.loads( result[result.find('{'):] )
         
         try:
             img_url = dic['photos'][0]['value']
