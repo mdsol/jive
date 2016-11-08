@@ -1,4 +1,7 @@
 (function() {
+     var sortOrder ="0";
+     var sortkey = "recentActivityDateDesc";
+     var myplace="";
     jive.tile.onOpen(function(config, options) {
         gadgets.window.adjustHeight();
 
@@ -29,14 +32,24 @@
         contentFilt.choose = contentFilt.sub = contentFilt.this;
 
         jive.tile.getContainer(function (container) {
+            //console.log(container);
             var p = document.createElement("a");
             p.href = container.parent;
-
+            console.log('p.origin',p.origin);
+            console.log('container.parent',container.parent);
+            
+            
+            
             // default url start
             var defaultUrlThis = container.resources.html.ref + "/content?sortKey=contentstatus%5Bpublished%5D~recentActivityDateDesc&sortOrder=0";
             var defaultUrlAll = p.origin + "/content?sortKey=all~recentActivityDateDesc&sortOrder=0";
-
+            
+            /*alert("defaultUrlThis: "+defaultUrlThis);
+            alert("defaultUrlAll: "+defaultUrlAll)*/
+            
             // make sure config has default values
+            //console.log('config.data: ',config.data);
+            
             if (config.data === undefined) {
                 config.data = {
                     title: "Recent Content",
@@ -47,13 +60,19 @@
                     showLink: true,
                     linkText: "See More Recent Content",
                     linkUrl: defaultUrlThis,
-                    featured: false
+                    featured: false,
+                    sortorder: sortOrder,
+                    sortkey: sortkey
                 };
             };
-
+                
+            /*console.log('config.data.linkUrl: ',config.data.linkUrl);
+            console.log('config.data.place: ',config.data.place);
+            console.log('sortOrder: ',config.data.sortorder,' sortKey: ',config.data.sortkey); */
+            
             var title = document.getElementById("title");
             var numResults = document.getElementById("num-results");
-            var radios = document.getElementsByName("place");
+            var radios = $("#selectplace");            
             var types = document.getElementsByName("type");
             var showLink = document.getElementById("show-link");
             var linkText = document.getElementById("link-text");
@@ -65,12 +84,59 @@
             // populate the dialog with existing config value
             title.value = config.data.title;
             numResults.value = config.data.numResults;
-            for (let choice of radios) {
+            
+                    
+            $("#selectplace > option").each(function(i) {
+                if($(this).val() == config.data.place) {
+                    $(this).attr('selected', true);
+                    $("#place-url").show();
+                    $("#div-place-url").show();
+                    
+                }else{
+                     $("#place-url").hide();
+                     $("#div-place-url").hide();
+                    }
+            });
+            
+            
+            
+            
+            
+            /*on place detaile  changes change the URL*/
+            $("#selectplace").change(function(){
+                //alert('selectplace: '+$(this).val());
+               
+                myplace = $(this).val();
+                if($(this).val() == "all") {
+                    //alert("this is all:: "+defaultUrlAll);
+                    linkUrl.value = defaultUrlAll;
+                    config.data.linkUrl = defaultUrlAll
+                    config.data.place = myplace;
+                }else{ 
+                    //alert("this is Else:: "+defaultUrlThis);
+                    linkUrl.value = defaultUrlThis;  
+                    config.data.linkUrl = defaultUrlThis;   
+                    config.data.place = myplace;
+                }
+                //alert($(this).val()+" : "+config.data.linkUrl);
+            });
+            
+            
+            /* Show filter selected with configuration value */
+            $("#selectfilter > option").each(function(i) {
+                if($(this).val() == config.data.sortkey) {
+                    $(this).attr('selected', true);         
+                }
+            });
+
+            
+            /*for (let choice of radios) {
                 if (choice.value === config.data.place) {
                     choice.checked = true;
                     break;
                 }
-            }
+            }*/
+            
             placeUrl.value = config.data.placeUrl;
             for (let choice of types) {
                 if (config.data.type[0] === "all" || config.data.type.indexOf(choice.value) !== -1) {
@@ -85,6 +151,38 @@
             linkText.value = config.data.linkText;
             linkUrl.value = config.data.linkUrl;
             featured.checked = config.data.featured;
+            
+            
+            // Adding Dynamic Filter from Config page 
+            
+            $('#selectfilter').change(function () {
+                
+                sortOrder = $('option:selected', this).attr('datasortorder');
+                sortkey = $(this).val();
+                //alert(sortKey+" :: "+sortOrder);
+                
+                defaultUrlThis = container.resources.html.ref + "/content?sortKey=contentstatus%5Bpublished%5D~"+sortkey+"&sortOrder="+sortOrder;
+                defaultUrlAll = p.origin + "/content?sortKey=all~"+sortkey+"&sortOrder="+sortOrder;   
+                
+                config.data.linkUrl = defaultUrlThis;
+                linkUrl.value = config.data.linkUrl;
+                config.data.sortkey = sortkey;
+                config.data.sortorder = sortOrder;
+                
+                //console.log('config.data.place: ',config.data.place);
+                //console.log('myplace: ',myplace);
+                
+                linkUrl.value = (config.data.place == "all" ? defaultUrlAll : defaultUrlThis);
+                
+                if(myplace == "all"){
+                  linkUrl.value =   defaultUrlAll;
+                }else{linkUrl.value =   defaultUrlThis;}
+               
+            });            
+                  
+            
+            
+            
             gadgets.window.adjustHeight();
 
             function validate(data) {
@@ -135,12 +233,15 @@
                     // get all of the new values
                     config.data.title = title.value;
                     config.data.numResults = Number(numResults.value);
-                    for (var choice of radios) {
+                    config.data.place = radios.val();
+                    config.data.sortkey = sortkey;
+                    config.data.sortorder = sortOrder;
+                    /*for (var choice of radios) {
                         if (choice.checked) {
                             config.data.place = choice.value;
                             break;
                         }
-                    }
+                    }*/
                     if ($("input[name='type'][value='all']").is(":checked")) {
                         config.data.type = ["all"];
                     } else {
@@ -184,11 +285,11 @@
 
             function getPlaceIdForUrl(url, callback) {
                 url = url.replace(/\/+$/, ""); // remove trailing slashes
-                osapi.jive.corev3.places.search({
+                osapi.jive.corev3.places.get({
                     search: url.split("/").pop()
                 }).execute(function(data) {
-                    var placeID;
-                    for (let el of data.list) {
+                    var placeID;                   
+                    for (let el of data.list) {                        
                         if (el.resources.html.ref === url) {
                             placeID = el.placeID;
                             break;
@@ -244,5 +345,19 @@ $(document).ready(function() {
         if ($(this).filter(":checked").val() !== "this") {
             document.getElementById("featured").checked = false;
         }
+    });
+    
+    
+    // added by vivek
+    
+    $('#selectplace').change(function () {
+        if($("#selectplace").val() == 'choose'){
+            $("#place-url").show();
+            $("#div-place-url").show();
+        }else{
+            $("#place-url").hide();
+             $("#div-place-url").hide();
+        }
+        gadgets.window.adjustHeight();
     });
 });

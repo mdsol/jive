@@ -12,10 +12,25 @@ var months = [
     "September", "October" , "November", "December"
 ];
 
+var sorting = {
+    creationDateDesc : "dateCreatedDesc",
+    creationDateAsc : "dateCreatedAsc",
+    recentActivityDateDesc : "latestActivityDesc",
+    recentActivityDateAsc : "latestActivityAsc"
+}; 
+    
+
+
 // default url endings
 var defaultUrlThis = "/content?sortKey=contentstatus%5Bpublished%5D~recentActivityDateDesc&sortOrder=0";
-jive.tile.onOpen(function(config, options) {
 
+jive.tile.onOpen(function(config, options) {
+    
+defaultUrlThis = "/content?sortKey=contentstatus%5Bpublished%5D~"+config.sortkey+"&sortOrder="+config.sortorder;
+   /* console.log('config',config);
+    console.log('options',options);*/
+    
+    
     // default config vals if no values given
     config.numResults = config.numResults || 10;
     config.place = config.place || "sub";
@@ -113,10 +128,11 @@ jive.tile.onOpen(function(config, options) {
 
         function getContent(startIndex = 0) {
             // get the recent content
+            //console.log(sorting);
             var reqOptions = {
                 count: config.numResults,
                 startIndex: startIndex,
-                sort: "latestActivityDesc",
+                sort: sorting[config.sortkey],
                 fields: "subject,author.displayName,iconCss,lastActivity,published,question,type"
             };
             // add place if not "all places"

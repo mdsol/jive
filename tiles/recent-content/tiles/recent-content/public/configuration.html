@@ -16,12 +16,33 @@
         <input class="j-text" type="number" min="1" max="100" step="1" id="num-results" required/>
       </div>
       <div>
+        <label for="filter"><strong>Content Filter By</strong></label>
+        <select name="filter" id="selectfilter" class="j-text">
+            <option value="creationDateDesc" datasortorder="0">Date Created: Newest First</option>
+            <option value="creationDateAsc" datasortorder="1"> Date Created: Oldest First</option>
+            <option value="recentActivityDateDesc" datasortorder="0" selected="selected">Latest Activity: Newest First</option>
+            <option value="recentActivityDateAsc" datasortorder="1">Latest Activity: Oldest First</option>
+        </select>
+        
+          
+      </div>
+        
+      <div>
         <label for="place"><strong>Content Location</strong></label>
-        <label><input type="radio" name="place" value="this">This Place</input></label>
+        <select name="place" id="selectplace" class="j-text">
+        <option value="this">This Place</option>
+        <option value="sub">This Place and Sub-Places</option>
+        <option value="all">All Places</option>
+        <option value="choose">Choose A Place</option>
+        </select>
+        <!--<label><input type="radio" name="place" value="this">This Place</input></label>
         <label><input type="radio" name="place" value="sub">This Place and Sub-Places</input></label>
         <label><input type="radio" name="place" value="all">All Places</input></label>
-        <label><input type="radio" name="place" value="choose">Choose A Place:</label>
-        <input type="url" class="j-text" id="place-url"></input>
+        <label><input type="radio" name="place" value="choose">Choose A Place:</label>-->
+      </div>
+      <div id="div-place-url" style="display:none;">
+            <input type="url" class="j-text" id="place-url">
+  
       </div>
       <div>
         <label for="type"><strong>Content Type</strong></label>
