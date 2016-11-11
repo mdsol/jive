@@ -32,7 +32,6 @@
         contentFilt.choose = contentFilt.sub = contentFilt.this;
 
         jive.tile.getContainer(function (container) {
-            //console.log(container);
             var p = document.createElement("a");
             p.href = container.parent;
             console.log('p.origin',p.origin);
@@ -44,9 +43,7 @@
             var defaultUrlThis = container.resources.html.ref + "/content?sortKey=contentstatus%5Bpublished%5D~recentActivityDateDesc&sortOrder=0";
             var defaultUrlAll = p.origin + "/content?sortKey=all~recentActivityDateDesc&sortOrder=0";
             
-            /*alert("defaultUrlThis: "+defaultUrlThis);
-            alert("defaultUrlAll: "+defaultUrlAll)*/
-            
+                    
             // make sure config has default values
             //console.log('config.data: ',config.data);
             
@@ -66,13 +63,15 @@
                 };
             };
                 
-            /*console.log('config.data.linkUrl: ',config.data.linkUrl);
+            console.log('config.data.linkUrl: ',config.data.linkUrl);
+            console.log('config.data: ',config.data);
             console.log('config.data.place: ',config.data.place);
-            console.log('sortOrder: ',config.data.sortorder,' sortKey: ',config.data.sortkey); */
+            console.log('sortOrder: ',config.data.sortorder,' sortKey: ',config.data.sortkey);
             
             var title = document.getElementById("title");
             var numResults = document.getElementById("num-results");
-            var radios = $("#selectplace");            
+            var radios = $("#selectplace");    
+            var sorting = $("#selectfilter");
             var types = document.getElementsByName("type");
             var showLink = document.getElementById("show-link");
             var linkText = document.getElementById("link-text");
@@ -85,10 +84,12 @@
             title.value = config.data.title;
             numResults.value = config.data.numResults;
             
-                    
-            $("#selectplace > option").each(function(i) {
-                if($(this).val() == config.data.place) {
+          /* for choose option*/          
+            $("#selectplace > option").each(function() {
+                $(this).prop("selected", false);
+                if($(this).val() == config.data.place && $(this).val() == "choose") {
                     $(this).attr('selected', true);
+                    $(this).prop('selected', true);
                     $("#place-url").show();
                     $("#div-place-url").show();
                     
@@ -99,46 +100,52 @@
             });
             
             
+             $("#selectplace > option").each(function() {
+                 $(this).prop("selected", false);
+                if($(this).val() == config.data.place) {
+                    $(this).prop('selected', true);
+                    $(this).attr('selected', true);
+                    //$(this).selected='selected';
+                }
+                
+            });
+            
+            
             
             
             
             /*on place detaile  changes change the URL*/
             $("#selectplace").change(function(){
-                //alert('selectplace: '+$(this).val());
                
                 myplace = $(this).val();
                 if($(this).val() == "all") {
-                    //alert("this is all:: "+defaultUrlAll);
                     linkUrl.value = defaultUrlAll;
                     config.data.linkUrl = defaultUrlAll
                     config.data.place = myplace;
                 }else{ 
-                    //alert("this is Else:: "+defaultUrlThis);
+                   
                     linkUrl.value = defaultUrlThis;  
                     config.data.linkUrl = defaultUrlThis;   
                     config.data.place = myplace;
                 }
-                //alert($(this).val()+" : "+config.data.linkUrl);
             });
             
             
             /* Show filter selected with configuration value */
-            $("#selectfilter > option").each(function(i) {
+            $("#selectfilter > option").each(function() {
+                 $(this).prop("selected", false);
                 if($(this).val() == config.data.sortkey) {
-                    $(this).attr('selected', true);         
+                    $(this).prop('selected', true);
+                    //$(this).attr('selected', true);
                 }
             });
 
             
-            /*for (let choice of radios) {
-                if (choice.value === config.data.place) {
-                    choice.checked = true;
-                    break;
-                }
-            }*/
+          
             
             placeUrl.value = config.data.placeUrl;
-            for (let choice of types) {
+            for (var choice in types) {
+                choice = types[choice];
                 if (config.data.type[0] === "all" || config.data.type.indexOf(choice.value) !== -1) {
                     choice.checked = true;
                     if (choice.value === "all") {
@@ -158,9 +165,7 @@
             $('#selectfilter').change(function () {
                 
                 sortOrder = $('option:selected', this).attr('datasortorder');
-                sortkey = $(this).val();
-                //alert(sortKey+" :: "+sortOrder);
-                
+                sortkey = $(this).val();                
                 defaultUrlThis = container.resources.html.ref + "/content?sortKey=contentstatus%5Bpublished%5D~"+sortkey+"&sortOrder="+sortOrder;
                 defaultUrlAll = p.origin + "/content?sortKey=all~"+sortkey+"&sortOrder="+sortOrder;   
                 
@@ -169,9 +174,7 @@
                 config.data.sortkey = sortkey;
                 config.data.sortorder = sortOrder;
                 
-                //console.log('config.data.place: ',config.data.place);
-                //console.log('myplace: ',myplace);
-                
+                               
                 linkUrl.value = (config.data.place == "all" ? defaultUrlAll : defaultUrlThis);
                 
                 if(myplace == "all"){
@@ -188,8 +191,10 @@
             function validate(data) {
                 var valid = true;
                 var inputs = document.getElementsByClassName("error-box");
-                for (var el of inputs) {
-                    el.classList.remove("error-box");
+                if(inputs.length){
+                    for (var el in inputs) {
+                        inputs[el].classList.remove("error-box");
+                    }
                 }
 
                 numResultsVal = Number(data.numResults.value);
@@ -234,7 +239,7 @@
                     config.data.title = title.value;
                     config.data.numResults = Number(numResults.value);
                     config.data.place = radios.val();
-                    config.data.sortkey = sortkey;
+                    config.data.sortkey = sorting.val();
                     config.data.sortorder = sortOrder;
                     /*for (var choice of radios) {
                         if (choice.checked) {
@@ -246,7 +251,8 @@
                         config.data.type = ["all"];
                     } else {
                         config.data.type = [];
-                        for (var choice of types) {
+                        for (var choice in types) {
+                            choice = types[choice];
                             if (choice.checked) {
                                 config.data.type.push(choice.value);
                             }
@@ -289,7 +295,8 @@
                     search: url.split("/").pop()
                 }).execute(function(data) {
                     var placeID;                   
-                    for (let el of data.list) {                        
+                    for (var el in data.list) {  
+                        el = data.list[el];
                         if (el.resources.html.ref === url) {
                             placeID = el.placeID;
                             break;
