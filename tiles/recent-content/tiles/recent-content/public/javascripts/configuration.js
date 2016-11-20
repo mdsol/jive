@@ -241,6 +241,7 @@
                     config.data.place = radios.val();
                     config.data.sortkey = sorting.val();
                     config.data.sortorder = sortOrder;
+                    config.data.linkUrl = linkUrl;
                     /*for (var choice of radios) {
                         if (choice.checked) {
                             config.data.place = choice.value;
