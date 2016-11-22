@@ -69,7 +69,7 @@ defaultUrlThis = "/content?sortKey=contentstatus%5Bpublished%5D~"+config.sortkey
 
     getContainer(function(container) {
         // set default URL if none set
-       // console.log('container:::',container);
+        console.log('container:::',container);
         if (config.linkUrl === "") {
             config.linkUrl = container.resources.html.ref + defaultUrlThis;
         }
@@ -136,8 +136,7 @@ defaultUrlThis = "/content?sortKey=contentstatus%5Bpublished%5D~"+config.sortkey
                 count: config.numResults,
                 startIndex: startIndex,
                 sort: sorting[config.sortkey],
-                fields: "subject,author.displayName,iconCss,lastActivity,published,question,type",
-                type:''
+                fields: "subject,author.displayName,iconCss,lastActivity,published,question,type"               
             };
             // add place if not "all places"
             if (config.place !== "all") {
@@ -145,11 +144,13 @@ defaultUrlThis = "/content?sortKey=contentstatus%5Bpublished%5D~"+config.sortkey
             }
             // add type if not "all types"
             if (config.type[0] !== "all") {
+                
                 for(var typeS in config.type){
                     if(config.type[typeS]){
                         //reqOptions.type = config.type.join(",");
+                        if(reqOptions.type == undefined){reqOptions.type='';}
                         reqOptions.type+=config.type[typeS]+',';
-                        //console.log('reqOptions -',reqOptions,'typeS',typeS,'config.type[typeS]',config.type[typeS]);
+                        console.log('reqOptions -',reqOptions,'typeS',typeS,'config.type[typeS]',config.type[typeS]);
                     }
                 }
             }

@@ -119,13 +119,15 @@
                
                 myplace = $(this).val();
                 if($(this).val() == "all") {
-                    linkUrl.value = defaultUrlAll;
-                    config.data.linkUrl = defaultUrlAll
+                    //linkUrl.value = defaultUrlAll;
+                    //config.data.linkUrl = defaultUrlAll;
                     config.data.place = myplace;
+                }else if($(this).val() == "choose"){
+                    //config.data.linkUrl = linkUrl.value;
                 }else{ 
                    
-                    linkUrl.value = defaultUrlThis;  
-                    config.data.linkUrl = defaultUrlThis;   
+                    //linkUrl.value = defaultUrlThis;  
+                    //config.data.linkUrl = defaultUrlThis;   
                     config.data.place = myplace;
                 }
             });
@@ -169,17 +171,19 @@
                 defaultUrlThis = container.resources.html.ref + "/content?sortKey=contentstatus%5Bpublished%5D~"+sortkey+"&sortOrder="+sortOrder;
                 defaultUrlAll = p.origin + "/content?sortKey=all~"+sortkey+"&sortOrder="+sortOrder;   
                 
-                config.data.linkUrl = defaultUrlThis;
-                linkUrl.value = config.data.linkUrl;
+                //config.data.linkUrl = defaultUrlThis;
+                //linkUrl.value = config.data.linkUrl;
                 config.data.sortkey = sortkey;
                 config.data.sortorder = sortOrder;
                 
                                
                 linkUrl.value = (config.data.place == "all" ? defaultUrlAll : defaultUrlThis);
                 
-                if(myplace == "all"){
-                  linkUrl.value =   defaultUrlAll;
-                }else{linkUrl.value =   defaultUrlThis;}
+               /* if(myplace == "all"){
+                  //linkUrl.value =   defaultUrlAll;
+                }else if(myplace == "choose"){
+                    config.data.linkUrl = linkUrl.value;
+                }else{linkUrl.value =   defaultUrlThis;}*/
                
             });            
                   
@@ -234,6 +238,12 @@
                     linkText: linkText,
                     linkUrl: linkUrl
                 };
+                
+                //if(myplace == "choose"){
+                    //alert(linkUrl.value);
+                    config.data.linkUrl = linkUrl.value;
+                //}
+                
                 if (validate(checkData)) {
                     // get all of the new values
                     config.data.title = title.value;
@@ -241,7 +251,7 @@
                     config.data.place = radios.val();
                     config.data.sortkey = sorting.val();
                     config.data.sortorder = sortOrder;
-                    config.data.linkUrl = linkUrl;
+                    config.data.linkUrl = linkUrl.value;
                     /*for (var choice of radios) {
                         if (choice.checked) {
                             config.data.place = choice.value;
@@ -267,11 +277,15 @@
                             linkUrl.value = "http://" + linkUrl.value;
                         } else if (linkUrl.value === "") {
                             linkUrl.value = (config.data.place === "all" ? defaultUrlAll : defaultUrlThis);
-                            if (config.data.type.length === 1 && config.data.type[0] !== "all") {
+                            /*if (config.data.type.length === 1 && config.data.type[0] !== "all") {
                                 linkUrl.value += contentFilt[config.data.place][config.data.type[0]];
-                            }
+                            }*/
                         }
                         config.data.linkUrl = linkUrl.value;
+                        //if(myplace == "choose"){
+                        //alert(linkUrl.value);
+                        config.data.linkUrl = linkUrl.value;
+                        //}
                     }
 
                     config.data.featured = featured.checked;
@@ -307,7 +321,7 @@
                         document.getElementById("place-url").classList.add("error-box");
                         gadgets.window.adjustHeight();
                     } else {
-                        config.data.linkUrl = linkUrl.value = linkUrl.value.replace(container.resources.html.ref, url);
+                       // config.data.linkUrl = linkUrl.value = linkUrl.value.replace(container.resources.html.ref, url);
                         config.data.placeID = placeID;
                         callback();
                     }
