@@ -1,0 +1,31 @@
+{
+    "clientUrl": "http://localhost",
+    "port": "8090",
+	"clientUrlExcludesPort": true,
+	"extensionInfo": {
+		"id": "32646e90-f365-4d5f-95b6-d03615bcd708",
+		"uuid": "32646e90-f365-4d5f-95b6-d03615bcd708",
+		"name": "Share an Idea",
+		"description": "Find previously asked and answered questions, or ask a new one.",
+		"icon_16": "extension-16.png",
+		"icon_48": "extension-48.png",
+		"icon_128": "extension-128.png",
+		"releasedOn": "2016-07-13T18:57:08.159Z"
+	},
+	"otherPropertiesToConsider" : {
+		"ignoreExtensionRegistrationSource": true,
+		"suppressAddonRegistration" : true,
+		"extensionInfo": {
+			"registerURL": "%serviceURL%/jive/oauth/register",
+			"unregisterURL": "%serviceURL%/jive/oauth/unregister",
+			"redirectURL" : "%serviceURL%/oauth/authorize",
+			"health_url": "%serviceURL%/monitor/health",
+			"config_url": "%serviceURL%/configure",
+			"author" : "Tyler Ishikawa",
+			"author_affiliation" : "Medidata Solutions",
+			"author_email" : "tyishikawa@mdsol.com",
+			"website_url": "https://www.mdsol.com",
+			"tags": "jive,integration,service,addon,ask,question,idea,search"
+		}
+	}
+}
