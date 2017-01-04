@@ -59,7 +59,7 @@ jive.tile.onOpen(function(config, options) {
                     } else {
                         var options = {
                             count: 100, // most likely not more than 100
-                            filter: "type(space,project,group)"
+                            type: "space,project,group"
                         }
                         res.getPlaces(options).execute(function(res) {
                             if (res.error) {

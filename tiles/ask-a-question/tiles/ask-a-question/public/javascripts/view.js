@@ -85,7 +85,7 @@
 
                 // make room for loading icon
                 if ($("#result-list").children().length === 0) {
-                    gadgets.window.adjustHeight( gadgets.window.getHeight() + $("#loading").height() * 1.5);
+                    gadgets.window.adjustHeight();
                 }
                 showLoading();
 
