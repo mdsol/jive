@@ -16,5 +16,22 @@
   <div class="text-center" id="loading">
     <span class="glyphicon glyphicon-refresh"></span>
   </div>
+  <!-- Google Analytics -->
+  <script>
+    var tracking_id = 'INSERT_TRACKING_ID_HERE'
+    var event_category = 'tile-load'
+    var tile_name = 'ideas';
+
+    jive.tile.getContainer(function(container) {
+      var space_url = container.resources.html.ref;
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+      ga('create', tracking_id, 'auto');
+      ga('send', 'event', event_category, tile_name, space_url);
+    });
+  </script>
+  <!-- End Google Analytics -->
 </body>
 </html>
