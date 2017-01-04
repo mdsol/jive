@@ -25,14 +25,11 @@ jive.tile.onOpen(function(config, options) {
     config.linkUrl = config.linkUrl || "";
 
     // resize tile if the window changes size (responsive)
-    $(window).resize(function() {
-        resize(config.showLink);
-    });
+    window.onresize = resize;
 
     // resizes window
-    function resize(showLink) {
-        var shrinkBy = showLink ? shrinkByLink : shrinkByNoLink;
-        gadgets.window.adjustHeight( gadgets.window.getHeight() - shrinkBy );
+    function resize() {
+        gadgets.window.adjustHeight();
     }
 
     jive.tile.getContainer(function(container) {
@@ -62,7 +59,7 @@ jive.tile.onOpen(function(config, options) {
                     } else {
                         var options = {
                             count: 100, // most likely not more than 100
-                            filter: "type(space,project,group)"
+                            type: "space,project,group"
                         }
                         res.getPlaces(options).execute(function(res) {
                             if (res.error) {
@@ -231,7 +228,7 @@ jive.tile.onOpen(function(config, options) {
             if (timer) {
                 console.log("showDocs " + (Date.now() - lap) + " ms");
             }
-            resize(config.showLink);
+            resize();
         }
 
     });
