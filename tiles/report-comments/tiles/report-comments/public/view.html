@@ -3,6 +3,7 @@
     <title>Tile App View</title>
     <meta http-equiv="Content-Type" value="text/html; charset=utf-8" />
     <link rel="stylesheet" type="text/css" href="/report-comments/stylesheets/main.css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
     <script src="/report-comments/javascripts/view.js"></script>
     <!-- NOTE: main.js SHOULD RUN LAST -->
@@ -11,7 +12,10 @@
 
 <body>
 
-<h2>Internal Custom View</h2>
-<p>Config info: <span id="config_string">content to be replaced by config value</span></p>
+  <h3>Comments (<span id="num-comments">0</span>)</h3>
+  <form>
+    <textarea id="comment-box" placeholder="Add a comment"></textarea>
+    <button id="btn-submit" class="btn btn-default pull-right">Submit</button>
+  </form>
 </body>
 </html>
