@@ -7,6 +7,7 @@
 **/extension_src/meta.json
 **/db/
 **/extension.zip
+**/logs
 *.swp
 
 # userprofileupdater
