@@ -1,3 +1,5 @@
+.DS_Store
+
 # tiles
 **/node_modules/
 **/extension_src/public/
