@@ -66,7 +66,7 @@ function onReady(tileConfig,tileOptions,viewer,container) {
             }
           }).execute(function(resp) {
             disc = resp;
-            anchor.href = disc.resources.html.ref;
+            anchor.attr("href", disc.resources.html.ref);
 
             createComment();
           });
@@ -91,7 +91,7 @@ function onReady(tileConfig,tileOptions,viewer,container) {
             }
           }).execute(function(resp) {
             disc.replyCount++;
-            $(anchor).text("Contents (" + disc.replyCount + ")");
+            anchor.text("Contents (" + disc.replyCount + ")");
             $("#title-text").empty().append(anchor);
           });
         }
