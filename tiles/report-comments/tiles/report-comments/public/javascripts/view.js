@@ -39,6 +39,7 @@ function onReady(tileConfig,tileOptions,viewer,container) {
                       + (disc === undefined ? 0 : disc.replyCount)
                       + ")";
       var anchor = $("<a>", { text: titleText,
+                              target: "_top",
                               href: disc === undefined ? "" : disc.resources.html.ref });
 
       $("#title-text").append(disc === undefined ? titleText : anchor);
@@ -75,6 +76,8 @@ function onReady(tileConfig,tileOptions,viewer,container) {
         }
 
         function createComment() {
+          $("#comment-box, #btn-submit").prop("disabled", true).css("opacity", 0.5);
+
           osapi.jive.core.post({
             v: "v3",
             href: "/messages/contents/" + disc.contentID,
@@ -93,6 +96,9 @@ function onReady(tileConfig,tileOptions,viewer,container) {
             disc.replyCount++;
             anchor.text("Contents (" + disc.replyCount + ")");
             $("#title-text").empty().append(anchor);
+
+            $("#comment-box").val("");
+            $("#comment-box, #btn-submit").prop("disabled", false).css("opacity", 1);
           });
         }
       })
