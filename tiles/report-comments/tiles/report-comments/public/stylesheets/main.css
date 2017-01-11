@@ -31,4 +31,5 @@ textarea#comment-box {
 #posted-text {
   margin: 20px;
   float: left;
+  display: none;
 }

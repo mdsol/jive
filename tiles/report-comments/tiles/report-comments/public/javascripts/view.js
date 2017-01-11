@@ -93,6 +93,7 @@ function onReady(tileConfig,tileOptions,viewer,container) {
               type: "message"
             }
           }).execute(function(resp) {
+            console.log(resp);
             disc.replyCount++;
             anchor.text("Contents (" + disc.replyCount + ")");
             $("#title-text").empty().append(anchor);
@@ -100,9 +101,7 @@ function onReady(tileConfig,tileOptions,viewer,container) {
             $("#comment-box").val("");
             $("#comment-box, #btn-submit").prop("disabled", false).css("opacity", 1);
 
-            var postedText = $("<div>", {id: "posted-text",
-                                          text: "Your comment has been posted"});
-            $("#btn-submit").before(postedText);
+            $("#posted-text").show();
             setTimeout(function() {
               $("#posted-text").fadeOut("slow");
             }, 2000);
