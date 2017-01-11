@@ -37,12 +37,10 @@ function onReady(tileConfig,tileOptions,viewer,container) {
       return false;
     })[0];
 
-    var queryStr = "/search/contents?filter=type(discussion)";
-    queryStr += "&filter=search(" + page.name + ")";
-
-    osapi.jive.core.get({
-      v: "v3",
-      href: queryStr
+    osapi.jive.corev3.contents.get({
+      place: "/places/" + container.placeID,
+      type: "discussion",
+      search: page.name
     }).execute(function(resp) {
       var disc = resp.list.filter(function(x) {return x.subject === page.name})[0];
       var titleText = "Contents ("
