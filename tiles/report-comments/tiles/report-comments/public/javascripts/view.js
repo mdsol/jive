@@ -100,10 +100,10 @@ function onReady(tileConfig,tileOptions,viewer,container) {
             $("#comment-box").val("");
             $("#comment-box, #btn-submit").prop("disabled", false).css("opacity", 1);
 
-            var postedText = $("<span>", {id: "posted-text",
+            var postedText = $("<div>", {id: "posted-text",
                                           text: "Your comment has been posted"});
             $("#btn-submit").before(postedText);
-            setInterval(function() {
+            setTimeout(function() {
               $("#posted-text").fadeOut("slow");
             }, 2000);
           });

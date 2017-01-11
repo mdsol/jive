@@ -27,3 +27,8 @@ textarea#comment-box {
   height: 200px;
   resize: none;
 }
+
+#posted-text {
+  margin: 20px;
+  float: left;
+}
