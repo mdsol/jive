@@ -1,0 +1,35 @@
+body {
+    color: #5e5e5e;
+    font: 13px "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    background-color: #fff; /* Added because default bg color is gray */
+    min-width: inherit; /* Added because tile does not stay within bounds and gets cut off */
+    padding: 0 10px;
+}
+
+
+#btn-submit {
+  margin-top: 20px;
+}
+
+.glyphicon-refresh {
+  display: inline-block;
+  font-size: 3em;
+  -webkit-animation:spin 4s linear infinite;
+  -moz-animation:spin 4s linear infinite;
+  animation:spin 4s linear infinite;
+}
+@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+
+textarea#comment-box {
+  width: 100%;
+  height: 100px;
+  resize: none;
+}
+
+#posted-text {
+  margin: 20px;
+  float: left;
+  display: none;
+}

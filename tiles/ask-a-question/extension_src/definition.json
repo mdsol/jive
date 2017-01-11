@@ -21,8 +21,8 @@
                 "48": "extension-48.png",
                 "128": "extension-128.png"
             },
-            "config": "/public/tiles/ask-a-question/configuration.html?ts=1483569929680",
-            "view": "/public/tiles/ask-a-question/view.html?features=core-v3,tile,responsive&ts=1483569929680"
+            "config": "/public/tiles/ask-a-question/configuration.html?ts=1483630416532",
+            "view": "/public/tiles/ask-a-question/view.html?features=core-v3,tile,responsive&ts=1483630416532"
         }
     ]
 }

@@ -1,0 +1,16 @@
+{
+    "displayName" : "Report Comments",
+    "name" : "report-comments",
+    "description" : "Show number of comments on a report and allow the user to post new comments.",
+    "style": "CUSTOM_VIEW",
+    "displayWidth" : "ALL",
+    "dataProviderKey": "internal",
+    "pageTypes" : [ "PLACE", "USER", "NEWS", "MOBILE" ],
+    "icons": {
+        "16": "extension-16.png",
+        "48": "extension-48.png",
+        "128": "extension-128.png"
+    },
+    "config": "/report-comments/configuration.html?features=responsive,tile,core-v3",
+    "view": "/report-comments/view.html?features=responsive,tile,core-v3"
+}

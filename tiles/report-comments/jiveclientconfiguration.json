@@ -1,0 +1,37 @@
+{
+    "clientUrl": "http://localhost",
+    "port": "8090",
+    "clientUrlExcludesPort": true,
+    "logLevel": "DEBUG",
+    "logFile" : "logs/jive-sdk.log",
+    "logFileSize" : 20480,
+    "logFileNumBackups" : 3,
+    "extensionInfo": {
+        "id": "f0f91de4-9ae1-461c-8deb-8d661846edd7",
+        "uuid": "f0f91de4-9ae1-461c-8deb-8d661846edd7",
+        "name": "Report Comments",
+        "description": "Show number of comments on a report and allow the user to post new comments.",
+        "icon_16": "extension-16.png",
+        "icon_48": "extension-48.png",
+        "icon_128": "extension-128.png",
+        "releasedOn": "2017-01-05T16:39:30.692Z"
+    },
+    "otherPropertiesToConsider" : {
+        "ignoreExtensionRegistrationSource": true,
+        "suppressAddonRegistration" : true,
+        "persistence": "mongo",
+        "persistenceInitializer" : {},
+        "extensionInfo": {
+            "registerURL": "%serviceURL%/jive/oauth/register",
+            "unregisterURL": "%serviceURL%/jive/oauth/unregister",
+            "redirectURL" : "%serviceURL%/oauth/authorize",
+            "health_url": "%serviceURL%/monitor/health",
+            "config_url": "%serviceURL%/configure",
+            "author" : "Tyler Ishikawa",
+            "author_affiliation" : "Medidata Solutions",
+            "author_email" : "tyishikawa@mdsol.com",
+            "website_url": "https://www.mdsol.com",
+            "tags": "jive,integration,service,addon,report,comments"
+        }
+    }
+}

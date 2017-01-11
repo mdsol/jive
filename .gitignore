@@ -1,3 +1,5 @@
+.DS_Store
+
 # tiles
 **/node_modules/
 **/extension_src/public/
@@ -5,6 +7,7 @@
 **/extension_src/meta.json
 **/db/
 **/extension.zip
+**/logs
 *.swp
 
 # userprofileupdater
