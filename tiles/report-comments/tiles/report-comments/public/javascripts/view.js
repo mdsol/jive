@@ -9,6 +9,21 @@
 //NOTE: CALLED AS SOON AS THE FULL CONTEXT IS RESOLVED
 //************************************************************************
 function onReady(tileConfig,tileOptions,viewer,container) {
+  var entityMap = {
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': '&quot;',
+    "'": '&#39;',
+    "/": '&#x2F;'
+  };
+
+  function escapeHtml(string) {
+    return String(string).replace(/[&<>"'\/]/g, function (s) {
+      return entityMap[s];
+    });
+  }
+
   osapi.jive.core.get({
     v: "v3",
     href: "/places/" + container.placeID + "/pages"
@@ -22,8 +37,6 @@ function onReady(tileConfig,tileOptions,viewer,container) {
       return false;
     })[0];
 
-    console.log(page);
-    console.log(container);
     var queryStr = "/search/contents?filter=type(discussion)";
     queryStr += "&filter=search(" + page.name + ")";
     console.log(container.placeID);
@@ -46,7 +59,7 @@ function onReady(tileConfig,tileOptions,viewer,container) {
       app.resize();
 
       $("#btn-submit").click(function() {
-        var comment = $("#comment-box").val().trim();
+        var comment = escapeHtml($("#comment-box").val().trim());
         if (comment === "") {
           return;
         }
