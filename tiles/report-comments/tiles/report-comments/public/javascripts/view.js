@@ -51,6 +51,7 @@ function onReady(tileConfig,tileOptions,viewer,container) {
                               href: disc === undefined ? "" : disc.resources.html.ref });
 
       $("#title-text").append(disc === undefined ? titleText : anchor);
+      $("body").show();
       app.resize();
 
       $("#btn-submit").click(function() {

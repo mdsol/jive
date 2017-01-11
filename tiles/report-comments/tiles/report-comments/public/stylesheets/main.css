@@ -4,6 +4,7 @@ body {
     background-color: #fff; /* Added because default bg color is gray */
     min-width: inherit; /* Added because tile does not stay within bounds and gets cut off */
     padding: 0 10px;
+    display: none;
 }
 
 
