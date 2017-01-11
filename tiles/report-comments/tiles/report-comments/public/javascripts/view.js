@@ -39,14 +39,11 @@ function onReady(tileConfig,tileOptions,viewer,container) {
 
     var queryStr = "/search/contents?filter=type(discussion)";
     queryStr += "&filter=search(" + page.name + ")";
-    console.log(container.placeID);
-    console.log(queryStr);
 
     osapi.jive.core.get({
       v: "v3",
       href: queryStr
     }).execute(function(resp) {
-      console.log(resp);
       var disc = resp.list.filter(function(x) {return x.subject === page.name})[0];
       var titleText = "Contents ("
                       + (disc === undefined ? 0 : disc.replyCount)
@@ -106,7 +103,6 @@ function onReady(tileConfig,tileOptions,viewer,container) {
               type: "message"
             }
           }).execute(function(resp) {
-            console.log(resp);
             disc.replyCount++;
             anchor.text("Contents (" + disc.replyCount + ")");
             $("#title-text").empty().append(anchor);
