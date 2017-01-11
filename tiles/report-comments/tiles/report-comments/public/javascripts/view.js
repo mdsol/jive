@@ -43,6 +43,59 @@ function onReady(tileConfig,tileOptions,viewer,container) {
 
       $("#title-text").append(disc === undefined ? titleText : anchor);
       app.resize();
+
+      $("#btn-submit").click(function() {
+        var comment = $("#comment-box").val().trim();
+        if (comment === "") {
+          return;
+        }
+
+        if (disc === undefined) {
+          // create new discussion about page
+          osapi.jive.core.post({
+            v: "v3",
+            href: "/contents",
+            body: {
+              type: "discussion",
+              subject: page.name,
+              content: {
+                type: "text/html",
+                text: "Feel free to discuss " + page.name + " below."
+              },
+              parent: "/places/" + container.placeID
+            }
+          }).execute(function(resp) {
+            disc = resp;
+            anchor.href = disc.resources.html.ref;
+
+            createComment();
+          });
+        } else {
+          createComment();
+        }
+
+        function createComment() {
+          osapi.jive.core.post({
+            v: "v3",
+            href: "/messages/contents/" + disc.contentID,
+            body: {
+              content: {
+                type: "text/html",
+                text: "<body>"
+                      + comment.split("\n")
+                               .map(function(x) {return "<p>" + x + "</p>"})
+                               .join("")
+                      + "</body>"
+              },
+              type: "message"
+            }
+          }).execute(function(resp) {
+            disc.replyCount++;
+            $(anchor).text("Contents (" + disc.replyCount + ")");
+            $("#title-text").empty().append(anchor);
+          });
+        }
+      })
     });
   });
 
