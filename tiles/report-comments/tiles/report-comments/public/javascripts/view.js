@@ -43,7 +43,7 @@ function onReady(tileConfig,tileOptions,viewer,container) {
       search: page.name
     }).execute(function(resp) {
       var disc = resp.list.filter(function(x) {return x.subject === page.name})[0];
-      var titleText = "Contents ("
+      var titleText = "Comments ("
                       + (disc === undefined ? 0 : disc.replyCount)
                       + ")";
       var anchor = $("<a>", { text: titleText,
@@ -51,6 +51,7 @@ function onReady(tileConfig,tileOptions,viewer,container) {
                               href: disc === undefined ? "" : disc.resources.html.ref });
 
       $("#title-text").append(disc === undefined ? titleText : anchor);
+      $("body").show();
       app.resize();
 
       $("#btn-submit").click(function() {
@@ -102,7 +103,7 @@ function onReady(tileConfig,tileOptions,viewer,container) {
             }
           }).execute(function(resp) {
             disc.replyCount++;
-            anchor.text("Contents (" + disc.replyCount + ")");
+            anchor.text("Comments (" + disc.replyCount + ")");
             $("#title-text").empty().append(anchor);
 
             $("#comment-box").val("");
