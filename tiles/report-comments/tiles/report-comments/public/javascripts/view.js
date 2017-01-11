@@ -34,14 +34,14 @@ function onReady(tileConfig,tileOptions,viewer,container) {
       href: queryStr
     }).execute(function(resp) {
       console.log(resp);
-      var discList = resp.list.filter(function(x) {return x.subject === page.name});
+      var disc = resp.list.filter(function(x) {return x.subject === page.name})[0];
       var titleText = "Contents ("
-                      + (discList.length === 0 ? 0 : discList[0].replyCount)
+                      + (disc === undefined ? 0 : disc.replyCount)
                       + ")";
       var anchor = $("<a>", { text: titleText,
-                              href: discList[0].resources.html.ref });
+                              href: disc === undefined ? "" : disc.resources.html.ref });
 
-      $("#title-text").append(discList.length === 0 ? titleText : anchor);
+      $("#title-text").append(disc === undefined ? titleText : anchor);
       app.resize();
     });
   });
