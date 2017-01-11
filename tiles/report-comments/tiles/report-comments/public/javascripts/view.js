@@ -22,7 +22,7 @@ function onReady(tileConfig,tileOptions,viewer,container) {
       return false;
     })[0];
 
-    console.log(page.name);
+    console.log(page);
     console.log(container);
     var queryStr = "/search/contents?filter=type(discussion)";
     queryStr += "&filter=search(" + page.name + ")";
@@ -61,7 +61,7 @@ function onReady(tileConfig,tileOptions,viewer,container) {
               subject: page.name,
               content: {
                 type: "text/html",
-                text: "Feel free to discuss " + page.name + " below."
+                text: "Feel free to discuss <a href=\"" + page.resources.html.ref + "\">" + page.name + "</a> below."
               },
               parent: "/places/" + container.placeID
             }
