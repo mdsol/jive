@@ -37,12 +37,14 @@ function onReady(tileConfig,tileOptions,viewer,container) {
       return false;
     })[0];
 
+    var discName = page.name + " comments";
+
     osapi.jive.corev3.contents.get({
       place: "/places/" + container.placeID,
       type: "discussion",
-      search: page.name
+      search: discName
     }).execute(function(resp) {
-      var disc = resp.list.filter(function(x) {return x.subject === page.name})[0];
+      var disc = resp.list.filter(function(x) {return x.subject === discName})[0];
       var titleText = "Comments ("
                       + (disc === undefined ? 0 : disc.replyCount)
                       + ")";
@@ -67,7 +69,7 @@ function onReady(tileConfig,tileOptions,viewer,container) {
             href: "/contents",
             body: {
               type: "discussion",
-              subject: page.name,
+              subject: discName,
               content: {
                 type: "text/html",
                 text: "Feel free to discuss <a href=\"" + page.resources.html.ref + "\">" + page.name + "</a> below."
