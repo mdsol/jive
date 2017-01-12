@@ -1,15 +1,15 @@
 {
-    "displayName" : "rss-feed",
+    "displayName" : "RSS Feed",
     "name" : "rss-feed",
-    "description" : "rss-feed",
+    "description" : "Display an RSS feed.",
     "style": "CUSTOM_VIEW",
     "displayWidth" : "ALL",
     "dataProviderKey": "internal",
-    "pageTypes" : [ "PLACE", "USER" ],
+    "pageTypes" : [ "PLACE", "USER", "NEWS", "MOBILE" ],
     "icons": {
-        "16": "https://developer.jivesoftware.com/DeveloperAssets/images/icons/jivedev-xsmall.png",
-        "48": "https://developer.jivesoftware.com/DeveloperAssets/images/icons/jivedev-small.png",
-        "128": "https://developer.jivesoftware.com/DeveloperAssets/images/icons/jivedev-med.png"
+        "16": "extension-16.png",
+        "48": "extension-48.png",
+        "128": "extension-128.png"
     },
     "config": "/rss-feed/configuration.html?features=responsive,tile,core-v3",
     "view": "/rss-feed/view.html?features=responsive,tile,core-v3"
