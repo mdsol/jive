@@ -40,7 +40,7 @@ button {
 /* type=text was deleted in order to apply this to other
  * kinds of input fields, like type=number
  */
-input.j-text {
+input.j-text, select.j-text {
     border-radius: 4px;
     border: 1px solid #bbb;
     border-bottom: 1px solid #dadada;

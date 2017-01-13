@@ -12,18 +12,33 @@ var months = [
     "September", "October" , "November", "December"
 ];
 
+var sorting = {
+    creationDateDesc : "dateCreatedDesc",
+    creationDateAsc : "dateCreatedAsc",
+    recentActivityDateDesc : "latestActivityDesc",
+    recentActivityDateAsc : "latestActivityAsc"
+}; 
+    
+
+
 // default url endings
 var defaultUrlThis = "/content?sortKey=contentstatus%5Bpublished%5D~recentActivityDateDesc&sortOrder=0";
-jive.tile.onOpen(function(config, options) {
 
+jive.tile.onOpen(function(config, options) {
+    
+defaultUrlThis = "/content?sortKey=contentstatus%5Bpublished%5D~"+config.sortkey+"&sortOrder="+config.sortorder;
+    console.log('config',config);
+    console.log('options',options);
+    
+      
     // default config vals if no values given
     config.numResults = config.numResults || 10;
     config.place = config.place || "sub";
     config.type = config.type || ["all"];
-    if (config.showLink === undefined) { config.showLink = true; }
+    if (config.showLink === undefined) { config.showLink = true };
     config.linkText = config.linkText || "See More Recent Content";
     config.linkUrl = config.linkUrl || "";
-    if (config.featured === undefined) { config.featured = false; }
+    if (config.featured === undefined) { config.featured = false; };
 
     var indexOfQ = config.type.indexOf("question");
     var getQuestions = indexOfQ !== -1;
@@ -51,6 +66,7 @@ jive.tile.onOpen(function(config, options) {
 
     getContainer(function(container) {
         // set default URL if none set
+        console.log('container:::',container);
         if (config.linkUrl === "") {
             config.linkUrl = container.resources.html.ref + defaultUrlThis;
         }
@@ -67,18 +83,20 @@ jive.tile.onOpen(function(config, options) {
         var places = ["/places/" + container.placeID];
 
         if (config.place === "sub") {
+            //console.log('container sub:::',container);
             getSubplaces(container);
         } else if ((config.place === "this" || config.place === "choose") &&
                 (config.type.indexOf("post") !== -1 || config.type[0] === "all")) {
             container.getBlog().execute(function(blog) {
                 places.push("/places/" + blog.placeID);
-                getContent();
+                getContent(0);
             });
         } else {
-            getContent();
+            getContent(0);
         }
 
         function getSubplaces(container) {
+            //console.log('getSubplaces-container:',container);
             // get sub-places of this place
             if (container.type !== "blog") {
                 pending++;
@@ -89,32 +107,33 @@ jive.tile.onOpen(function(config, options) {
                     if (res.error) {
                         var code = res.error.code;
                         var message = res.error.message;
-                        console.log(code + " " + message);
+                        console.log("Error getSubplaces: "+code + " " + message);
                         // present the user with an appropriate error message
                     } else {
-                        for (place of res.list) {
-                            places.push("/places/" + place.placeID);
-                            getSubplaces(place);
+                        for (place in res.list) {
+                             places.push("/places/" + res.list[place].placeID);
+                             getSubplaces(res.list[place]);
                         }
                         pending--;
                         if (pending == 0) {
                             if (timer) {
                                 console.log("getSubplaces " + (Date.now() - start) + " ms");
                             }
-                            getContent();
+                            getContent(0);
                         }
                     }
                 });
             }
         }
 
-        function getContent(startIndex = 0) {
+        function getContent(startIndex) {
             // get the recent content
+            //console.log(sorting);
             var reqOptions = {
                 count: config.numResults,
                 startIndex: startIndex,
-                sort: "latestActivityDesc",
-                fields: "subject,author.displayName,iconCss,lastActivity,published,question,type"
+                sort: sorting[config.sortkey],
+                fields: "subject,author.displayName,iconCss,lastActivity,published,question,type"               
             };
             // add place if not "all places"
             if (config.place !== "all") {
@@ -122,14 +141,24 @@ jive.tile.onOpen(function(config, options) {
             }
             // add type if not "all types"
             if (config.type[0] !== "all") {
-                reqOptions.type = config.type.join(",");
+                
+                for(var typeS in config.type){
+                    if(config.type[typeS]){
+                        //reqOptions.type = config.type.join(",");
+                        if(reqOptions.type == undefined){reqOptions.type='';}
+                        reqOptions.type+=config.type[typeS]+',';
+                        console.log('reqOptions -',reqOptions,'typeS',typeS,'config.type[typeS]',config.type[typeS]);
+                    }
+                }
             }
 
+            //console.log('reqOptions:: ',reqOptions);
             if (timer) {
                 var reqTime = Date.now();
             }
 
             if (config.featured) {
+               // console.log('config-featured',config.featured,'reqOptions',reqOptions);
                 osapi.jive.corev3.places.get({uri: reqOptions.place}).execute(function(res) {
                     options = { fields: reqOptions.fields };
                     if (config.type[0] !== "all") {
@@ -138,10 +167,12 @@ jive.tile.onOpen(function(config, options) {
                     res.getFeaturedContent(options).execute(handleResults);
                 });
             } else {
+                //console.log('reqOptions else',reqOptions);
                 osapi.jive.corev3.contents.get(reqOptions).execute(handleResults);
             }
             
             function handleResults(res) {
+                console.log(res);
                 if (res.error) {
                     var code = res.error.code;
                     var message = res.error.message;
@@ -151,8 +182,10 @@ jive.tile.onOpen(function(config, options) {
                     if (timer) {
                         console.log("getContent: " + (Date.now() - reqTime) + " ms");
                     }
-                    for (let el of res.list) {
-                        if (config.type[0] === "all" || el.type !== "discussion" || (getQuestions && el.question) || (getDiscussions && !el.question)) {
+                    //console.log('res.list ::::: ',res.list);
+                    for (var el in res.list) {
+                        el=res.list[el];
+                        if (config.type[0] === "all" || el.type !== "discussion" || (getQuestions && el.question) || (getDiscussions && !el.question) || el.type !== null || el.type !== undefined) {
                             docList.push({
                                 subject: replaceCodes(el.subject),
                                 url: el.resources.html.ref,
@@ -178,13 +211,22 @@ jive.tile.onOpen(function(config, options) {
         }
 
         function formatDate(date) {
+            /*console.log('date',date);
             var dateStr = date.getDate() + "";
+            console.log('dateStr',dateStr);
+            
             if (dateStr.length < 2) {
                 dateStr = "0" + dateStr;
             }
             var monthStr = months[date.getMonth()].substring(0, 3);
-            var yearStr = date.getFullYear() + "";
-
+            var yearStr = date.getFullYear() + "";*/
+            date = date.split("-");
+            var dateStr  = date[2];
+                dateStr = dateStr.substring(0, 2);
+            var monthStr = date[1];
+            var yearStr = date[0];
+            //console.log("dateStr: "+dateStr+" monthStr : "+monthStr+" yearStr: "+yearStr);
+            
             return dateStr + "-" + monthStr + "-" + yearStr;
         }
 
@@ -203,8 +245,9 @@ jive.tile.onOpen(function(config, options) {
             var table = document.getElementById("content-table");
             var link = document.getElementById("link");
 
-            for (var doc of docList) {
+            for (var doc in docList) {
                 // create list node
+                doc=docList[doc];
                 var li = document.createElement("li");
                 li.classList.add("listItem", "showIcon", "ic24");
 
@@ -214,8 +257,9 @@ jive.tile.onOpen(function(config, options) {
                 a.setAttribute("href", doc.url);
                 var icon = document.createElement("span");
                 var iconClasses = doc.icon.split(" ");
-                for (var c of iconClasses) {
-                    icon.classList.add(c);
+                for (var c in iconClasses) {
+                    
+                    icon.classList.add(iconClasses[c]);
                 }
                 icon.classList.add("jive-icon-big");
                 var docSubj = document.createTextNode(doc.subject);
@@ -249,7 +293,7 @@ jive.tile.onOpen(function(config, options) {
                 authorUrl2.appendChild(avatar);
                 authorUrl2.appendChild(author.cloneNode());
                 td2.appendChild(authorUrl2);
-                var postDate = formatDate(new Date(doc.postDate));
+                var postDate = formatDate(doc.postDate);
                 var postDateNode = document.createTextNode(postDate);
                 td3.appendChild(postDateNode);
                 tr.appendChild(td1);

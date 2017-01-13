@@ -15,14 +15,22 @@
     <label for="num-docs"><strong>Number of Documents</strong> (Max: 100)</label>
     <input class="j-text" type="number" min="1" max="100" step="1" id="num-docs" required/>
   </div>
-  <div>
-    <label for="place"><strong>Document Location</strong></label>
+  <div>    
+      
+    <label for="place"><strong>Content Location</strong></label>
+    <select name="place" id="selectplace" class="j-text">
+    <option value="this">This Place</option>
+    <option value="sub">This Place and Sub-Places</option>
+    <option value="all">All Places</option>
+    </select>
+  
+    <!--<label for="place"><strong>Document Location</strong></label>
     <label><input type="radio" name="place" value="this">This Place</input></label>
     <label><input type="radio" name="place" value="sub">This Place and Sub-Places</input></label>
-    <label><input type="radio" name="place" value="all">All Places</input></label>
+    <label><input type="radio" name="place" value="all">All Places</input></label>-->
   </div>
     <label for="show-link"><strong>Add Link</strong></label>
-    <label><input type="checkbox" id="show-link" checked>Display Link</input></label>
+    <label><input type="checkbox" id="show-link" checked>Display Link</label>
     <div id="link-options" class="indent">
       <label for="link-text"><strong>Link Text</strong></label>
       <input class="j-text" type="text" id="link-text" required/>

@@ -15,8 +15,11 @@ var months = [
 // default url endings
 var defaultUrlThis = "/content?filterID=contentstatus%5Bpublished%5D~objecttype~showall~action~action%5Boutdated%5D";
 var defaultUrlAll = "/content?filterID=all~objecttype~showall~action~action%5Boutdated%5D";
-jive.tile.onOpen(function(config, options) {
 
+jive.tile.onOpen(function(config, options) {
+ console.log('--------------------OutDated-Content----------------------');
+    console.log("OutDated - config",config,"options", options);
+    
     config.title = config.title || "Recent Outdated Content";
     config.numDocs = config.numDocs || 10;
     config.place = config.place || "sub";
@@ -33,6 +36,7 @@ jive.tile.onOpen(function(config, options) {
     }
 
     jive.tile.getContainer(function(container) {
+        console.log('OutDated - container',container);
         var docList = [];
         var pending = 0;
         if (timer) {
@@ -76,7 +80,7 @@ jive.tile.onOpen(function(config, options) {
                                 if (pending == 0) {
                                     if (timer) {
                                         lap = Date.now();
-                                        console.log("getOutdated " + (lap - start) + " ms");
+                                        console.log("OutDated - getOutdated " + (lap - start) + " ms");
                                     }
                                     showDocs();
                                 }
@@ -95,7 +99,9 @@ jive.tile.onOpen(function(config, options) {
             }
             if (config.place === "sub" || config.place === "this") {
                 reqOptions.place = "/places/" + placeID;
+                console.log('OutDated - reqOptions-if sub-this',reqOptions);
             }
+            console.log('OutDated- reqOptions',reqOptions);
             var reqContent = osapi.jive.corev3.contents.get(reqOptions);
             pending++;
             if (timer) {
@@ -109,7 +115,7 @@ jive.tile.onOpen(function(config, options) {
                     // present the user with an appropriate error message
                 } else {
                     if (timer) {
-                        console.log("request content from " + placeID + ": " + (Date.now() - reqTime) + " ms");
+                        console.log("OutDated - request content from " + placeID + ": " + (Date.now() - reqTime) + " ms");
                     }
                     for (let el of res.list) {
                         docList.push({
@@ -127,7 +133,7 @@ jive.tile.onOpen(function(config, options) {
                     if (pending == 0) {
                         if (timer) {
                             lap = Date.now();
-                            console.log("getOutdated " + (lap - start) + " ms");
+                            console.log("OutDated - getOutdated " + (lap - start) + " ms");
                         }
                         showDocs();
                     }
@@ -136,10 +142,23 @@ jive.tile.onOpen(function(config, options) {
         }
         
         function setDefaultUrl(placeID, parentUrl, config) {
+            console.log('OutDated - placeID: ',placeID,'parentUrl: ', parentUrl,'config: ', config);
+            
             if (config.place === "all") {
-                var endOfBaseUrl = parentUrl.indexOf("/", "https://".length);
-                config.linkUrl = parentUrl.substring(0, endOfBaseUrl);
-                config.linkUrl += defaultUrlAll;
+                if (config.linkUrl === "") {
+                        //config.linkUrl = container.resources.html.ref + defaultUrlAll;
+                           var parentUrl = container.resources.html.ref;
+                           var endOfBaseUrl = parentUrl.indexOf("/", "https://".length);
+                           console.log('endOfBaseUrl::::',endOfBaseUrl);
+                           config.linkUrl = parentUrl.substring(0, endOfBaseUrl);
+                           console.log('config.linkUrl - 1::: ',config.linkUrl);
+                           config.linkUrl += defaultUrlAll;
+                           console.log('config.linkUrl - 2::: ',config.linkUrl);
+                    }else{
+                            var endOfBaseUrl = parentUrl.indexOf("/", "https://".length);
+                            config.linkUrl = parentUrl.substring(0, endOfBaseUrl);
+                            config.linkUrl += defaultUrlAll;
+                    }
             } else {
                 var reqSubspace = osapi.jive.corev3.places.get({
                     uri: "/places/" + placeID
@@ -151,6 +170,7 @@ jive.tile.onOpen(function(config, options) {
                         console.log(code + " " + message);
                         // present the user with an appropriate error message
                     } else {
+                        console.log(config.linkUrl +" :: "+res.resources.html.ref+" : "+defaultUrlThis);
                         config.linkUrl = res.resources.html.ref + defaultUrlThis;
                     }
                 });
