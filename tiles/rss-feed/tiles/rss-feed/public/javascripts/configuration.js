@@ -16,16 +16,16 @@ function onReady(tileConfig,tileOptions,viewer,container) {
   if (!tileConfig["data"]) {
       tileConfig["data"] = { };
   }
-  if (!tileConfig["data"]["configString"]) {
-      tileConfig["data"]["configString"] = "default data";
+  if (!tileConfig["data"]["rssUrl"]) {
+      tileConfig["data"]["rssUrl"] = "";
   }
 
   // populate the dialog with existing config value
-  $("#config_string").val( tileConfig["data"]["configString"]);
+  $("#rss-url").val( tileConfig["data"]["rssUrl"]);
 
   // update config object after clicking submit
-  $("#btn_submit").click( function() {
-      tileConfig["data"]["configString"] = $("#config_string").val();
+  $("#btn-submit").click( function() {
+      tileConfig["data"]["rssUrl"] = $("#rss-url").val();
       jive.tile.close(tileConfig, {} );
   });
 

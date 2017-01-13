@@ -9,8 +9,25 @@
 //NOTE: CALLED AS SOON AS THE FULL CONTEXT IS RESOLVED
 //************************************************************************
 function onReady(tileConfig,tileOptions,viewer,container) {
-  $("#config_string").text(tileConfig["configString"]);
-  app.resize();
+  if (rssServer === "") {
+    $("#feed").replaceWith("URL for RSS server not provided");
+  } else {
+    $.get(rssServer + "/rss-server?rss=" + tileConfig.rssUrl, function(resp) {
+      $("#feed").append(structureData(resp));
+      app.resize();
+    });
+  }
+
+  function structureData(d) {
+    // d must be an array of items
+    return d.map(item => {
+      var title = "<h3><a href=\"" + item.link + "\">" + item.title + "</a></h3>";
+      var author = "<p>By " + item["dc:creator"] + "</p>";
+      var date = "<p>" + item.pubDate + "</p>";
+
+      return title + author + date;
+    }).join("");
+  }
 } // end function
 
 //************************************************************************
