@@ -37,7 +37,7 @@ function onReady(tileConfig,tileOptions,viewer,container) {
       return false;
     })[0];
 
-    var discName = page.name + " comments";
+    var discName = page.name + " [Comments]";
 
     osapi.jive.corev3.contents.get({
       place: "/places/" + container.placeID,
