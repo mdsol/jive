@@ -21,11 +21,14 @@ function onReady(tileConfig,tileOptions,viewer,container) {
   function structureData(d) {
     // d must be an array of items
     return d.map(item => {
-      var title = "<h3><a href=\"" + item.link + "\">" + item.title + "</a></h3>";
-      var author = "<p>By " + item["dc:creator"] + "</p>";
-      var date = "<p>" + item.pubDate + "</p>";
+      var title = "<h3><a href='" + item.link + "'>" + item.title + "</a></h3>";
 
-      return title + author + date;
+      var author = "<span id='author'>By " + item["dc:creator"] + "</span>";
+      var date = "<span id='date'>" + item.pubDate + "</span>";
+      var metadata = "<div id='metadata'>" + author + " - " + date + "</div>";
+      var descr = "<p id='description'>" + $("<p>" + item.description + "<\p>").text() + "</p>";
+
+      return "<div>" + title + metadata + descr + "</div>";
     }).join("");
   }
 } // end function
