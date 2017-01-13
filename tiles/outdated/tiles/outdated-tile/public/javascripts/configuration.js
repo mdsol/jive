@@ -1,6 +1,7 @@
 (function() {
     jive.tile.onOpen(function(config, options) {
         gadgets.window.adjustHeight();
+        var myplace="";
 
         // taken from the jquery-validation plugin and modified
         // https://github.com/jzaefferer/jquery-validation
@@ -19,9 +20,12 @@
             };
         };
         
+        
+        console.log('config.data',config.data);
+        
         var title = document.getElementById("title");
         var numDocs = document.getElementById("num-docs");
-        var radios = document.getElementsByName("place");
+        var radios = $("#selectplace");   //document.getElementsByName("place");
         var showLink = document.getElementById("show-link");
         var linkText = document.getElementById("link-text");
         var linkUrl = document.getElementById("link-url");
@@ -29,12 +33,32 @@
         // populate the dialog with existing config value
         title.value = config.data.title;
         numDocs.value = config.data.numDocs;
-        for (let choice of radios) {
+        
+        /*for (let choice of radios) {
             if (choice.value === config.data.place) {
                 choice.checked = true;
                 break;
             }
-        }
+        }*/
+        
+        
+        /*on place detaile  changes change the URL*/
+            $("#selectplace").change(function(){               
+                myplace = $(this).val();                
+                config.data.place = myplace;                
+            });
+        
+        
+        $("#selectplace > option").each(function() {
+                 $(this).prop("selected", false);
+                if($(this).val() == config.data.place) {
+                    $(this).prop('selected', true);
+                    $(this).attr('selected', true);
+                    //$(this).selected='selected';
+                }
+                
+            });
+        
         showLink.checked = config.data.showLink;
         $("#link-options").toggle(showLink.checked);
         linkText.value = config.data.linkText;
@@ -83,12 +107,15 @@
                 // get all of the new values
                 config.data.title = title.value;
                 config.data.numDocs = Number(numDocs.value);
-                for (var choice of radios) {
+                config.data.place = radios.val();
+               
+                /*for (var choice of radios) {
                     if (choice.checked) {
                         config.data.place = choice.value;
                         break;
                     }
-                }
+                }*/
+                
                 config.data.showLink = showLink.checked;
                 
                 if (showLink.checked) {

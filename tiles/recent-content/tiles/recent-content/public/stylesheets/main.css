@@ -40,7 +40,7 @@ button {
 /* type=text was deleted in order to apply this to other
  * kinds of input fields, like type=number
  */
-input.j-text {
+input.j-text, select.j-text {
     border-radius: 4px;
     border: 1px solid #bbb;
     border-bottom: 1px solid #dadada;
@@ -54,6 +54,8 @@ input.j-text {
     font: 13px 'Helvetica Neue', Arial, Helvetica, sans-serif;
     box-sizing: border-box;
 }
+
+#div-place-url{ margin:10px 0px; }
 
 label {
   display: block;
