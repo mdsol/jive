@@ -1,0 +1,37 @@
+{
+    "clientUrl": "http://localhost",
+    "port": "8090",
+	  "clientUrlExcludesPort": true,
+    "logLevel": "DEBUG",
+    "logFile" : "logs/jive-sdk.log",
+    "logFileSize" : 20480,
+    "logFileNumBackups" : 3,
+	  "extensionInfo": {
+		"id": "6dc92a59-45de-42e4-8045-8bc7deb68757",
+		"uuid": "6dc92a59-45de-42e4-8045-8bc7deb68757",
+		"name": "rss-feed",
+		"description": "Description for rss-feed",
+		"icon_16": "extension-16.png",
+		"icon_48": "extension-48.png",
+		"icon_128": "extension-128.png",
+		"releasedOn": "2017-01-12T22:32:59.163Z"
+	},
+	"otherPropertiesToConsider" : {
+		"ignoreExtensionRegistrationSource": true,
+		"suppressAddonRegistration" : true,
+    "persistence": "mongo",
+    "persistenceInitializer" : {},
+		"extensionInfo": {
+			"registerURL": "%serviceURL%/jive/oauth/register",
+			"unregisterURL": "%serviceURL%/jive/oauth/unregister",
+			"redirectURL" : "%serviceURL%/oauth/authorize",
+			"health_url": "%serviceURL%/monitor/health",
+			"config_url": "%serviceURL%/configure",
+			"author" : "Tyler Ishikawa",
+			"author_affiliation" : "Medidata Solutions",
+			"author_email" : "tyishikawa@mdsol.com",
+			"website_url": "https://www.mdsol.com",
+			"tags": "jive,integration,service,addon,report,comments"
+		}
+	}
+}
