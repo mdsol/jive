@@ -1,0 +1,16 @@
+{
+    "displayName" : "Share an Idea",
+    "name" : "share-an-idea",
+    "description" : "Find and share ideas.",
+    "style": "CUSTOM_VIEW",
+    "displayWidth" : "ALL",
+    "dataProviderKey": "internal",
+    "pageTypes" : ["PLACE", "USER", "NEWS", "MOBILE"],
+    "icons": {
+        "16": "extension-16.png",
+        "48": "extension-48.png",
+        "128": "extension-128.png"
+    },
+    "config": "/share-an-idea/configuration.html",
+    "view": "/share-an-idea/view.html?features=core-v3,tile,responsive"
+}

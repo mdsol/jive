@@ -1,0 +1,25 @@
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="/ask-a-question/stylesheets/main.css">
+    <script src="/ask-a-question/javascripts/configuration.js"></script>
+</head>
+<body>
+    <form>
+        <div>
+            <label for="title"><strong>Tile Title</strong> (Optional)</label>
+            <input class="j-text" type="text" id="title" />
+        </div>
+        <div>
+            <label for="num-results"><strong>Max Number of Results</strong> (Max: 100)</label>
+            <input class="j-text" type="number" min="1" max="100" step="1" id="num-results" required />
+        </div>
+        <div>
+            <label for="place"><strong>Ideas Location</strong></label>
+            <label><input type="radio" name="place" value="this">This Place</input></label>
+            <label><input type="radio" name="place" value="sub">This Place and Sub-Places</input></label>
+            <label><input type="radio" name="place" value="all">All Places</input></label>
+        </div>
+        <button type="submit" class="j-btn-global js-button-done" id="btn-submit">Apply</button>
+    </form>
+</body>
+</html>
