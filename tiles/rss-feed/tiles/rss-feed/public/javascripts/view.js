@@ -21,6 +21,8 @@ function onReady(tileConfig,tileOptions,viewer,container) {
   } else {
     $.get(rssServer + "/rss-server?rss=" + tileConfig.rssUrl, function(resp) {
       $("#feed").append(structureData(resp));
+      $("#link").attr("href", tileConfig.linkUrl);
+      $("#link").text(tileConfig.linkText);
       app.resize();
     });
   }
