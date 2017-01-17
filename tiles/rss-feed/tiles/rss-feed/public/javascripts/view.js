@@ -20,12 +20,20 @@ function onReady(tileConfig,tileOptions,viewer,container) {
     $("#feed").replaceWith("URL for RSS server not provided");
   } else {
     $.get(rssServer + "/rss-server?rss=" + tileConfig.rssUrl, function(resp) {
-      $("#feed").append(structureData(resp));
+      if (resp.error !== undefined) {
+        $("#feed").replaceWith("Invalid RSS feed URL provided.");
+        app.resize();
+      } else {
+        $("#feed").append(structureData(resp));
 
-      var correctUrl = (/^https?:\/\//.test(tileConfig.linkUrl) ? "" : "//")
-                       + tileConfig.linkUrl;
-      $("#link").attr("href", correctUrl);
-      $("#link").text(tileConfig.linkText);
+        var correctUrl = (/^https?:\/\//.test(tileConfig.linkUrl) ? "" : "//")
+                         + tileConfig.linkUrl;
+        $("#link").attr("href", correctUrl);
+        $("#link").text(tileConfig.linkText);
+        app.resize();
+      }
+    }).fail(function() {
+      $("#feed").replaceWith("Problem connecting to the RSS feed. Please try again later.");
       app.resize();
     });
   }

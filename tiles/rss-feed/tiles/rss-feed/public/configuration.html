@@ -11,20 +11,21 @@
 <body>
 
 <div>
-    <h2>Configuration</h2>
+  <form>
     <div class="group">
       <label for="title">Title</label>
-      <input type="text" class="form-control" id="title"/>
+      <input type="text" class="form-control" id="title" required>
     </div>
 
     <div class="group">
       <label for="rss-url">RSS Feed Url</label>
-      <input type="url" class="form-control" id="rss-url"/>
+      <input type="text" class="form-control" id="rss-url" required>
     </div>
 
     <div class="group">
       <label for="num-items">Number of items to show</label>
-      <input type="number" min="1" max="100" step="1" class="form-control" id="num-items"/>
+      <input type="number" min="1" max="100" step="1"
+          class="form-control" id="num-items" required>
     </div>
 
     <div class="group">
@@ -33,11 +34,12 @@
         <label for="link-text">Link Text</label>
         <input type="text" class="form-control" id="link-text" required>
         <label for="link-url">URL</label>
-        <input type="url" class="form-control" id="link-url">
+        <input type="text" class="form-control" id="link-url" required>
       </div>
     </div>
 
     <button class="btn btn-default" id="btn-submit">Submit</button>
+  </form>
 
 </div>
 

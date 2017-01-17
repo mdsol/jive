@@ -53,7 +53,20 @@ function onReady(tileConfig,tileOptions,viewer,container) {
   }
 
   // update config object after clicking submit
-  $("#btn-submit").click( function() {
+  $("#btn-submit").click(function() {
+    var allFilled = true;
+    document.querySelectorAll("#title, #rss-url, #num-items").forEach(function(x) {
+      if (x.value === "") {
+        allFilled = false;
+      }
+    });
+    document.querySelectorAll("#link-text, #link-url").forEach(function(x) {
+      if (showLink.checked && x.value === "") {
+        allFilled = false;
+      }
+    });
+
+    if (allFilled) {
       tileConfig["data"]["rssUrl"] = $("#rss-url").val();
       tileConfig["data"]["title"] = $("#title").val();
       tileConfig["data"]["numItems"] = $("#num-items").val();
@@ -61,6 +74,7 @@ function onReady(tileConfig,tileOptions,viewer,container) {
       tileConfig["data"]["linkText"] = $("#link-text").val();
       tileConfig["data"]["linkUrl"] = $("#link-url").val();
       jive.tile.close(tileConfig, {} );
+    }
   });
 
   app.resize();
