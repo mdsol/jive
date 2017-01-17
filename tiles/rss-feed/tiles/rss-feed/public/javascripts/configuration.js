@@ -22,15 +22,20 @@ function onReady(tileConfig,tileOptions,viewer,container) {
   if (!tileConfig["data"]["title"]) {
       tileConfig["data"]["title"] = "RSS Feed";
   }
+  if (!tileConfig["data"]["numItems"]) {
+      tileConfig["data"]["numItems"] = 6;
+  }
 
   // populate the dialog with existing config value
   $("#rss-url").val(tileConfig["data"]["rssUrl"]);
   $("#title").val(tileConfig["data"]["title"]);
+  $("#num-items").val(tileConfig["data"]["numItems"]);
 
   // update config object after clicking submit
   $("#btn-submit").click( function() {
       tileConfig["data"]["rssUrl"] = $("#rss-url").val();
       tileConfig["data"]["title"] = $("#title").val();
+      tileConfig["data"]["numItems"] = $("#num-items").val();
       jive.tile.close(tileConfig, {} );
   });
 
