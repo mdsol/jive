@@ -36,9 +36,11 @@ function onReady(tileConfig,tileOptions,viewer,container) {
       var descr = "<p id='description'>" + $("<p>" + item.description + "<\p>").text() + "</p>";
 
       var content = "<div id='content'>" + title + metadata + descr + "</div>";
-      var img = item["media:content"] === undefined
-                ? ""
-                : "<img src='" + item["media:content"]["$"]["url"] + "'/>";
+      var img = item["media:content"] !== undefined
+                ? "<img src='" + item["media:content"]["$"]["url"] + "'/>"
+                : item["media:thumbnail"] !== undefined
+                ? "<img src='" + item["media:thumbnail"]["$"]["url"] + "'/>"
+                : "";
 
       return "<div id='item'>" + img + content + "</div>";
     }).join("<hr>");
