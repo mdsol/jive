@@ -25,14 +25,22 @@ function onReady(tileConfig,tileOptions,viewer,container) {
   if (!tileConfig["data"]["numItems"]) {
       tileConfig["data"]["numItems"] = 6;
   }
-  if (!tileConfig["data"]["showLink"]) {
+  if (tileConfig["data"]["showLink"] === undefined) {
       tileConfig["data"]["showLink"] = true;
+  }
+  if (!tileConfig["data"]["linkText"]) {
+      tileConfig["data"]["linkText"] = "";
+  }
+  if (!tileConfig["data"]["linkUrl"]) {
+      tileConfig["data"]["linkUrl"] = "";
   }
 
   // populate the dialog with existing config value
   $("#rss-url").val(tileConfig["data"]["rssUrl"]);
   $("#title").val(tileConfig["data"]["title"]);
   $("#num-items").val(tileConfig["data"]["numItems"]);
+  $("#link-text").val(tileConfig["data"]["linkText"]);
+  $("#link-url").val(tileConfig["data"]["linkUrl"]);
 
   var showLink = document.getElementById("show-link");
   showLink.checked = tileConfig.data.showLink;
@@ -49,6 +57,9 @@ function onReady(tileConfig,tileOptions,viewer,container) {
       tileConfig["data"]["rssUrl"] = $("#rss-url").val();
       tileConfig["data"]["title"] = $("#title").val();
       tileConfig["data"]["numItems"] = $("#num-items").val();
+      tileConfig["data"]["showLink"] = showLink.checked;
+      tileConfig["data"]["linkText"] = $("#link-text").val();
+      tileConfig["data"]["linkUrl"] = $("#link-url").val();
       jive.tile.close(tileConfig, {} );
   });
 
