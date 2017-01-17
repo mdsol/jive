@@ -25,11 +25,24 @@ function onReady(tileConfig,tileOptions,viewer,container) {
   if (!tileConfig["data"]["numItems"]) {
       tileConfig["data"]["numItems"] = 6;
   }
+  if (!tileConfig["data"]["showLink"]) {
+      tileConfig["data"]["showLink"] = true;
+  }
 
   // populate the dialog with existing config value
   $("#rss-url").val(tileConfig["data"]["rssUrl"]);
   $("#title").val(tileConfig["data"]["title"]);
   $("#num-items").val(tileConfig["data"]["numItems"]);
+
+  var showLink = document.getElementById("show-link");
+  showLink.checked = tileConfig.data.showLink;
+  if (!showLink.checked) {
+    $("#link-options").hide();
+  }
+  showLink.onchange = function() {
+    $("#link-options").toggle();
+    app.resize();
+  }
 
   // update config object after clicking submit
   $("#btn-submit").click( function() {
