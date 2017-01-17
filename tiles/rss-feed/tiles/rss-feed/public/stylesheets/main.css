@@ -16,3 +16,12 @@ h1, h2 {
 #description {
   line-height: 1.5em;
 }
+
+#item {
+  display: flex;
+  justify-content: space-between;
+}
+
+img {
+  margin-right: 15px;
+}

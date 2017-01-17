@@ -28,8 +28,13 @@ function onReady(tileConfig,tileOptions,viewer,container) {
       var metadata = "<div id='metadata'>" + author + " - " + date + "</div>";
       var descr = "<p id='description'>" + $("<p>" + item.description + "<\p>").text() + "</p>";
 
-      return "<div>" + title + metadata + descr + "</div>";
-    }).join("");
+      var content = "<div id='content'>" + title + metadata + descr + "</div>";
+      var img = item["media:content"] === undefined
+                ? ""
+                : "<img src='" + item["media:content"]["$"]["url"] + "'/>";
+
+      return "<div id='item'>" + img + content + "</div>";
+    }).join("<hr>");
   }
 } // end function
 
