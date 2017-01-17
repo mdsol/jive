@@ -26,9 +26,9 @@ function onReady(tileConfig,tileOptions,viewer,container) {
       } else {
         $("#feed").append(structureData(resp));
 
-        var correctUrl = (/^https?:\/\//.test(tileConfig.linkUrl) ? "" : "//")
-                         + tileConfig.linkUrl;
-        $("#link").attr("href", correctUrl);
+        var correctLinkUrl = (/^https?:\/\//.test(tileConfig.linkUrl) ? "" : "//")
+                             + tileConfig.linkUrl;
+        $("#link").attr("href", correctLinkUrl);
         $("#link").text(tileConfig.linkText);
         app.resize();
       }

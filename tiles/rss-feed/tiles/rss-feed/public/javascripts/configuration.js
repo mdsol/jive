@@ -55,8 +55,13 @@ function onReady(tileConfig,tileOptions,viewer,container) {
   // update config object after clicking submit
   $("#btn-submit").click(function() {
     var allFilled = true;
-    document.querySelectorAll("#title, #rss-url, #num-items").forEach(function(x) {
+    document.querySelectorAll("#title, #num-items").forEach(function(x) {
       if (x.value === "") {
+        allFilled = false;
+      }
+    });
+    document.querySelectorAll("#rss-url").forEach(function(x) {
+      if (x.value === "" || !/https?:\/\//.test(x.value)) {
         allFilled = false;
       }
     });
