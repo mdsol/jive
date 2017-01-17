@@ -21,7 +21,10 @@ function onReady(tileConfig,tileOptions,viewer,container) {
   } else {
     $.get(rssServer + "/rss-server?rss=" + tileConfig.rssUrl, function(resp) {
       $("#feed").append(structureData(resp));
-      $("#link").attr("href", tileConfig.linkUrl);
+
+      var correctUrl = (/^https?:\/\//.test(tileConfig.linkUrl) ? "" : "//")
+                       + tileConfig.linkUrl;
+      $("#link").attr("href", correctUrl);
       $("#link").text(tileConfig.linkText);
       app.resize();
     });
