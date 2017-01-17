@@ -20,7 +20,7 @@ function onReady(tileConfig,tileOptions,viewer,container) {
 
   function structureData(d) {
     // d must be an array of items
-    return d.map(item => {
+    return d.map(function(item) {
       var title = "<h3><a href='" + item.link + "'>" + item.title + "</a></h3>";
 
       var author = "<span id='author'>By " + item["dc:creator"] + "</span>";
