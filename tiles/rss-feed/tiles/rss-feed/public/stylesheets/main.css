@@ -28,3 +28,18 @@ img {
   margin-right: 15px;
   height: 150px;
 }
+
+.indent {
+  margin-left: 20px;
+}
+
+label {
+  display: block;
+}
+
+#show-link {
+  margin-right: 5px;
+}
+input {
+  margin-bottom: 20px;
+}

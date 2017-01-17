@@ -12,14 +12,30 @@
 
 <div>
     <h2>Configuration</h2>
-    <label for="title">Title:</label>
-    <input type="text" id="title"/>
+    <div class="group">
+      <label for="title">Title</label>
+      <input type="text" class="form-control" id="title"/>
+    </div>
 
-    <label for="rss-url">RSS Feed Url:</label>
-    <input type="url" id="rss-url"/>
+    <div class="group">
+      <label for="rss-url">RSS Feed Url</label>
+      <input type="url" class="form-control" id="rss-url"/>
+    </div>
 
-    <label for="num-items">Number of items to show:</label>
-    <input type="number" id="num-items"/>
+    <div class="group">
+      <label for="num-items">Number of items to show</label>
+      <input type="number" class="form-control" id="num-items"/>
+    </div>
+
+    <div class="group">
+      <label><input type="checkbox" id="show-link" checked>Display Link</label>
+      <div id="link-options" class="indent">
+        <label for="link-text">Link Text</label>
+        <input type="text" class="form-control" id="link-text" required>
+        <label for="link-url">URL (Optional: links to content page by default)</label>
+        <input type="url" class="form-control" id="link-url">
+      </div>
+    </div>
 
     <button class="btn btn-default" id="btn-submit">Submit</button>
 
