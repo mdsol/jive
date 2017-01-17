@@ -1,11 +1,14 @@
 body {
     color: #5e5e5e;
     font: 13px "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-    margin: 10px;
 }
 
 h3 {
   margin-top: 0;
+}
+
+#feed {
+  margin: 10px;
 }
 
 #metadata {
@@ -18,7 +21,6 @@ h3 {
 
 #item {
   display: flex;
-  justify-content: space-between;
   align-items: center;
 }
 

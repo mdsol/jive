@@ -33,7 +33,9 @@ function onReady(tileConfig,tileOptions,viewer,container) {
       var author = "<span id='author'>By " + item["dc:creator"] + "</span>";
       var date = "<span id='date'>" + formatDate(item.pubDate) + "</span>";
       var metadata = "<div id='metadata'>" + author + " - " + date + "</div>";
-      var descr = "<p id='description'>" + $("<p>" + item.description + "<\p>").text() + "</p>";
+      var descr = "<p id='description'>"
+                  + $("<p>" + item.description + "<\p>").text()
+                  + "</p>";
 
       var content = "<div id='content'>" + title + metadata + descr + "</div>";
       var img = item["media:content"] !== undefined
