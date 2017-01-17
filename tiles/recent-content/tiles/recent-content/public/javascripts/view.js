@@ -210,22 +210,15 @@ defaultUrlThis = "/content?sortKey=contentstatus%5Bpublished%5D~"+config.sortkey
             }
         }
 
-        function formatDate(date) {
-            /*console.log('date',date);
+        function formatDate(d) {
+            var date = new Date(d);
             var dateStr = date.getDate() + "";
-            console.log('dateStr',dateStr);
             
             if (dateStr.length < 2) {
                 dateStr = "0" + dateStr;
             }
             var monthStr = months[date.getMonth()].substring(0, 3);
-            var yearStr = date.getFullYear() + "";*/
-            date = date.split("-");
-            var dateStr  = date[2];
-                dateStr = dateStr.substring(0, 2);
-            var monthStr = date[1];
-            var yearStr = date[0];
-            //console.log("dateStr: "+dateStr+" monthStr : "+monthStr+" yearStr: "+yearStr);
+            var yearStr = date.getFullYear() + "";
             
             return dateStr + "-" + monthStr + "-" + yearStr;
         }
