@@ -16,14 +16,17 @@ function onReady(tileConfig,tileOptions,viewer,container) {
   if (!tileConfig["data"]) {
       tileConfig["data"] = { };
   }
-  if (!tileConfig["data"]["rssUrl"]) {
-      tileConfig["data"]["rssUrl"] = "";
-  }
   if (!tileConfig["data"]["title"]) {
       tileConfig["data"]["title"] = "RSS Feed";
   }
+  if (!tileConfig["data"]["rssUrl"]) {
+      tileConfig["data"]["rssUrl"] = "";
+  }
   if (!tileConfig["data"]["numItems"]) {
       tileConfig["data"]["numItems"] = 6;
+  }
+  if (tileConfig["data"]["showImgs"] === undefined) {
+      tileConfig["data"]["showImgs"] = true;
   }
   if (tileConfig["data"]["showLink"] === undefined) {
       tileConfig["data"]["showLink"] = true;
@@ -36,50 +39,44 @@ function onReady(tileConfig,tileOptions,viewer,container) {
   }
 
   // populate the dialog with existing config value
-  $("#rss-url").val(tileConfig["data"]["rssUrl"]);
   $("#title").val(tileConfig["data"]["title"]);
+  $("#rss-url").val(tileConfig["data"]["rssUrl"]);
   $("#num-items").val(tileConfig["data"]["numItems"]);
+  $("#show-imgs").prop("checked", tileConfig.data.showImgs);
+  $("#show-link").prop("checked", tileConfig.data.showLink);
   $("#link-text").val(tileConfig["data"]["linkText"]);
   $("#link-url").val(tileConfig["data"]["linkUrl"]);
 
-  var showLink = document.getElementById("show-link");
-  showLink.checked = tileConfig.data.showLink;
-  if (!showLink.checked) {
-    $("#link-options").hide();
-  }
-  showLink.onchange = function() {
+  $("#link-options").toggle(tileConfig.data.showLink);
+  $("#show-link").change(function() {
     $("#link-options").toggle();
     app.resize();
-  }
+  });
 
   // update config object after clicking submit
-  $("#btn-submit").click(function() {
-    var allFilled = true;
-    document.querySelectorAll("#title, #num-items").forEach(function(x) {
-      if (x.value === "") {
-        allFilled = false;
-      }
-    });
-    document.querySelectorAll("#rss-url").forEach(function(x) {
-      if (x.value === "" || !/https?:\/\//.test(x.value)) {
-        allFilled = false;
-      }
-    });
-    document.querySelectorAll("#link-text, #link-url").forEach(function(x) {
-      if (showLink.checked && x.value === "") {
-        allFilled = false;
-      }
-    });
+  $("form").submit(function(e) {
+    var allValid = 
+      $("#title").val() !== ""
+      && !isNaN($("#num-items").val())
+      && parseInt($("#num-items").val()) === parseFloat($("#num-items").val())
+      && Number($("#num-items").val()) > 0
+      && Number($("#num-items").val()) <= 100
+      && /https?:\/\//.test($("#rss-url").val())
+      && ( !$("#show-link").is(":checked")
+           || $("#link-text").val() !== "" && $("#link-url").val() !== "" );
 
-    if (allFilled) {
+    console.log(allValid);
+    if (allValid) {
       tileConfig["data"]["rssUrl"] = $("#rss-url").val();
       tileConfig["data"]["title"] = $("#title").val();
-      tileConfig["data"]["numItems"] = $("#num-items").val();
-      tileConfig["data"]["showLink"] = showLink.checked;
+      tileConfig["data"]["numItems"] = Number($("#num-items").val());
+      tileConfig["data"]["showImgs"] = $("#show-imgs").is(":checked");
+      tileConfig["data"]["showLink"] = $("#show-link").is(":checked");
       tileConfig["data"]["linkText"] = $("#link-text").val();
       tileConfig["data"]["linkUrl"] = $("#link-url").val();
       jive.tile.close(tileConfig, {} );
     }
+    e.preventDefault();
   });
 
   app.resize();
