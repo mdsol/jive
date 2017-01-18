@@ -16,7 +16,7 @@ var app = {
     /*** DELAYED TO MAKE SURE DOM HAS SETTLED ***/
     setTimeout(function() {
       gadgets.window.adjustHeight();
-      gadgets.window.adjustWidth();
+      //gadgets.window.adjustWidth();
     },200);
   },
 
