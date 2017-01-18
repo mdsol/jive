@@ -1,10 +1,11 @@
 body {
     color: #5e5e5e;
-    font: 13px "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    font: 14px "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 }
 
-h3 {
-  margin-top: 0;
+#title {
+  font-size: 20px;
+  margin-bottom: 10px;
 }
 
 #description {

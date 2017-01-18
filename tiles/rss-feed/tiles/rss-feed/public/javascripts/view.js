@@ -41,7 +41,9 @@ function onReady(tileConfig,tileOptions,viewer,container) {
   function structureData(d) {
     // d must be an array of items
     return d.slice(0, tileConfig.numItems).map(function(item) {
-      var title = "<h3><a href='" + item.link + "'>" + item.title + "</a></h3>";
+      var title = "<div id='title'><a target='_top' href='" + item.link + "'>"
+                  + item.title
+                  + "</a></div>";
 
       var author = "<span id='author'>By " + item["dc:creator"] + "</span>";
       var date = "<span id='date'>" + formatDate(item.pubDate) + "</span>";
