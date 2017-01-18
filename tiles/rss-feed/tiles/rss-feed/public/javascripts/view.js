@@ -19,10 +19,12 @@ function onReady(tileConfig,tileOptions,viewer,container) {
       } else {
         $("#feed").append(structureData(resp));
 
-        var correctLinkUrl = (/^https?:\/\//.test(tileConfig.linkUrl) ? "" : "//")
-                             + tileConfig.linkUrl;
-        $("#link").attr("href", correctLinkUrl);
-        $("#link").text(tileConfig.linkText);
+        if (tileConfig.showLink) {
+          var correctLinkUrl = (/^https?:\/\//.test(tileConfig.linkUrl) ? "" : "//")
+            + tileConfig.linkUrl;
+          $("#link").attr("href", correctLinkUrl);
+          $("#link").text(tileConfig.linkText);
+        }
         app.resize();
       }
     }).fail(function() {
