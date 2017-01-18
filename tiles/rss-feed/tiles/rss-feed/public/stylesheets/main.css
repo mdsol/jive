@@ -42,9 +42,10 @@ label {
   display: block;
 }
 
-#show-link {
+input[type=checkbox] {
   margin-right: 5px;
 }
-input {
+
+.group {
   margin-bottom: 20px;
 }
