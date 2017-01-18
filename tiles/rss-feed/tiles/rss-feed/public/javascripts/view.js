@@ -5,13 +5,6 @@
 * SEE: Tile API & Development FAQ - https://community.jivesoftware.com/docs/DOC-185776
 ****************************************************/
 
-// 0-11 mapped to month name
-var months = [
-    "January"  , "February", "March"   , "April",
-    "May"      , "June"    , "July"    , "August",
-    "September", "October" , "November", "December"
-];
-
 //************************************************************************
 //NOTE: CALLED AS SOON AS THE FULL CONTEXT IS RESOLVED
 //************************************************************************
@@ -46,7 +39,11 @@ function onReady(tileConfig,tileOptions,viewer,container) {
                   + "</a></div>";
 
       var author = "<span id='author'>By " + item["dc:creator"] + "</span>";
-      var date = "<span id='date'>" + formatDate(item.pubDate) + "</span>";
+      var date = "<span id='date' title='"
+                 + moment(item.pubDate).format("DD-MMM-YYYY")
+                 + "'>"
+                 + moment(item.pubDate).fromNow()
+                 + "</span>";
       var metadata = "<div id='metadata'>" + author + " - " + date + "</div>";
       var descr = "<p id='description'>"
                   + $("<p>" + item.description + "<\p>").text()
@@ -61,11 +58,6 @@ function onReady(tileConfig,tileOptions,viewer,container) {
 
       return "<div id='item'>" + img + content + "</div>";
     }).join("<hr>");
-  }
-
-  function formatDate(date) {
-    var d = new Date(date);
-    return d.getDate() + " " + months[d.getMonth()].substring(0,3) + " " + d.getFullYear();
   }
 } // end function
 
