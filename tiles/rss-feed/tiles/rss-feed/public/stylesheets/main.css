@@ -7,6 +7,10 @@ h3 {
   margin-top: 0;
 }
 
+p {
+  margin: 0;
+}
+
 #feed {
   margin: 10px;
 }
@@ -26,7 +30,7 @@ h3 {
 
 img {
   margin-right: 15px;
-  height: 150px;
+  height: 100px;
 }
 
 .indent {
