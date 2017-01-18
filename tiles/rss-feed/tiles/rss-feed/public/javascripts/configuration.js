@@ -48,6 +48,7 @@ function onReady(tileConfig,tileOptions,viewer,container) {
   $("#link-url").val(tileConfig["data"]["linkUrl"]);
 
   $("#link-options").toggle(tileConfig.data.showLink);
+  $("#link-options input").attr("required", tileConfig.data.showLink);
   $("#show-link").change(function() {
     $("#link-options").toggle();
     $("#link-options input").attr("required", $("#show-link").is(":checked"));
