@@ -26,6 +26,8 @@ function onReady(tileConfig,tileOptions,viewer,container) {
           $("#link").text(tileConfig.linkText);
         }
         app.resize();
+
+        window.onresize = app.resize;
       }
     }).fail(function() {
       $("#feed").replaceWith("Problem connecting to the RSS feed. Please try again later.");
