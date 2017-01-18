@@ -60,3 +60,7 @@ input[type=checkbox] {
 #content {
   width: 100%;
 }
+
+footer {
+  margin-top: 35px;
+}
