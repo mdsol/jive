@@ -27,6 +27,13 @@ body {
 #item {
   display: flex;
   align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 700px) {
+  #item {
+    flex-wrap: wrap;
+  }
 }
 
 img {
@@ -48,4 +55,8 @@ input[type=checkbox] {
 
 .group {
   margin-bottom: 20px;
+}
+
+#content {
+  width: 100%;
 }

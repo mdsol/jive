@@ -50,11 +50,12 @@ function onReady(tileConfig,tileOptions,viewer,container) {
   $("#link-options").toggle(tileConfig.data.showLink);
   $("#show-link").change(function() {
     $("#link-options").toggle();
+    $("#link-options input").attr("required", $("#show-link").is(":checked"));
     app.resize();
   });
 
   // update config object after clicking submit
-  $("form").submit(function(e) {
+  $("#options").submit(function(e) {
     var allValid = 
       $("#title").val() !== ""
       && !isNaN($("#num-items").val())
