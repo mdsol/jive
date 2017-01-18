@@ -24,6 +24,8 @@ function onReady(tileConfig,tileOptions,viewer,container) {
             + tileConfig.linkUrl;
           $("#link").attr("href", correctLinkUrl);
           $("#link").text(tileConfig.linkText);
+        } else {
+          $("footer").remove();
         }
         app.resize();
 
