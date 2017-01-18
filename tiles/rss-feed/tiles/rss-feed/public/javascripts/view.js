@@ -39,32 +39,35 @@ function onReady(tileConfig,tileOptions,viewer,container) {
 
   function structureData(d) {
     // d must be an array of items
-    return d.slice(0, tileConfig.numItems).map(function(item) {
-      var title = "<div id='title'><a target='_top' href='" + item.link + "'>"
-                  + item.title
-                  + "</a></div>";
+    return d.sort(function(a, b) {
+      return new Date(b.pubDate) - new Date(a.pubDate);
+    }).slice(0, tileConfig.numItems)
+      .map(function(item) {
+        var title = "<div id='title'><a target='_top' href='" + item.link + "'>"
+                    + item.title
+                    + "</a></div>";
 
-      var author = "<span id='author'>By " + item["dc:creator"] + "</span>";
-      var date = "<span id='date' title='"
-                 + moment(item.pubDate).format("DD-MMM-YYYY")
-                 + "'>"
-                 + moment(item.pubDate).fromNow()
-                 + "</span>";
-      var metadata = "<div id='metadata'>" + author + " - " + date + "</div>";
-      var descr = "<p id='description'>"
-                  + $("<p>" + item.description + "<\p>").text()
-                  + "</p>";
+        var author = "<span id='author'>By " + item["dc:creator"] + "</span>";
+        var date = "<span id='date' title='"
+                   + moment(item.pubDate).format("DD-MMM-YYYY")
+                   + "'>"
+                   + moment(item.pubDate).fromNow()
+                   + "</span>";
+        var metadata = "<div id='metadata'>" + author + " - " + date + "</div>";
+        var descr = "<p id='description'>"
+                    + $("<p>" + item.description + "<\p>").text()
+                    + "</p>";
 
-      var content = "<div id='content'>" + title + metadata + descr + "</div>";
-      var img = !tileConfig.showImgs
-                ? ""
-                : item["media:content"] !== undefined
-                ? "<img src='" + item["media:content"]["$"]["url"] + "'/>"
-                : item["media:thumbnail"] !== undefined
-                ? "<img src='" + item["media:thumbnail"]["$"]["url"] + "'/>"
-                : "";
+        var content = "<div id='content'>" + title + metadata + descr + "</div>";
+        var img = !tileConfig.showImgs
+                  ? ""
+                  : item["media:content"] !== undefined
+                  ? "<img src='" + item["media:content"]["$"]["url"] + "'/>"
+                  : item["media:thumbnail"] !== undefined
+                  ? "<img src='" + item["media:thumbnail"]["$"]["url"] + "'/>"
+                  : "";
 
-      return "<div id='item'>" + img + content + "</div>";
+        return "<div id='item'>" + img + content + "</div>";
     }).join("<hr>");
   }
 } // end function
