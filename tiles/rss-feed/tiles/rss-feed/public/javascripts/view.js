@@ -50,7 +50,9 @@ function onReady(tileConfig,tileOptions,viewer,container) {
                   + "</p>";
 
       var content = "<div id='content'>" + title + metadata + descr + "</div>";
-      var img = item["media:content"] !== undefined
+      var img = !tileConfig.showImgs
+                ? ""
+                : item["media:content"] !== undefined
                 ? "<img src='" + item["media:content"]["$"]["url"] + "'/>"
                 : item["media:thumbnail"] !== undefined
                 ? "<img src='" + item["media:thumbnail"]["$"]["url"] + "'/>"
