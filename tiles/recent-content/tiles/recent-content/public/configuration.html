@@ -1,6 +1,7 @@
 <html>
   <head>
     <link rel="stylesheet" type="text/css" href="/recent-content/stylesheets/main.css">
+    <link rel="stylesheet" type="text/css" href="https://assets2.jiveon.com/core/2016.3.4.0.efc1903/styles/jive.css">
     <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
     <script src="/recent-content/javascripts/configuration.js"></script>
   </head>
@@ -33,9 +34,8 @@
           <option value="choose">Choose A Place</option>
         </select>
       </div>
-      <div id="div-place-url" style="display:none;">
-        <input type="url" class="j-text" id="place-url">
-      </div>
+      <div id="chosen-place"></div>
+      <button id="place-chooser">Choose A Place</button>
       <div>
         <label for="type"><strong>Content Type</strong></label>
         <div id="type-cols">

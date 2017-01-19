@@ -249,44 +249,30 @@
                     }
 
                     config.data.featured = featured.checked;
-                    config.data.placeUrl = placeUrl.value;
 
-                    if (config.data.place === "choose") {
-                        getPlaceIdForUrl(document.getElementById("place-url").value, function() {
-                            jive.tile.close(config, {});
-                        });
-                    } else {
-                        // submit
-                        jive.tile.close(config, {} );
-                    }
+                    jive.tile.close(config, {} );
                 } else {
                     gadgets.window.adjustHeight();
                 }
             });
 
-            function getPlaceIdForUrl(url, callback) {
-                url = url.replace(/\/+$/, ""); // remove trailing slashes
-                osapi.jive.corev3.places.get({
-                    search: url.split("/").pop()
-                }).execute(function(data) {
-                    var placeID;
-                    for (var el in data.list) {
-                        el = data.list[el];
-                        if (el.resources.html.ref === url) {
-                            placeID = el.placeID;
-                            break;
-                        }
-                    }
-                    if (placeID === undefined) {
-                        document.getElementById("place-url").classList.add("error-box");
-                        gadgets.window.adjustHeight();
-                    } else {
-                        // config.data.linkUrl = linkUrl.value = linkUrl.value.replace(container.resources.html.ref, url);
-                        config.data.placeID = placeID;
-                        callback();
+            $("#place-chooser").click(function(e) {
+                e.preventDefault();
+                osapi.jive.corev3.search.requestPicker({
+                    excludePeople: true,
+                    excludeContent: true,
+                    excludePlaces: false,
+                    success: function(place) {
+                        console.log(place);
+                        config.data.placeID = place.placeID;
+                        $("#chosen-place").append(
+                            $("<div>", {
+                                "class": "jive-icon-med jive-icon-" + place.type
+                            }).text(place.name)
+                        );
                     }
                 });
-            }
+            });
         });
     });
 })();
