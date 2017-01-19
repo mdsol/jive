@@ -37,12 +37,9 @@
             console.log('p.origin',p.origin);
             console.log('container.parent',container.parent);
 
-
-
             // default url start
             var defaultUrlThis = container.resources.html.ref + "/content?sortKey=contentstatus%5Bpublished%5D~recentActivityDateDesc&sortOrder=0";
             var defaultUrlAll = p.origin + "/content?sortKey=all~recentActivityDateDesc&sortOrder=0";
-
 
             // make sure config has default values
             //console.log('config.data: ',config.data);
@@ -84,35 +81,13 @@
             title.value = config.data.title;
             numResults.value = config.data.numResults;
 
-            /* for choose option*/
-            $("#selectplace > option").each(function() {
-                $(this).prop("selected", false);
-                if($(this).val() == config.data.place && $(this).val() == "choose") {
-                    $(this).attr('selected', true);
-                    $(this).prop('selected', true);
-                    $("#place-url").show();
-                    $("#div-place-url").show();
-
-                }else{
-                    $("#place-url").hide();
-                    $("#div-place-url").hide();
-                }
-            });
-
-
-            $("#selectplace > option").each(function() {
-                $(this).prop("selected", false);
-                if($(this).val() == config.data.place) {
-                    $(this).prop('selected', true);
-                    $(this).attr('selected', true);
-                    //$(this).selected='selected';
-                }
-
-            });
-
-
-
-
+            $("#selectplace > option[value='" + config.data.place + "']")
+                .prop("selected", true);
+            if (config.data.place === "choose") {
+                $("#place-url, #div-place-url").show();
+            } else {
+                $("#place-url, #div-place-url").hide();
+            }
 
             /*on place detaile  changes change the URL*/
             $("#selectplace").change(function(){

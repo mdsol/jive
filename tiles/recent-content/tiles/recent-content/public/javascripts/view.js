@@ -15,8 +15,6 @@ var sorting = {
     recentActivityDateAsc : "latestActivityAsc"
 };
 
-
-
 // default url endings
 var defaultUrlThis = "/content?sortKey=contentstatus%5Bpublished%5D~recentActivityDateDesc&sortOrder=0";
 
