@@ -155,13 +155,22 @@ jive.tile.onOpen(function(config, options) {
 
             if (config.featured) {
                 // console.log('config-featured',config.featured,'reqOptions',reqOptions);
-                osapi.jive.corev3.places.get({uri: reqOptions.place}).execute(function(res) {
-                    options = { fields: reqOptions.fields };
-                    if (config.type[0] !== "all") {
-                        options.filter = "type(" + reqOptions.type + ")";
-                    }
-                    res.getFeaturedContent(options).execute(handleResults);
-                });
+                // osapi.jive.corev3.places.get({uri: reqOptions.place}).execute(function(res) {
+                //     options = { fields: reqOptions.fields };
+                //     if (config.type[0] !== "all") {
+                //         options.filter = "type(" + reqOptions.type + ")";
+                //     }
+                //     res.getFeaturedContent(options).execute(handleResults);
+                // });
+                var typeStr = config.type[0] === "all" ? "" : "&filter=type(" + config.type.join(",") + ")";
+                osapi.jive.core.get({
+                    v: "v3",
+                    href: "/contents/featured?filter=place("
+                          + reqOptions.place
+                          + ")"
+                          + typeStr
+                          + "&fields=subject,author.displayName,iconCss,lastActivity,published,question,type"
+                }).execute(handleResults);
             } else {
                 //console.log('reqOptions else',reqOptions);
                 osapi.jive.corev3.contents.get(reqOptions).execute(handleResults);
@@ -178,7 +187,7 @@ jive.tile.onOpen(function(config, options) {
                     if (timer) {
                         console.log("getContent: " + (Date.now() - reqTime) + " ms");
                     }
-                    //console.log('res.list ::::: ',res.list);
+                    console.log('res.list ::::: ',res.list);
                     for (var el in res.list) {
                         el=res.list[el];
                         if (config.type[0] === "all" || el.type !== "discussion" || (getQuestions && el.question) || (getDiscussions && !el.question) || el.type !== null || el.type !== undefined) {
@@ -187,7 +196,7 @@ jive.tile.onOpen(function(config, options) {
                                 url: el.resources.html.ref,
                                 author: el.author.displayName,
                                 authorUrl: el.author.resources.html.ref,
-                                icon: el.iconCss,
+                                contentType: el.type,
                                 avatar: el.author.resources.avatar.ref,
                                 lastAct: el.lastActivity,
                                 postDate: el.published
@@ -245,11 +254,7 @@ jive.tile.onOpen(function(config, options) {
                 a.setAttribute("target", "_top");
                 a.setAttribute("href", doc.url);
                 var icon = document.createElement("span");
-                var iconClasses = doc.icon.split(" ");
-                for (var c in iconClasses) {
-
-                    icon.classList.add(iconClasses[c]);
-                }
+                icon.classList.add("jive-icon-" + doc.contentType);
                 icon.classList.add("jive-icon-big");
                 var docSubj = document.createTextNode(doc.subject);
                 a.appendChild(icon);
