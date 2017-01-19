@@ -9,8 +9,8 @@
 	  "extensionInfo": {
 		"id": "6dc92a59-45de-42e4-8045-8bc7deb68757",
 		"uuid": "6dc92a59-45de-42e4-8045-8bc7deb68757",
-		"name": "rss-feed",
-		"description": "Description for rss-feed",
+		"name": "RSS Feed",
+		"description": "Display an RSS feed.",
 		"icon_16": "extension-16.png",
 		"icon_48": "extension-48.png",
 		"icon_128": "extension-128.png",
