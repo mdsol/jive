@@ -9,11 +9,11 @@
     <form>
       <div>
         <label for="title"><strong>Tile Title</strong> (Optional)</label>
-        <input class="j-text" type="text" id="title"/>
+        <input class="j-text" type="text" id="title">
       </div>
       <div>
         <label for="num-docs"><strong>Number of Results</strong> (Max: 100)</label>
-        <input class="j-text" type="number" min="1" max="100" step="1" id="num-results" required/>
+        <input class="j-text" type="number" min="1" max="100" step="1" id="num-results" required>
       </div>
       <div>
         <label for="filter"><strong>Content Filter By</strong></label>
@@ -23,26 +23,18 @@
             <option value="recentActivityDateDesc" datasortorder="0" selected="selected">Latest Activity: Newest First</option>
             <option value="recentActivityDateAsc" datasortorder="1">Latest Activity: Oldest First</option>
         </select>
-        
-          
       </div>
-        
       <div>
         <label for="place"><strong>Content Location</strong></label>
         <select name="place" id="selectplace" class="j-text">
-        <option value="this">This Place</option>
-        <option value="sub">This Place and Sub-Places</option>
-        <option value="all">All Places</option>
-        <option value="choose">Choose A Place</option>
+          <option value="this">This Place</option>
+          <option value="sub">This Place and Sub-Places</option>
+          <option value="all">All Places</option>
+          <option value="choose">Choose A Place</option>
         </select>
-        <!--<label><input type="radio" name="place" value="this">This Place</input></label>
-        <label><input type="radio" name="place" value="sub">This Place and Sub-Places</input></label>
-        <label><input type="radio" name="place" value="all">All Places</input></label>
-        <label><input type="radio" name="place" value="choose">Choose A Place:</label>-->
       </div>
       <div id="div-place-url" style="display:none;">
-            <input type="url" class="j-text" id="place-url">
-  
+        <input type="url" class="j-text" id="place-url">
       </div>
       <div>
         <label for="type"><strong>Content Type</strong></label>
@@ -63,18 +55,21 @@
           </div>
         </div>
       </div>
+      <div>
+        <label for="featured"><strong>Featured Content</strong></label>
+        <label>Only show featured content? (Not available for "All Places")
+          <input type="checkbox" id="featured">
+        </label>
+      </div>
       <div id="footer-link">
         <label for="show-link"><strong>Add Link</strong></label>
         <label><input type="checkbox" id="show-link" checked>Display Link</label>
         <div id="link-options" class="indent">
           <label for="link-text"><strong>Link Text</strong></label>
-          <input class="j-text" type="text" id="link-text" required/>
+          <input class="j-text" type="text" id="link-text">
           <label for="link-url"><strong>URL</strong> (Optional: links to content page by default)</label>
-          <input class="j-text" type="text" id="link-url" />
+          <input class="j-text" type="text" id="link-url">
         </div>
-      </div>
-      <div>
-        <label>Only show featured content? (only available for "This Place") <input type="checkbox" id="featured"></label>
       </div>
       <div>
       </div>

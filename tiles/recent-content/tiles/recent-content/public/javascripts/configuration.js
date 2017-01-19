@@ -230,7 +230,8 @@
                 errInput.classList.add("error-box");
             }
 
-            $("#btn-submit").click( function() {
+            $("#btn-submit").click( function(e) {
+                e.preventDefault();
                 var checkData = {
                     numResults: numResults,
                     showLink: showLink,
