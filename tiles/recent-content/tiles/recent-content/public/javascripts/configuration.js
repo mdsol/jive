@@ -89,36 +89,27 @@
                 $("#place-url, #div-place-url").hide();
             }
 
-            /*on place detaile  changes change the URL*/
-            $("#selectplace").change(function(){
+            // /*on place detaile  changes change the URL*/
+            // $("#selectplace").change(function(){
 
-                myplace = $(this).val();
-                if($(this).val() == "all") {
-                    //linkUrl.value = defaultUrlAll;
-                    //config.data.linkUrl = defaultUrlAll;
-                    config.data.place = myplace;
-                }else if($(this).val() == "choose"){
-                    //config.data.linkUrl = linkUrl.value;
-                }else{
+            //     myplace = $(this).val();
+            //     if($(this).val() == "all") {
+            //         //linkUrl.value = defaultUrlAll;
+            //         //config.data.linkUrl = defaultUrlAll;
+            //         config.data.place = myplace;
+            //     }else if($(this).val() == "choose"){
+            //         //config.data.linkUrl = linkUrl.value;
+            //     }else{
 
-                    //linkUrl.value = defaultUrlThis;
-                    //config.data.linkUrl = defaultUrlThis;
-                    config.data.place = myplace;
-                }
-            });
-
+            //         //linkUrl.value = defaultUrlThis;
+            //         //config.data.linkUrl = defaultUrlThis;
+            //         config.data.place = myplace;
+            //     }
+            // });
 
             /* Show filter selected with configuration value */
-            $("#selectfilter > option").each(function() {
-                $(this).prop("selected", false);
-                if($(this).val() == config.data.sortkey) {
-                    $(this).prop('selected', true);
-                    //$(this).attr('selected', true);
-                }
-            });
-
-
-
+            $("#selectfilter > option[value='" + config.data.sortkey + "']")
+                .prop("selected", true);
 
             placeUrl.value = config.data.placeUrl;
             for (var choice in types) {
