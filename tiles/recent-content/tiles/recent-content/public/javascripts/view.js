@@ -1,10 +1,6 @@
 // flag for recording time and logging to console
 var timer = false;
 
-// how many pixels to cut off from bottom of widget
-var shrinkByLink = 10;
-var shrinkByNoLink = 27;
-
 // 0-11 mapped to month name
 var months = [
     "January"  , "February", "March"   , "April",
