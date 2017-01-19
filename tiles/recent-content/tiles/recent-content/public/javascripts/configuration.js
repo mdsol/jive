@@ -110,8 +110,11 @@
             /* Show filter selected with configuration value */
             $("#selectfilter > option[value='" + config.data.sortkey + "']")
                 .prop("selected", true);
+
+            // Set place URL
             $("#place-url").val(config.data.placeUrl);
 
+            // Select checkboxes corresponding to config.data.type
             $("[name='type']").filter(function(i, elt) {
                 return config.data.type[0] === "all"
                        || $.inArray(elt.value, config.data.type) !== -1;
@@ -151,19 +154,11 @@
 
             });
 
-
-
-
             gadgets.window.adjustHeight();
 
             function validate(data) {
                 var valid = true;
-                var inputs = document.getElementsByClassName("error-box");
-                if(inputs.length){
-                    for (var el in inputs) {
-                        inputs[el].classList.remove("error-box");
-                    }
-                }
+                $(".error-box").removeClass("error-box");
 
                 numResultsVal = Number(data.numResults.value);
                 if (numResultsVal % 1 !== 0 || numResultsVal < 1 || numResultsVal > 100) {
