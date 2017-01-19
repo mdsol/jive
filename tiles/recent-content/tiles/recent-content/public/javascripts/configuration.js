@@ -110,17 +110,15 @@
             /* Show filter selected with configuration value */
             $("#selectfilter > option[value='" + config.data.sortkey + "']")
                 .prop("selected", true);
+            $("#place-url").val(config.data.placeUrl);
 
-            placeUrl.value = config.data.placeUrl;
-            for (var choice in types) {
-                choice = types[choice];
-                if (config.data.type[0] === "all" || config.data.type.indexOf(choice.value) !== -1) {
-                    choice.checked = true;
-                    if (choice.value === "all") {
-                        choice.disabled = true;
-                    }
-                }
-            }
+            $("[name='type']").filter(function(i, elt) {
+                return config.data.type[0] === "all"
+                       || $.inArray(elt.value, config.data.type) !== -1;
+            }).prop("checked", true);
+            $("input[name='type'][value='all']")
+                .prop("disabled", config.data.type[0] === "all");
+
             showLink.checked = config.data.showLink;
             $("#link-options").toggle(showLink.checked);
             linkText.value = config.data.linkText;
