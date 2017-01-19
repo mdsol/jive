@@ -1,7 +1,7 @@
 (function() {
-     var sortOrder ="0";
-     var sortkey = "recentActivityDateDesc";
-     var myplace="";
+    var sortOrder ="0";
+    var sortkey = "recentActivityDateDesc";
+    var myplace="";
     jive.tile.onOpen(function(config, options) {
         gadgets.window.adjustHeight();
 
@@ -36,17 +36,17 @@
             p.href = container.parent;
             console.log('p.origin',p.origin);
             console.log('container.parent',container.parent);
-            
-            
-            
+
+
+
             // default url start
             var defaultUrlThis = container.resources.html.ref + "/content?sortKey=contentstatus%5Bpublished%5D~recentActivityDateDesc&sortOrder=0";
             var defaultUrlAll = p.origin + "/content?sortKey=all~recentActivityDateDesc&sortOrder=0";
-            
-                    
+
+
             // make sure config has default values
             //console.log('config.data: ',config.data);
-            
+
             if (config.data === undefined) {
                 config.data = {
                     title: "Recent Content",
@@ -62,15 +62,15 @@
                     sortkey: sortkey
                 };
             };
-                
+
             console.log('config.data.linkUrl: ',config.data.linkUrl);
             console.log('config.data: ',config.data);
             console.log('config.data.place: ',config.data.place);
             console.log('sortOrder: ',config.data.sortorder,' sortKey: ',config.data.sortkey);
-            
+
             var title = document.getElementById("title");
             var numResults = document.getElementById("num-results");
-            var radios = $("#selectplace");    
+            var radios = $("#selectplace");
             var sorting = $("#selectfilter");
             var types = document.getElementsByName("type");
             var showLink = document.getElementById("show-link");
@@ -83,8 +83,8 @@
             // populate the dialog with existing config value
             title.value = config.data.title;
             numResults.value = config.data.numResults;
-            
-          /* for choose option*/          
+
+            /* for choose option*/
             $("#selectplace > option").each(function() {
                 $(this).prop("selected", false);
                 if($(this).val() == config.data.place && $(this).val() == "choose") {
@@ -92,31 +92,31 @@
                     $(this).prop('selected', true);
                     $("#place-url").show();
                     $("#div-place-url").show();
-                    
+
                 }else{
-                     $("#place-url").hide();
-                     $("#div-place-url").hide();
-                    }
+                    $("#place-url").hide();
+                    $("#div-place-url").hide();
+                }
             });
-            
-            
-             $("#selectplace > option").each(function() {
-                 $(this).prop("selected", false);
+
+
+            $("#selectplace > option").each(function() {
+                $(this).prop("selected", false);
                 if($(this).val() == config.data.place) {
                     $(this).prop('selected', true);
                     $(this).attr('selected', true);
                     //$(this).selected='selected';
                 }
-                
+
             });
-            
-            
-            
-            
-            
+
+
+
+
+
             /*on place detaile  changes change the URL*/
             $("#selectplace").change(function(){
-               
+
                 myplace = $(this).val();
                 if($(this).val() == "all") {
                     //linkUrl.value = defaultUrlAll;
@@ -124,27 +124,27 @@
                     config.data.place = myplace;
                 }else if($(this).val() == "choose"){
                     //config.data.linkUrl = linkUrl.value;
-                }else{ 
-                   
-                    //linkUrl.value = defaultUrlThis;  
-                    //config.data.linkUrl = defaultUrlThis;   
+                }else{
+
+                    //linkUrl.value = defaultUrlThis;
+                    //config.data.linkUrl = defaultUrlThis;
                     config.data.place = myplace;
                 }
             });
-            
-            
+
+
             /* Show filter selected with configuration value */
             $("#selectfilter > option").each(function() {
-                 $(this).prop("selected", false);
+                $(this).prop("selected", false);
                 if($(this).val() == config.data.sortkey) {
                     $(this).prop('selected', true);
                     //$(this).attr('selected', true);
                 }
             });
 
-            
-          
-            
+
+
+
             placeUrl.value = config.data.placeUrl;
             for (var choice in types) {
                 choice = types[choice];
@@ -160,36 +160,36 @@
             linkText.value = config.data.linkText;
             linkUrl.value = config.data.linkUrl;
             featured.checked = config.data.featured;
-            
-            
-            // Adding Dynamic Filter from Config page 
-            
+
+
+            // Adding Dynamic Filter from Config page
+
             $('#selectfilter').change(function () {
-                
+
                 sortOrder = $('option:selected', this).attr('datasortorder');
-                sortkey = $(this).val();                
+                sortkey = $(this).val();
                 defaultUrlThis = container.resources.html.ref + "/content?sortKey=contentstatus%5Bpublished%5D~"+sortkey+"&sortOrder="+sortOrder;
-                defaultUrlAll = p.origin + "/content?sortKey=all~"+sortkey+"&sortOrder="+sortOrder;   
-                
+                defaultUrlAll = p.origin + "/content?sortKey=all~"+sortkey+"&sortOrder="+sortOrder;
+
                 //config.data.linkUrl = defaultUrlThis;
                 //linkUrl.value = config.data.linkUrl;
                 config.data.sortkey = sortkey;
                 config.data.sortorder = sortOrder;
-                
-                               
+
+
                 linkUrl.value = (config.data.place == "all" ? defaultUrlAll : defaultUrlThis);
-                
-               /* if(myplace == "all"){
-                  //linkUrl.value =   defaultUrlAll;
+
+                /* if(myplace == "all"){
+                //linkUrl.value =   defaultUrlAll;
                 }else if(myplace == "choose"){
                     config.data.linkUrl = linkUrl.value;
                 }else{linkUrl.value =   defaultUrlThis;}*/
-               
-            });            
-                  
-            
-            
-            
+
+            });
+
+
+
+
             gadgets.window.adjustHeight();
 
             function validate(data) {
@@ -238,12 +238,12 @@
                     linkText: linkText,
                     linkUrl: linkUrl
                 };
-                
+
                 //if(myplace == "choose"){
-                    //alert(linkUrl.value);
-                    config.data.linkUrl = linkUrl.value;
+                //alert(linkUrl.value);
+                config.data.linkUrl = linkUrl.value;
                 //}
-                
+
                 if (validate(checkData)) {
                     // get all of the new values
                     config.data.title = title.value;
@@ -309,8 +309,8 @@
                 osapi.jive.corev3.places.get({
                     search: url.split("/").pop()
                 }).execute(function(data) {
-                    var placeID;                   
-                    for (var el in data.list) {  
+                    var placeID;
+                    for (var el in data.list) {
                         el = data.list[el];
                         if (el.resources.html.ref === url) {
                             placeID = el.placeID;
@@ -321,7 +321,7 @@
                         document.getElementById("place-url").classList.add("error-box");
                         gadgets.window.adjustHeight();
                     } else {
-                       // config.data.linkUrl = linkUrl.value = linkUrl.value.replace(container.resources.html.ref, url);
+                        // config.data.linkUrl = linkUrl.value = linkUrl.value.replace(container.resources.html.ref, url);
                         config.data.placeID = placeID;
                         callback();
                     }
@@ -368,17 +368,17 @@ $(document).ready(function() {
             document.getElementById("featured").checked = false;
         }
     });
-    
-    
+
+
     // added by vivek
-    
+
     $('#selectplace').change(function () {
         if($("#selectplace").val() == 'choose'){
             $("#place-url").show();
             $("#div-place-url").show();
         }else{
             $("#place-url").hide();
-             $("#div-place-url").hide();
+            $("#div-place-url").hide();
         }
         gadgets.window.adjustHeight();
     });
