@@ -17,20 +17,20 @@ var sorting = {
     creationDateAsc : "dateCreatedAsc",
     recentActivityDateDesc : "latestActivityDesc",
     recentActivityDateAsc : "latestActivityAsc"
-}; 
-    
+};
+
 
 
 // default url endings
 var defaultUrlThis = "/content?sortKey=contentstatus%5Bpublished%5D~recentActivityDateDesc&sortOrder=0";
 
 jive.tile.onOpen(function(config, options) {
-    
-defaultUrlThis = "/content?sortKey=contentstatus%5Bpublished%5D~"+config.sortkey+"&sortOrder="+config.sortorder;
+
+    defaultUrlThis = "/content?sortKey=contentstatus%5Bpublished%5D~"+config.sortkey+"&sortOrder="+config.sortorder;
     console.log('config',config);
     console.log('options',options);
-    
-      
+
+
     // default config vals if no values given
     config.numResults = config.numResults || 10;
     config.place = config.place || "sub";
@@ -79,21 +79,21 @@ defaultUrlThis = "/content?sortKey=contentstatus%5Bpublished%5D~"+config.sortkey
         if (config.showLink && config.linkUrl === "") {
             setDefaultUrl(container.placeID, container.parent, config);
         }
-        
+
         var places = ["/places/" + container.placeID];
 
         if (config.place === "sub") {
             //console.log('container sub:::',container);
             getSubplaces(container);
         } else if ((config.place === "this" || config.place === "choose") &&
-                (config.type.indexOf("post") !== -1 || config.type[0] === "all")) {
-            container.getBlog().execute(function(blog) {
-                places.push("/places/" + blog.placeID);
+            (config.type.indexOf("post") !== -1 || config.type[0] === "all")) {
+                container.getBlog().execute(function(blog) {
+                    places.push("/places/" + blog.placeID);
+                    getContent(0);
+                });
+            } else {
                 getContent(0);
-            });
-        } else {
-            getContent(0);
-        }
+            }
 
         function getSubplaces(container) {
             //console.log('getSubplaces-container:',container);
@@ -111,8 +111,8 @@ defaultUrlThis = "/content?sortKey=contentstatus%5Bpublished%5D~"+config.sortkey
                         // present the user with an appropriate error message
                     } else {
                         for (place in res.list) {
-                             places.push("/places/" + res.list[place].placeID);
-                             getSubplaces(res.list[place]);
+                            places.push("/places/" + res.list[place].placeID);
+                            getSubplaces(res.list[place]);
                         }
                         pending--;
                         if (pending == 0) {
@@ -133,7 +133,7 @@ defaultUrlThis = "/content?sortKey=contentstatus%5Bpublished%5D~"+config.sortkey
                 count: config.numResults,
                 startIndex: startIndex,
                 sort: sorting[config.sortkey],
-                fields: "subject,author.displayName,iconCss,lastActivity,published,question,type"               
+                fields: "subject,author.displayName,iconCss,lastActivity,published,question,type"
             };
             // add place if not "all places"
             if (config.place !== "all") {
@@ -141,7 +141,7 @@ defaultUrlThis = "/content?sortKey=contentstatus%5Bpublished%5D~"+config.sortkey
             }
             // add type if not "all types"
             if (config.type[0] !== "all") {
-                
+
                 for(var typeS in config.type){
                     if(config.type[typeS]){
                         //reqOptions.type = config.type.join(",");
@@ -158,7 +158,7 @@ defaultUrlThis = "/content?sortKey=contentstatus%5Bpublished%5D~"+config.sortkey
             }
 
             if (config.featured) {
-               // console.log('config-featured',config.featured,'reqOptions',reqOptions);
+                // console.log('config-featured',config.featured,'reqOptions',reqOptions);
                 osapi.jive.corev3.places.get({uri: reqOptions.place}).execute(function(res) {
                     options = { fields: reqOptions.fields };
                     if (config.type[0] !== "all") {
@@ -170,7 +170,7 @@ defaultUrlThis = "/content?sortKey=contentstatus%5Bpublished%5D~"+config.sortkey
                 //console.log('reqOptions else',reqOptions);
                 osapi.jive.corev3.contents.get(reqOptions).execute(handleResults);
             }
-            
+
             function handleResults(res) {
                 console.log(res);
                 if (res.error) {
@@ -213,13 +213,13 @@ defaultUrlThis = "/content?sortKey=contentstatus%5Bpublished%5D~"+config.sortkey
         function formatDate(d) {
             var date = new Date(d);
             var dateStr = date.getDate() + "";
-            
+
             if (dateStr.length < 2) {
                 dateStr = "0" + dateStr;
             }
             var monthStr = months[date.getMonth()].substring(0, 3);
             var yearStr = date.getFullYear() + "";
-            
+
             return dateStr + "-" + monthStr + "-" + yearStr;
         }
 
@@ -251,12 +251,12 @@ defaultUrlThis = "/content?sortKey=contentstatus%5Bpublished%5D~"+config.sortkey
                 var icon = document.createElement("span");
                 var iconClasses = doc.icon.split(" ");
                 for (var c in iconClasses) {
-                    
+
                     icon.classList.add(iconClasses[c]);
                 }
                 icon.classList.add("jive-icon-big");
                 var docSubj = document.createTextNode(doc.subject);
-                a.appendChild(icon);  
+                a.appendChild(icon);
                 a.appendChild(docSubj);
 
                 // create timestamp + author
@@ -269,10 +269,10 @@ defaultUrlThis = "/content?sortKey=contentstatus%5Bpublished%5D~"+config.sortkey
                 authorUrl.appendChild(author);
                 tsDiv.appendChild(authorUrl);
 
-                li.appendChild(a);  
+                li.appendChild(a);
                 li.appendChild(tsDiv);
                 ul.appendChild(li);
-                
+
                 // create table row node
                 var tr = document.createElement("tr");
                 var td1 = document.createElement("td");
