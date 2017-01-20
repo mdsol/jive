@@ -265,10 +265,12 @@
                     success: function(place) {
                         console.log(place);
                         config.data.placeID = place.placeID;
-                        $("#chosen-place").append(
-                            $("<div>", {
-                                "class": "jive-icon-med jive-icon-" + place.type
-                            }).text(place.name)
+                        $("#chosen-place").empty().append(
+                            $("<span>")
+                                .text(place.name)
+                                .append($("<span>", {
+                                    "class": "jive-icon-med jive-icon-" + place.type
+                                }))
                         );
                     }
                 });
