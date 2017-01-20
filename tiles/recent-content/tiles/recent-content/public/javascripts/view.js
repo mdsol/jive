@@ -49,16 +49,9 @@ jive.tile.onOpen(function(config, options) {
         gadgets.window.adjustHeight();
     }
 
-    var getContainer;
-    if (config.place === "choose") {
-        getContainer = function(callback) {
-            osapi.jive.corev3.places.get({uri: "/places/" + config.placeID}).execute(callback);
-        };
-    } else {
-        getContainer = jive.tile.getContainer;
-    }
-
-    getContainer(function(container) {
+    osapi.jive.corev3.places.get({
+        uri: "/places/" + config.placeContainer.placeID
+    }).execute(function(container) {
         // set default URL if none set
         console.log('container:::',container);
         if (config.linkUrl === "") {
@@ -76,18 +69,26 @@ jive.tile.onOpen(function(config, options) {
 
         var places = ["/places/" + container.placeID];
 
-        if (config.place === "sub") {
-            //console.log('container sub:::',container);
-            getSubplaces(container);
-        } else if ((config.place === "this" || config.place === "choose") &&
-            (config.type.indexOf("post") !== -1 || config.type[0] === "all")) {
-                container.getBlog().execute(function(blog) {
-                    places.push("/places/" + blog.placeID);
+        switch (config.place) {
+            case "sub":
+            case "choose-sub":
+                getSubplaces(container);
+                break;
+            case "this":
+            case "choose":
+                if (config.type.indexOf("post") !== -1 || config.type[0] === "all") {
+                    container.getBlog().execute(function(blog) {
+                        places.push("/places/" + blog.placeID);
+                        getContent(0);
+                    });
+                } else {
                     getContent(0);
-                });
-            } else {
+                }
+                break;
+            default:
                 getContent(0);
-            }
+                break;
+        }
 
         function getSubplaces(container) {
             //console.log('getSubplaces-container:',container);
