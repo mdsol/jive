@@ -15,6 +15,21 @@ var sorting = {
     recentActivityDateAsc : "latestActivityAsc"
 };
 
+var sortFuncs = {
+    creationDateDesc : function(a, b) {
+        return new Date(b.postDate) - new Date(a.postDate)
+    },
+    creationDateAsc : function(a, b) {
+        return new Date(a.postDate) - new Date(b.postDate)
+    },
+    recentActivityDateDesc : function(a, b) {
+        return new Date(b.lastAct) - new Date(a.lastAct)
+    },
+    recentActivityDateAsc : function(a, b) {
+        return new Date(a.lastAct) - new Date(b.lastAct)
+    },
+};
+
 // default url endings
 var defaultUrlThis = "/content?sortKey=contentstatus%5Bpublished%5D~recentActivityDateDesc&sortOrder=0";
 
@@ -234,9 +249,7 @@ jive.tile.onOpen(function(config, options) {
             }
 
             if (config.featured) {
-                docList.sort(function(a, b) {
-                    return b.lastAct - a.lastAct;
-                });
+                docList.sort(sortFuncs[config.sortkey]);
             }
 
             var ul = document.getElementById("ul-list");

@@ -261,12 +261,20 @@
                 switch ($("#selectplace").val()) {
                     case "choose":
                     case "choose-sub":
+                        $("#featured").prop("disabled", false);
                         $("#place-chooser-parent").show();
                         break;
                     case "this":
                     case "sub":
+                        $("#featured").prop("disabled", false);
                         setPlaceTo(container);
-                    default:
+                        $("#place-chooser-parent").hide();
+                        break;
+                    case "all":
+                        $("#featured").prop({
+                            "checked": false,
+                            "disabled": true
+                        });
                         $("#place-chooser-parent").hide();
                         break;
                 }
@@ -309,13 +317,5 @@ $(document).ready(function() {
             $("input[name='place'][value='this']").prop("checked", true);
         }
     });
-    $("input[name='place']").change(function() {
-        if ($(this).filter(":checked").val() !== "this") {
-            document.getElementById("featured").checked = false;
-        }
-    });
-
-
-    // added by vivek
 
 });
