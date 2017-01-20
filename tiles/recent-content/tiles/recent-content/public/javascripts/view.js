@@ -1,10 +1,6 @@
 // flag for recording time and logging to console
 var timer = false;
 
-// how many pixels to cut off from bottom of widget
-var shrinkByLink = 10;
-var shrinkByNoLink = 27;
-
 // 0-11 mapped to month name
 var months = [
     "January"  , "February", "March"   , "April",
@@ -17,20 +13,33 @@ var sorting = {
     creationDateAsc : "dateCreatedAsc",
     recentActivityDateDesc : "latestActivityDesc",
     recentActivityDateAsc : "latestActivityAsc"
-}; 
-    
+};
 
+var sortFuncs = {
+    creationDateDesc : function(a, b) {
+        return new Date(b.postDate) - new Date(a.postDate)
+    },
+    creationDateAsc : function(a, b) {
+        return new Date(a.postDate) - new Date(b.postDate)
+    },
+    recentActivityDateDesc : function(a, b) {
+        return new Date(b.lastAct) - new Date(a.lastAct)
+    },
+    recentActivityDateAsc : function(a, b) {
+        return new Date(a.lastAct) - new Date(b.lastAct)
+    },
+};
 
 // default url endings
 var defaultUrlThis = "/content?sortKey=contentstatus%5Bpublished%5D~recentActivityDateDesc&sortOrder=0";
 
 jive.tile.onOpen(function(config, options) {
-    
-defaultUrlThis = "/content?sortKey=contentstatus%5Bpublished%5D~"+config.sortkey+"&sortOrder="+config.sortorder;
+
+    defaultUrlThis = "/content?sortKey=contentstatus%5Bpublished%5D~"+config.sortkey+"&sortOrder="+config.sortorder;
     console.log('config',config);
     console.log('options',options);
-    
-      
+
+
     // default config vals if no values given
     config.numResults = config.numResults || 10;
     config.place = config.place || "sub";
@@ -55,16 +64,9 @@ defaultUrlThis = "/content?sortKey=contentstatus%5Bpublished%5D~"+config.sortkey
         gadgets.window.adjustHeight();
     }
 
-    var getContainer;
-    if (config.place === "choose") {
-        getContainer = function(callback) {
-            osapi.jive.corev3.places.get({uri: "/places/" + config.placeID}).execute(callback);
-        };
-    } else {
-        getContainer = jive.tile.getContainer;
-    }
-
-    getContainer(function(container) {
+    osapi.jive.corev3.places.get({
+        uri: "/places/" + config.placeContainer.placeID
+    }).execute(function(container) {
         // set default URL if none set
         console.log('container:::',container);
         if (config.linkUrl === "") {
@@ -79,20 +81,28 @@ defaultUrlThis = "/content?sortKey=contentstatus%5Bpublished%5D~"+config.sortkey
         if (config.showLink && config.linkUrl === "") {
             setDefaultUrl(container.placeID, container.parent, config);
         }
-        
+
         var places = ["/places/" + container.placeID];
 
-        if (config.place === "sub") {
-            //console.log('container sub:::',container);
-            getSubplaces(container);
-        } else if ((config.place === "this" || config.place === "choose") &&
-                (config.type.indexOf("post") !== -1 || config.type[0] === "all")) {
-            container.getBlog().execute(function(blog) {
-                places.push("/places/" + blog.placeID);
+        switch (config.place) {
+            case "sub":
+            case "choose-sub":
+                getSubplaces(container);
+                break;
+            case "this":
+            case "choose":
+                if (config.type.indexOf("post") !== -1 || config.type[0] === "all") {
+                    container.getBlog().execute(function(blog) {
+                        places.push("/places/" + blog.placeID);
+                        getContent(0);
+                    });
+                } else {
+                    getContent(0);
+                }
+                break;
+            default:
                 getContent(0);
-            });
-        } else {
-            getContent(0);
+                break;
         }
 
         function getSubplaces(container) {
@@ -111,8 +121,8 @@ defaultUrlThis = "/content?sortKey=contentstatus%5Bpublished%5D~"+config.sortkey
                         // present the user with an appropriate error message
                     } else {
                         for (place in res.list) {
-                             places.push("/places/" + res.list[place].placeID);
-                             getSubplaces(res.list[place]);
+                            places.push("/places/" + res.list[place].placeID);
+                            getSubplaces(res.list[place]);
                         }
                         pending--;
                         if (pending == 0) {
@@ -133,7 +143,7 @@ defaultUrlThis = "/content?sortKey=contentstatus%5Bpublished%5D~"+config.sortkey
                 count: config.numResults,
                 startIndex: startIndex,
                 sort: sorting[config.sortkey],
-                fields: "subject,author.displayName,iconCss,lastActivity,published,question,type"               
+                fields: "subject,author.displayName,iconCss,lastActivity,published,question,type"
             };
             // add place if not "all places"
             if (config.place !== "all") {
@@ -141,7 +151,7 @@ defaultUrlThis = "/content?sortKey=contentstatus%5Bpublished%5D~"+config.sortkey
             }
             // add type if not "all types"
             if (config.type[0] !== "all") {
-                
+
                 for(var typeS in config.type){
                     if(config.type[typeS]){
                         //reqOptions.type = config.type.join(",");
@@ -158,19 +168,28 @@ defaultUrlThis = "/content?sortKey=contentstatus%5Bpublished%5D~"+config.sortkey
             }
 
             if (config.featured) {
-               // console.log('config-featured',config.featured,'reqOptions',reqOptions);
-                osapi.jive.corev3.places.get({uri: reqOptions.place}).execute(function(res) {
-                    options = { fields: reqOptions.fields };
-                    if (config.type[0] !== "all") {
-                        options.filter = "type(" + reqOptions.type + ")";
-                    }
-                    res.getFeaturedContent(options).execute(handleResults);
-                });
+                // console.log('config-featured',config.featured,'reqOptions',reqOptions);
+                // osapi.jive.corev3.places.get({uri: reqOptions.place}).execute(function(res) {
+                //     options = { fields: reqOptions.fields };
+                //     if (config.type[0] !== "all") {
+                //         options.filter = "type(" + reqOptions.type + ")";
+                //     }
+                //     res.getFeaturedContent(options).execute(handleResults);
+                // });
+                var typeStr = config.type[0] === "all" ? "" : "&filter=type(" + config.type.join(",") + ")";
+                osapi.jive.core.get({
+                    v: "v3",
+                    href: "/contents/featured?filter=place("
+                          + reqOptions.place
+                          + ")"
+                          + typeStr
+                          + "&fields=subject,author.displayName,iconCss,lastActivity,published,question,type"
+                }).execute(handleResults);
             } else {
                 //console.log('reqOptions else',reqOptions);
                 osapi.jive.corev3.contents.get(reqOptions).execute(handleResults);
             }
-            
+
             function handleResults(res) {
                 console.log(res);
                 if (res.error) {
@@ -182,7 +201,7 @@ defaultUrlThis = "/content?sortKey=contentstatus%5Bpublished%5D~"+config.sortkey
                     if (timer) {
                         console.log("getContent: " + (Date.now() - reqTime) + " ms");
                     }
-                    //console.log('res.list ::::: ',res.list);
+                    console.log('res.list ::::: ',res.list);
                     for (var el in res.list) {
                         el=res.list[el];
                         if (config.type[0] === "all" || el.type !== "discussion" || (getQuestions && el.question) || (getDiscussions && !el.question) || el.type !== null || el.type !== undefined) {
@@ -191,7 +210,8 @@ defaultUrlThis = "/content?sortKey=contentstatus%5Bpublished%5D~"+config.sortkey
                                 url: el.resources.html.ref,
                                 author: el.author.displayName,
                                 authorUrl: el.author.resources.html.ref,
-                                icon: el.iconCss,
+                                contentType: el.type,
+                                iconCss: el.iconCss,
                                 avatar: el.author.resources.avatar.ref,
                                 lastAct: el.lastActivity,
                                 postDate: el.published
@@ -210,23 +230,16 @@ defaultUrlThis = "/content?sortKey=contentstatus%5Bpublished%5D~"+config.sortkey
             }
         }
 
-        function formatDate(date) {
-            /*console.log('date',date);
+        function formatDate(d) {
+            var date = new Date(d);
             var dateStr = date.getDate() + "";
-            console.log('dateStr',dateStr);
-            
+
             if (dateStr.length < 2) {
                 dateStr = "0" + dateStr;
             }
             var monthStr = months[date.getMonth()].substring(0, 3);
-            var yearStr = date.getFullYear() + "";*/
-            date = date.split("-");
-            var dateStr  = date[2];
-                dateStr = dateStr.substring(0, 2);
-            var monthStr = date[1];
-            var yearStr = date[0];
-            //console.log("dateStr: "+dateStr+" monthStr : "+monthStr+" yearStr: "+yearStr);
-            
+            var yearStr = date.getFullYear() + "";
+
             return dateStr + "-" + monthStr + "-" + yearStr;
         }
 
@@ -236,9 +249,7 @@ defaultUrlThis = "/content?sortKey=contentstatus%5Bpublished%5D~"+config.sortkey
             }
 
             if (config.featured) {
-                docList.sort(function(a, b) {
-                    return b.lastAct - a.lastAct;
-                });
+                docList.sort(sortFuncs[config.sortkey]);
             }
 
             var ul = document.getElementById("ul-list");
@@ -255,15 +266,13 @@ defaultUrlThis = "/content?sortKey=contentstatus%5Bpublished%5D~"+config.sortkey
                 var a = document.createElement("a");
                 a.setAttribute("target", "_top");
                 a.setAttribute("href", doc.url);
-                var icon = document.createElement("span");
-                var iconClasses = doc.icon.split(" ");
-                for (var c in iconClasses) {
-                    
-                    icon.classList.add(iconClasses[c]);
-                }
-                icon.classList.add("jive-icon-big");
+                var $icon =
+                    $("<span>")
+                    .addClass("jive-icon-big jive-icon-" + doc.contentType)
+                    .addClass(doc.iconCss)
+                    .removeClass("jive-icon-sml jive-icon-med jive-icon-huge");
                 var docSubj = document.createTextNode(doc.subject);
-                a.appendChild(icon);  
+                $(a).append($icon);
                 a.appendChild(docSubj);
 
                 // create timestamp + author
@@ -276,10 +285,10 @@ defaultUrlThis = "/content?sortKey=contentstatus%5Bpublished%5D~"+config.sortkey
                 authorUrl.appendChild(author);
                 tsDiv.appendChild(authorUrl);
 
-                li.appendChild(a);  
+                li.appendChild(a);
                 li.appendChild(tsDiv);
                 ul.appendChild(li);
-                
+
                 // create table row node
                 var tr = document.createElement("tr");
                 var td1 = document.createElement("td");

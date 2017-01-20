@@ -1,0 +1,926 @@
+.jive-icon-sml, .jive-icon-med, .jive-icon-big, .jive-icon-huge {
+    background-color: transparent;
+    background-position: -100% -100%;
+    background-repeat: no-repeat;
+    display: block;
+    float: left;
+    padding: 0
+}
+.jive-icon-sml {
+    background-image: url(https://assets2.jiveon.com/core/2016.3.4.0.efc1903/images/jive-icon-sprites-sml.png);
+    height: 12px;
+    width: 12px;
+    margin: 1px 5px 0 0
+}
+.jive-icon-med {
+    background-image: url(https://assets2.jiveon.com/core/2016.3.4.0.efc1903/images/jive-icon-sprites-med.png);
+    height: 16px;
+    width: 17px;
+    margin: -1px 5px 0 0
+}
+.jive-icon-big {
+    background-image: url(https://assets2.jiveon.com/core/2016.3.4.0.efc1903/images/jive-icon-sprites-big.png);
+    height: 25px;
+    width: 25px;
+    margin: 0 6px 0 0
+}
+.jive-icon-huge {
+    background-image: url(https://assets2.jiveon.com/core/2016.3.4.0.efc1903/images/jive-icon-sprites-huge.png);
+    height: 48px;
+    width: 48px;
+    margin: 0 8px 0 0
+}
+
+.jive-icon-blank {
+    background-image: none
+}
+.jive-icon-acclaim {
+    background-position: -592px -272px
+}
+.jive-icon-actions {
+    background-position: -1104px -336px
+}
+.jive-icon-activity {
+    background-position: -1232px -336px
+}
+.jive-icon-activity-gauge-low {
+    background-position: -400px -272px
+}
+.jive-icon-activity-gauge-med {
+    background-position: -464px -272px
+}
+.jive-icon-activity-gauge-high {
+    background-position: -528px -272px
+}
+.jive-icon-add-item {
+    background-position: -420px -1360px
+}
+.jive-icon-admin-actions {
+    background-position: -336px -336px
+}
+.jive-icon-announcement {
+    background-position: -16px -272px
+}
+.jive-icon-app-manage {
+    background-position: -465px -336px
+}
+.jive-icon-appmarket {
+    background-position: -336px -464px
+}
+.jive-icon-arrow-generic-down {
+    background-position: -272px -1104px
+}
+.jive-icon-archive,
+.jive-icon-unarchive {
+    background-position: -208px -400px
+}
+.jive-icon-arrow-generic-up {
+    background-position: -208px -1104px
+}
+.jive-icon-arrow-select {
+    background-position: -64px -1104px
+}
+.jive-icon-arrow-top {
+    background-position: -336px -1104px
+}
+.jive-icon-arrow-breadcrumb {
+    background-position: -512px -1104px
+}
+.jive-icon-attachment {
+    background-position: -1296px -656px
+}
+.jive-icon-attachment.green {
+    background-position: -1232px -656px
+}
+.jive-icon-blog,
+.jive-icon-blogpost,
+.jive-icon-post {
+    background-position: -16px -144px
+}
+.jive-icon-blog-bookmark {
+    background-position: -336px -144px
+}
+.jive-icon-blog-comment {
+    background-position: -272px -144px
+}
+.jive-icon-blog-draft {
+    background-position: -464px -144px
+}
+.jive-icon-blog-manage {
+    background-position: -400px -144px
+}
+.jive-icon-blog-manage-posts {
+    background-position: -528px -144px
+}
+.jive-icon-bookmark {
+    background-position: -16px -784px
+}
+.jive-icon-bookmark-glyph {
+    background-position: -1232px -656px
+}
+.jive-icon-bookmark-private {
+    background-position: -1168px -656px
+}
+.jive-icon-bookmark-ribbon {
+    background-position: -144px -784px
+}
+.jive-icon-bookmark-ribbon-grey {
+    background-position: -208px -784px
+}
+.jive-icon-bookmark-ribbonaction {
+    background-position: -272px -784px
+}
+.jive-icon-bookmark-ribbonaction-grey {
+    background-position: -336px -784px
+}
+.jive-icon-calendar {
+    background-position: -912px -656px
+}
+.jive-icon-camera {
+    background-position: -208px -272px
+}
+.jive-icon-chat {
+    background-position: -16px -336px
+}
+.jive-icon-check {
+    background-position: -80px -592px
+}
+.jive-icon-checkpoint {
+    background-position: -80px -400px
+}
+.jive-icon-checkpoint-past {
+    background-position: -144px -400px
+}
+.jive-icon-collaboration {
+    background-position: -1296px -848px
+}
+.jive-icon-collaboration-label {
+    background-position: -1360px -272px
+}
+.jive-icon-comment {
+    background-position: -80px -144px
+}
+.jive-icon-comment-add {
+    background-position: -144px -143px
+}
+.jive-icon-comment-bang {
+    background-position: -720px -144px
+}
+.jive-icon-comment-blank {
+    background-position: -656px -144px
+}
+.jive-icon-comment-user {
+    background-position: -784px -144px
+}
+.jive-icon-comment-grey {
+    background-position: -208px -144px
+}
+.jive-icon-communications {
+    background-position: -1040px -336px
+}
+.jive-icon-computer {
+    background-position: -1040px -656px
+}
+.jive-icon-content-private {
+    background-position: -1168px -656px
+}
+.jive-icon-content-private-shared {
+    background-position: -1232px -656px
+}
+.jive-icon-content-attachment {
+    background-position: -1296px -656px;
+    width: 14px
+}
+.jive-icon-dashboard {
+    background-position: -1168px -336px
+}
+.jive-icon-delete {
+    background-position: -272px -592px
+}
+.jive-icon-direct-message {
+    background-position: -1296px -848px
+}
+.jive-icon-direct-message-label {
+    background-position: -1040px -272px
+}
+.jive-icon-direct-message-1-1-label {
+    background-position: -1296px -272px
+}
+.jive-icon-discussion-bridged,
+.jive-icon-discussion,
+.jive-icon-thread {
+    background-position: -16px -16px
+}
+.jive-icon-discussion-bookmark-bridged,
+.jive-icon-discussion-bookmark {
+    background-position: -272px -16px
+}
+.jive-icon-discussion-branch {
+    background-position: -336px -16px
+}
+.jive-icon-discussion-correct-bridged,
+.jive-icon-discussion-correct {
+    background-position: -208px -16px
+}
+.jive-icon-discussion-helpful-bridged,
+.jive-icon-discussion-helpful {
+    background-position: -144px -16px
+}
+.jive-icon-discussion-lock {
+    background-position: -208px -656px
+}
+.jive-icon-discussion-question-bridged,
+.jive-icon-discussion-question {
+    background-position: -80px -16px
+}
+.jive-icon-discussion-unlock {
+    background-position: -336px -656px
+}
+.jive-icon-document-glyph {
+    background-position: -1168px -656px
+}
+.jive-icon-document {
+    background-position: -16px -80px
+}
+.jive-icon-document-bookmark {
+    background-position: -1168px -80px
+}
+.jive-icon-document-comment {
+    background-position: -1104px -80px
+}
+.jive-icon-document-upload {
+    background-position: -1040px -80px
+}
+.jive-icon-doctype-acrobat {
+    background-position: -80px -80px
+}
+.jive-icon-doctype-compressed {
+    background-position: -144px -80px
+}
+.jive-icon-doctype-document {
+    background-position: -208px -80px
+}
+.jive-icon-doctype-generic {
+    background-position: -272px -80px
+}
+.jive-icon-photoAlbum,
+.jive-icon-doctype-image {
+    background-position: -336px -80px
+}
+.jive-icon-doctype-presentation {
+    background-position: -400px -80px
+}
+.jive-icon-doctype-spreadsheet {
+    background-position: -464px -80px
+}
+.jive-icon-doctype-text {
+    background-position: -528px -80px
+}
+.jive-icon-doctype-video {
+    background-position: -592px -80px
+}
+.jive-icon-edit {
+    background-position: -720px -80px
+}
+.jive-icon-editPlaceBg {
+    background-position: -80px -1360px
+}
+.jive-icon-emails-active {
+    background-position: -272px -272px
+}
+.jive-icon-emails-inactive {
+    background-position: -336px -272px
+}
+.jive-icon-mobile-active {
+    background-position: -272px -272px
+}
+.jive-icon-mobile-inactive {
+    background-position: -336px -272px
+}
+.jive-icon-endorse-add {
+    background-position: -717px -1360px
+}
+.jive-icon-endorse-grey {
+    background-position: -607px -1359px
+}
+.jive-icon-endorse-remove {
+    background-position: -730px -1359px
+}
+.jive-icon-endorse-delete {
+    background-position: -748px -1360px
+}
+.jive-icon-expertise-remove {
+    background-position: -272px -592px
+}
+.jive-icon-external-site {
+    background-position: -400px -784px
+}
+.jive-icon-external-site-bookmark {
+    background-position: -528px -784px
+}
+.jive-icon-external-site-comment {
+    background-position: -464px -784px
+}
+.jive-icon-url-comment {
+    background-position: -400px -784px
+}
+.jive-icon-site-go {
+    background-position: -16px -1104px
+}
+.jive-icon-eye {
+    background-position: -464px -656px
+}
+.jive-icon-event {
+    background-position: -1040px -16px
+}
+.jive-icon-event-bookmark {
+    background-position: -1168px -16px
+}
+.jive-icon-event-comment {
+    background-position: -1104px -16px
+}
+.jive-icon-flickr {
+    background-position: -144px -720px
+}
+.jive-icon-folder {
+    background-position: -848px -848px
+}
+.jive-icon-folder-edit {
+    background-position: -1040px -848px
+}
+.jive-icon-folder-delete {
+    background-position: -1104px -848px
+}
+.jive-icon-folder-sent {
+    background-position: -912px -848px
+}
+.jive-icon-folder-stack {
+    background-position: -1168px -848px
+}
+.jive-icon-folder-up {
+    background-position: -976px -848px
+}
+.jive-icon-follow-stop {
+    background-position: -720px -592px
+}
+.jive-icon-follow {
+    background-position: -80px -336px
+}
+.jive-icon-following {
+    background-position: -143px -336px
+}
+.jive-icon-following-stop {
+    background-position: -208px -336px
+}
+.jive-icon-forbidden {
+    background-position: -400px -592px
+}
+.jive-icon-friend {
+    background-position: -528px -528px
+}
+.jive-icon-friend-add {
+    background-position: -720px -528px
+}
+.jive-icon-friend-followers {
+    background-position: -592px -528px
+}
+.jive-icon-friend-following {
+    background-position: -656px -528px
+}
+.jive-icon-friend-applylabels {
+    background-position: -208px -1168px
+}
+.jive-icon-full-view {
+    background-position: -656px -400px
+}
+.jive-icon-full-view-selected {
+    background-position: -784px -400px
+}
+.jive-icon-gear {
+    background-position: -976px -656px
+}
+.jive-icon-getstarted {
+    background-position: -1424px -336px
+}
+.jive-icon-group {
+    background-position: -208px -912px
+}
+.jive-icon-group-bookmark {
+    background-position: -720px -912px
+}
+.jive-icon-group-member_only {
+    background-position: -272px -656px
+}
+.jive-icon-group-open {
+    background-position: -336px -656px
+}
+.jive-icon-group-private,
+.jive-icon-group-closed {
+    background-position: -208px -656px
+}
+.jive-icon-group-secret,
+.jive-icon-group-covert {
+    background-position: -400px -656px
+}
+.jive-icon-group-secret2 {
+    background-position: -336px -912px
+}
+.jive-icon-help {
+    background-position: -656px -592px
+}
+.jive-icon-idea {
+    background-position: -848px -16px
+}
+.jive-icon-idea-bookmark {
+    background-position: -976px -16px
+}
+.jive-icon-idea-comment {
+    background-position: -912px -16px
+}
+.jive-icon-inbox {
+    background-position: -144px -848px
+}
+.jive-icon-inbox-actions {
+    background-position: -912px -592px
+}
+.jive-icon-inbox-info {
+    background-position: -784px -592px
+}
+.jive-icon-inbox-people {
+    background-position: -848px -592px
+}
+.jive-icon-info {
+    background-position: -592px -592px
+}
+.jive-icon-iphone {
+    background-position: -144px -272px
+}
+.jive-icon-label-frame {
+    background-position: -16px -1168px
+}
+.jive-icon-like {
+    background-position: -720px -144px
+}
+.jive-icon-like-grey {
+    background-position: -656px -144px
+}
+.jive-icon-link {
+    background-position: -400px -720px
+}
+.jive-icon-link2 {
+    background-position: -144px -656px
+}
+.jive-icon-link-popout {
+    background-position: -656px -784px
+}
+.jive-icon-lock {
+    background-position: -208px -656px
+}
+.jive-icon-magnifyingglass {
+    background-position: -848px -656px
+}
+.jive-icon-mention {
+    background-position: -656px -272px
+}
+.jive-icon-mention-label {
+    background-position: -912px -272px
+}
+.jive-icon-mention-label-inactive {
+    background-position: -1168px -272px
+}
+.jive-icon-minus {
+    background-position: -208px -592px
+}
+.jive-icon-mobile {
+    background-position: -144px -272px
+}
+.jive-icon-moderate {
+    background-position: -976px -336px
+}
+.jive-icon-moderation {
+    background-position: -16px -1040px
+}
+.jive-icon-more {
+    background-position: -144px -272px
+}
+.jive-icon-move {
+    background-position: -1296px -80px
+}
+.jive-icon-permalink {
+    background-position: -400px -272px
+}
+.jive-icon-permalink-active {
+    background-position: -464px -272px
+}
+.jive-icon-permalink-hover {
+    background-position: -528px -272px
+}
+.jive-icon-note {
+    background-position: -208px -1040px
+}
+.jive-icon-note-add {
+    background-position: -272px -1040px
+}
+.jive-icon-note-delete {
+    background-position: -336px -1040px
+}
+.jive-icon-note-edit {
+    background-position: -400px -1040px
+}
+.jive-icon-notify {
+    background-position: -656px -849px
+}
+.jive-icon-notify-stop {
+    background-position: -656px -849px
+}
+.jive-icon-orgchart {
+    background-position: -400px -528px
+}
+.jive-icon-orgchart-add {
+    background-position: -848px -528px
+}
+.jive-icon-partner {
+    background-position: -1104px -272px
+}
+.jive-icon-partner-alt {
+    background-position: -1232px -271px
+}
+.jive-icon-password {
+    background-position: -400px -656px
+}
+.jive-icon-outcome {
+    background-position: -100% -100%;
+    position: relative;
+    color: #999
+}
+.jive-icon-outcome:before,
+.jive-icon-outcome:after {
+    content: '';
+    display: block;
+    box-sizing: border-box;
+    height: 14px;
+    width: 14px;
+    top: 1px;
+    left: 1px;
+    position: absolute;
+    border-radius: 50%;
+    color: inherit
+}
+.jive-icon-outcome:before {
+    border: 3px solid
+}
+.jive-icon-outcome.unmark:after {
+    border: 7px solid;
+    opacity: .7
+}
+.jive-icon-outcome.jive-icon-finalized {
+    color: #900
+}
+.jive-icon-outcome.jive-icon-wip {
+    color: #f26f55
+}
+.jive-icon-outcome.jive-icon-official {
+    color: #24a
+}
+.jive-icon-outcome.jive-icon-outdated {
+    color: #444
+}
+.jive-icon-participants {
+    background-position: -1338px -1360px
+}
+.jive-icon-people {
+    background-position: -16px -528px
+}
+.jive-icon-photo {
+    background-position: -16px -720px
+}
+.jive-icon-place-unavailable {
+    background-position: -784px -912px
+}
+.jive-icon-plugin {
+    background-position: -80px -1168px
+}
+.jive-icon-plus {
+    background-position: -144px -592px
+}
+.jive-icon-poll {
+    background-position: -16px -208px
+}
+.jive-icon-poll-add {
+    background-position: -80px -208px
+}
+.jive-icon-poll-bookmark {
+    background-position: -336px -208px
+}
+.jive-icon-poll-comment {
+    background-position: -208px -208px
+}
+.jive-icon-poll-edit {
+    background-position: -144px -208px
+}
+.jive-icon-poll-vote {
+    background-position: -272px -208px
+}
+.jive-icon-preferences {
+    background-position: -336px -528px
+}
+.jive-icon-profile {
+    background-position: -208px -528px
+}
+.jive-icon-profile-bookmark {
+    background-position: -912px -528px
+}
+.jive-icon-project {
+    background-position: -144px -912px
+}
+.jive-icon-project-bookmark {
+    background-position: -656px -912px
+}
+.jive-icon-project-move {
+    background-position: -272px -400px
+}
+.jive-icon-project-tiny {
+    background-position: -317px -1360px
+}
+.jive-icon-project-status-low {
+    background-position: -848px -912px
+}
+.jive-icon-project-status-med {
+    background-position: -912px -912px
+}
+.jive-icon-project-status-high {
+    background-position: -976px -912px
+}
+.jive-icon-project-status-complete {
+    background-position: -1040px -912px
+}
+.jive-icon-question {
+    background-position: -528px -592px
+}
+.jive-icon-quote {
+    background-position: -208px -720px
+}
+.jive-icon-quotes {
+    background-position: -80px -272px
+}
+.jive-icon-rate-avg-on {
+    background-position: -208px -1232px
+}
+.jive-icon-rate-avg-half {
+    background-position: -144px -1232px
+}
+.jive-icon-rate-avg-off {
+    background-position: -80px -1232px
+}
+.jive-icon-rate-usr-on {
+    background-position: -16px -1232px
+}
+.jive-icon-rate-usr-off {
+    background-position: -80px -1232px
+}
+.jive-icon-redalert {
+    background-position: -336px -592px
+}
+.jive-icon-replied {
+    background-position: -144px -1104px
+}
+.jive-icon-repost {
+    background-position: -272px -336px
+}
+.jive-icon-search {
+    background-position: -848px -656px
+}
+.jive-icon-contentPlaceRel,
+.jive-icon-share {
+    background-position: -336px -400px
+}
+.jive-icon-share-comment {
+    background-position: -80px -144px
+}
+.jive-icon-share-label {
+    background-position: -976px -272px
+}
+.jive-icon-social-news {
+    background-position: -848px -272px
+}
+.jive-icon-space {
+    background-position: -80px -912px
+}
+.jive-icon-space-bookmark {
+    background-position: -592px -912px
+}
+.jive-icon-split-view {
+    background-position: -720px -400px
+}
+.jive-icon-split-view-selected {
+    background-position: -848px -400px
+}
+.jive-icon-status {
+    background-position: -272px -528px
+}
+.jive-icon-status-comment {
+    background-position: -1040px -529px
+}
+.jive-icon-tag {
+    background-position: -16px -464px
+}
+.jive-icon-tag-create {
+    background-position: -144px -464px
+}
+.jive-icon-taggroup {
+    background-position: -80px -464px
+}
+.jive-icon-task {
+    background-position: -16px -400px
+}
+.jive-icon-task-grouped {
+    background-position: -528px -400px
+}
+.jive-icon-task-grouped-selected {
+    background-position: -592px -400px
+}
+.jive-icon-task-flat {
+    background-position: -400px -400px
+}
+.jive-icon-task-flat-selected {
+    background-position: -464px -400px
+}
+.jive-icon-trash {
+    background-position: -1296px -1360px
+}
+.jive-icon-tileStreamEntry,
+.jive-icon-tile-activity {
+    background-position: -1104px -528px
+}
+.jive-icon-tile-activity-comment {
+    background-position: -1168px -527px
+}
+.jive-icon-tileEmpty {
+    background-position: -80px -1040px
+}
+.jive-icon-tileConfigured {
+    background-position: -144px -1040px
+}
+.jive-icon-tilePage {
+    background-position: -16px -80px
+}
+.jive-icon-extStreamActivity {
+    background-position: -1104px -528px
+}
+.jive-icon-extStreamActivity-comment {
+    background-position: -1168px -527px
+}
+.jive-icon-twitter {
+    background-position: -80px -720px
+}
+.jive-icon-userbar-new {
+    background-position: -912px -80px
+}
+.jive-icon-userbar-nav {
+    background-position: -80px -912px
+}
+.jive-icon-vcard-add {
+    background-position: -784px -528px
+}
+.jive-icon-video {
+    background-position: -16px -976px
+}
+.jive-icon-video-bookmark {
+    background-position: -208px -976px
+}
+.jive-icon-video-collaboration {
+    background-position: -784px -80px
+}
+.jive-icon-video-comment {
+    background-position: -144px -976px
+}
+.jive-icon-video-featured {
+    background-position: -80px -976px
+}
+.jive-icon-vote-poll {
+    background-position: -80px -592px
+}
+.jive-icon-warn {
+    background-position: -464px -592px
+}
+.jive-icon-web {
+    background-position: -208px -720px
+}
+.jive-icon-remove {
+    background-position: -1067px -1360px
+}
+.jive-icon-meta-like {
+    background-position: -80px -1424px
+}
+.jive-icon-meta-comment {
+    background-position: -16px -1424px
+}
+.jive-icon-meta-bookmark {
+    background-position: -144px -1424px
+}
+.jive-icon-expand {
+    background-position: -912px -592px
+}
+.jive-icon-expand-over {
+    background-position: -976px -592px
+}
+.jive-icon-minimize {
+    background-position: -784px -592px
+}
+.jive-icon-minimize-over {
+    background-position: -848px -592px
+}
+.j-more {
+    background: url(../images/jive-icon-sprites-big.png) no-repeat -80px -592px;
+    display: inline-block;
+    width: 24px;
+    height: 12px;
+    line-height: 1000px;
+    overflow: hidden;
+    position: relative;
+    top: 3px;
+    margin-left: 2px
+}
+.jive-icon-arrow-down {
+    background-position: -16px -1360px
+}
+.jive-icon-arrow-down-focus {
+    background-position: -32px -1360px
+}
+.jive-icon-arrow-right {
+    background-position: -48px -1360px
+}
+.jive-icon-arrow-right-focus {
+    background-position: -64px -1360px
+}
+.jive-icon-arrow-left {
+    background-position: -80px -1360px
+}
+.jive-icon-arrow-left-focus {
+    background-position: -96px -1360px
+}
+.jive-icon-arrow-up {
+    background-position: -335px -1360px
+}
+.jive-icon-arrow-up-focus {
+    background-position: -351px -1360px
+}
+.jive-icon-preview-act {
+    background-position: -114px -1360px
+}
+.jive-icon-preview-act-focus {
+    background-position: -134px -1360px
+}
+.jive-icon-lb-prev {
+    background-position: -1165px -1361px
+}
+.jive-icon-lb-next {
+    background-position: -1180px -1361px
+}
+.jive-icon-lb-prev-dk {
+    background-position: -1196px -1360px
+}
+.jive-icon-lb-next-dk {
+    background-position: -1210px -1360px
+}
+.jive-icon-loadmore {
+    background-position: -384px -1360px
+}
+.jive-icon-loadmore:hover {
+    background-position: -400px -1360px
+}
+.jive-icon-loadmore:focus {
+    background-position: -400px -1360px
+}
+.jive-icon-down {
+    background-position: -512px -1360px
+}
+.jive-icon-down:hover {
+    background-position: -528px -1360px
+}
+.jive-icon-down:focus {
+    background-position: -528px -1360px
+}
+.jive-icon-plus-button {
+    background-position: -420px -1360px
+}
+.jive-icon-plus-button-focus {
+    background-position: -442px -1360px
+}
+.jive-icon-read-marker {
+    background-position: -867px -1364px
+}
+.jive-icon-unread-marker {
+    background-position: -855px -1364px
+}
+.jive-icon-read-marker-large {
+    background-position: -482px -1360px
+}
+.jive-icon-unread-marker-large {
+    background-position: -464px -1360px
+}
+.jive-icon-categories-header {
+    float: none;
+    margin: 1px auto;
+    background-color: #fafafa
+}

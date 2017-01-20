@@ -1,7 +1,7 @@
 (function() {
-     var sortOrder ="0";
-     var sortkey = "recentActivityDateDesc";
-     var myplace="";
+    var sortOrder ="0";
+    var sortkey = "recentActivityDateDesc";
+    var myplace="";
     jive.tile.onOpen(function(config, options) {
         gadgets.window.adjustHeight();
 
@@ -35,24 +35,21 @@
             var p = document.createElement("a");
             p.href = container.parent;
             console.log('p.origin',p.origin);
-            console.log('container.parent',container.parent);
-            
-            
-            
+            console.log('container',container);
+
             // default url start
             var defaultUrlThis = container.resources.html.ref + "/content?sortKey=contentstatus%5Bpublished%5D~recentActivityDateDesc&sortOrder=0";
             var defaultUrlAll = p.origin + "/content?sortKey=all~recentActivityDateDesc&sortOrder=0";
-            
-                    
+
             // make sure config has default values
             //console.log('config.data: ',config.data);
-            
+
             if (config.data === undefined) {
                 config.data = {
                     title: "Recent Content",
                     numResults: 10,
                     place: "sub",
-                    placeUrl: "",
+                    placeContainer: container,
                     type: ["all"], // type is only ever ["all"] or an array of document types that doesn't include "all"
                     showLink: true,
                     linkText: "See More Recent Content",
@@ -62,144 +59,85 @@
                     sortkey: sortkey
                 };
             };
-                
+
             console.log('config.data.linkUrl: ',config.data.linkUrl);
             console.log('config.data: ',config.data);
             console.log('config.data.place: ',config.data.place);
             console.log('sortOrder: ',config.data.sortorder,' sortKey: ',config.data.sortkey);
-            
+
             var title = document.getElementById("title");
             var numResults = document.getElementById("num-results");
-            var radios = $("#selectplace");    
+            var radios = $("#selectplace");
             var sorting = $("#selectfilter");
             var types = document.getElementsByName("type");
             var showLink = document.getElementById("show-link");
             var linkText = document.getElementById("link-text");
             var linkUrl = document.getElementById("link-url");
             var featured = document.getElementById("featured");
-            var placeUrl = document.getElementById("place-url");
-
 
             // populate the dialog with existing config value
             title.value = config.data.title;
             numResults.value = config.data.numResults;
-            
-          /* for choose option*/          
-            $("#selectplace > option").each(function() {
-                $(this).prop("selected", false);
-                if($(this).val() == config.data.place && $(this).val() == "choose") {
-                    $(this).attr('selected', true);
-                    $(this).prop('selected', true);
-                    $("#place-url").show();
-                    $("#div-place-url").show();
-                    
-                }else{
-                     $("#place-url").hide();
-                     $("#div-place-url").hide();
-                    }
-            });
-            
-            
-             $("#selectplace > option").each(function() {
-                 $(this).prop("selected", false);
-                if($(this).val() == config.data.place) {
-                    $(this).prop('selected', true);
-                    $(this).attr('selected', true);
-                    //$(this).selected='selected';
-                }
-                
-            });
-            
-            
-            
-            
-            
-            /*on place detaile  changes change the URL*/
-            $("#selectplace").change(function(){
-               
-                myplace = $(this).val();
-                if($(this).val() == "all") {
-                    //linkUrl.value = defaultUrlAll;
-                    //config.data.linkUrl = defaultUrlAll;
-                    config.data.place = myplace;
-                }else if($(this).val() == "choose"){
-                    //config.data.linkUrl = linkUrl.value;
-                }else{ 
-                   
-                    //linkUrl.value = defaultUrlThis;  
-                    //config.data.linkUrl = defaultUrlThis;   
-                    config.data.place = myplace;
-                }
-            });
-            
-            
-            /* Show filter selected with configuration value */
-            $("#selectfilter > option").each(function() {
-                 $(this).prop("selected", false);
-                if($(this).val() == config.data.sortkey) {
-                    $(this).prop('selected', true);
-                    //$(this).attr('selected', true);
-                }
-            });
 
-            
-          
-            
-            placeUrl.value = config.data.placeUrl;
-            for (var choice in types) {
-                choice = types[choice];
-                if (config.data.type[0] === "all" || config.data.type.indexOf(choice.value) !== -1) {
-                    choice.checked = true;
-                    if (choice.value === "all") {
-                        choice.disabled = true;
-                    }
-                }
+            // Set chosen place
+            $("#selectplace > option[value='" + config.data.place + "']")
+                .prop("selected", true);
+            $("#chosen-place").append()
+            if (config.data.place !== "choose" && config.data.place !== "choose-sub") {
+                $("#place-chooser-parent").hide();
             }
+            setPlaceTo(config.data.placeContainer);
+
+
+            /* Show filter selected with configuration value */
+            $("#selectfilter > option[value='" + config.data.sortkey + "']")
+                .prop("selected", true);
+
+            // Select checkboxes corresponding to config.data.type
+            $("[name='type']").filter(function(i, elt) {
+                return config.data.type[0] === "all"
+                       || $.inArray(elt.value, config.data.type) !== -1;
+            }).prop("checked", true);
+            $("input[name='type'][value='all']")
+                .prop("disabled", config.data.type[0] === "all");
+
             showLink.checked = config.data.showLink;
             $("#link-options").toggle(showLink.checked);
             linkText.value = config.data.linkText;
             linkUrl.value = config.data.linkUrl;
             featured.checked = config.data.featured;
-            
-            
-            // Adding Dynamic Filter from Config page 
-            
+
+
+            // Adding Dynamic Filter from Config page
+
             $('#selectfilter').change(function () {
-                
+
                 sortOrder = $('option:selected', this).attr('datasortorder');
-                sortkey = $(this).val();                
+                sortkey = $(this).val();
                 defaultUrlThis = container.resources.html.ref + "/content?sortKey=contentstatus%5Bpublished%5D~"+sortkey+"&sortOrder="+sortOrder;
-                defaultUrlAll = p.origin + "/content?sortKey=all~"+sortkey+"&sortOrder="+sortOrder;   
-                
+                defaultUrlAll = p.origin + "/content?sortKey=all~"+sortkey+"&sortOrder="+sortOrder;
+
                 //config.data.linkUrl = defaultUrlThis;
                 //linkUrl.value = config.data.linkUrl;
                 config.data.sortkey = sortkey;
                 config.data.sortorder = sortOrder;
-                
-                               
+
+
                 linkUrl.value = (config.data.place == "all" ? defaultUrlAll : defaultUrlThis);
-                
-               /* if(myplace == "all"){
-                  //linkUrl.value =   defaultUrlAll;
+
+                /* if(myplace == "all"){
+                //linkUrl.value =   defaultUrlAll;
                 }else if(myplace == "choose"){
                     config.data.linkUrl = linkUrl.value;
                 }else{linkUrl.value =   defaultUrlThis;}*/
-               
-            });            
-                  
-            
-            
-            
+
+            });
+
             gadgets.window.adjustHeight();
 
             function validate(data) {
                 var valid = true;
-                var inputs = document.getElementsByClassName("error-box");
-                if(inputs.length){
-                    for (var el in inputs) {
-                        inputs[el].classList.remove("error-box");
-                    }
-                }
+                $(".error-box").removeClass("error-box");
 
                 numResultsVal = Number(data.numResults.value);
                 if (numResultsVal % 1 !== 0 || numResultsVal < 1 || numResultsVal > 100) {
@@ -230,7 +168,8 @@
                 errInput.classList.add("error-box");
             }
 
-            $("#btn-submit").click( function() {
+            $("#btn-submit").click( function(e) {
+                e.preventDefault();
                 var checkData = {
                     numResults: numResults,
                     showLink: showLink,
@@ -238,12 +177,12 @@
                     linkText: linkText,
                     linkUrl: linkUrl
                 };
-                
+
                 //if(myplace == "choose"){
-                    //alert(linkUrl.value);
-                    config.data.linkUrl = linkUrl.value;
+                //alert(linkUrl.value);
+                config.data.linkUrl = linkUrl.value;
                 //}
-                
+
                 if (validate(checkData)) {
                     // get all of the new values
                     config.data.title = title.value;
@@ -289,44 +228,59 @@
                     }
 
                     config.data.featured = featured.checked;
-                    config.data.placeUrl = placeUrl.value;
 
-                    if (config.data.place === "choose") {
-                        getPlaceIdForUrl(document.getElementById("place-url").value, function() {
-                            jive.tile.close(config, {});
-                        });
-                    } else {
-                        // submit
-                        jive.tile.close(config, {} );
-                    }
+                    jive.tile.close(config, {} );
                 } else {
                     gadgets.window.adjustHeight();
                 }
             });
 
-            function getPlaceIdForUrl(url, callback) {
-                url = url.replace(/\/+$/, ""); // remove trailing slashes
-                osapi.jive.corev3.places.get({
-                    search: url.split("/").pop()
-                }).execute(function(data) {
-                    var placeID;                   
-                    for (var el in data.list) {  
-                        el = data.list[el];
-                        if (el.resources.html.ref === url) {
-                            placeID = el.placeID;
-                            break;
-                        }
-                    }
-                    if (placeID === undefined) {
-                        document.getElementById("place-url").classList.add("error-box");
-                        gadgets.window.adjustHeight();
-                    } else {
-                       // config.data.linkUrl = linkUrl.value = linkUrl.value.replace(container.resources.html.ref, url);
-                        config.data.placeID = placeID;
-                        callback();
-                    }
+            $("#place-chooser").click(function(e) {
+                e.preventDefault();
+                osapi.jive.corev3.search.requestPicker({
+                    excludePeople: true,
+                    excludeContent: true,
+                    excludePlaces: false,
+                    success: setPlaceTo
                 });
+            });
+
+            function setPlaceTo(place) {
+                console.log(place);
+                config.data.placeContainer = place;
+                $("#chosen-place").empty().append(
+                    $("<span>")
+                        .text(place.name)
+                        .append($("<span>", {
+                            "class": "jive-icon-med jive-icon-" + place.type
+                        }))
+                );
             }
+
+            $('#selectplace').change(function () {
+                switch ($("#selectplace").val()) {
+                    case "choose":
+                    case "choose-sub":
+                        $("#featured").prop("disabled", false);
+                        $("#place-chooser-parent").show();
+                        break;
+                    case "this":
+                    case "sub":
+                        $("#featured").prop("disabled", false);
+                        setPlaceTo(container);
+                        $("#place-chooser-parent").hide();
+                        break;
+                    case "all":
+                        $("#featured").prop({
+                            "checked": false,
+                            "disabled": true
+                        });
+                        $("#place-chooser-parent").hide();
+                        break;
+                }
+
+                gadgets.window.adjustHeight();
+            });
         });
     });
 })();
@@ -363,23 +317,5 @@ $(document).ready(function() {
             $("input[name='place'][value='this']").prop("checked", true);
         }
     });
-    $("input[name='place']").change(function() {
-        if ($(this).filter(":checked").val() !== "this") {
-            document.getElementById("featured").checked = false;
-        }
-    });
-    
-    
-    // added by vivek
-    
-    $('#selectplace').change(function () {
-        if($("#selectplace").val() == 'choose'){
-            $("#place-url").show();
-            $("#div-place-url").show();
-        }else{
-            $("#place-url").hide();
-             $("#div-place-url").hide();
-        }
-        gadgets.window.adjustHeight();
-    });
+
 });

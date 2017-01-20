@@ -134,8 +134,8 @@ input[value="all"] {
   text-align: center;
 }
 
-#footer-link {
-  clear: both;
+footer {
+    font-size: 12px;
 }
 
 #all-label {
@@ -165,4 +165,18 @@ tr > td:nth-last-child(-n+2) {
 
 input[type="checkbox"] {
   vertical-align: middle;
+}
+
+table {
+    font-size: 13px;
+}
+
+#chosen-place {
+    display: inline-block;
+}
+
+#place-chooser-parent {
+    justify-content: space-around;
+    display: flex;
+    align-items: center;
 }
