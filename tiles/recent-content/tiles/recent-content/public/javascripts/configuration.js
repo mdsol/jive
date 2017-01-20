@@ -35,7 +35,7 @@
             var p = document.createElement("a");
             p.href = container.parent;
             console.log('p.origin',p.origin);
-            console.log('container.parent',container.parent);
+            console.log('container',container);
 
             // default url start
             var defaultUrlThis = container.resources.html.ref + "/content?sortKey=contentstatus%5Bpublished%5D~recentActivityDateDesc&sortOrder=0";
@@ -49,7 +49,7 @@
                     title: "Recent Content",
                     numResults: 10,
                     place: "sub",
-                    placeUrl: "",
+                    placeContainer: container,
                     type: ["all"], // type is only ever ["all"] or an array of document types that doesn't include "all"
                     showLink: true,
                     linkText: "See More Recent Content",
@@ -74,45 +74,24 @@
             var linkText = document.getElementById("link-text");
             var linkUrl = document.getElementById("link-url");
             var featured = document.getElementById("featured");
-            var placeUrl = document.getElementById("place-url");
-
 
             // populate the dialog with existing config value
             title.value = config.data.title;
             numResults.value = config.data.numResults;
 
+            // Set chosen place
             $("#selectplace > option[value='" + config.data.place + "']")
                 .prop("selected", true);
-            if (config.data.place === "choose") {
-                $("#place-url, #div-place-url").show();
-            } else {
-                $("#place-url, #div-place-url").hide();
+            $("#chosen-place").append()
+            if (config.data.place !== "choose" && config.data.place !== "choose-sub") {
+                $("#place-chooser-parent").hide();
             }
+            $("#chosen-place").append(getPlaceNode(config.data.placeContainer));
 
-            // /*on place detaile  changes change the URL*/
-            // $("#selectplace").change(function(){
-
-            //     myplace = $(this).val();
-            //     if($(this).val() == "all") {
-            //         //linkUrl.value = defaultUrlAll;
-            //         //config.data.linkUrl = defaultUrlAll;
-            //         config.data.place = myplace;
-            //     }else if($(this).val() == "choose"){
-            //         //config.data.linkUrl = linkUrl.value;
-            //     }else{
-
-            //         //linkUrl.value = defaultUrlThis;
-            //         //config.data.linkUrl = defaultUrlThis;
-            //         config.data.place = myplace;
-            //     }
-            // });
 
             /* Show filter selected with configuration value */
             $("#selectfilter > option[value='" + config.data.sortkey + "']")
                 .prop("selected", true);
-
-            // Set place URL
-            $("#place-url").val(config.data.placeUrl);
 
             // Select checkboxes corresponding to config.data.type
             $("[name='type']").filter(function(i, elt) {
@@ -264,17 +243,20 @@
                     excludePlaces: false,
                     success: function(place) {
                         console.log(place);
-                        config.data.placeID = place.placeID;
-                        $("#chosen-place").empty().append(
-                            $("<span>")
-                                .text(place.name)
-                                .append($("<span>", {
-                                    "class": "jive-icon-med jive-icon-" + place.type
-                                }))
-                        );
+                        config.data.placeContainer = place;
+                        $("#chosen-place").empty().append( getPlaceNode(place) );
                     }
                 });
             });
+
+            function getPlaceNode(place) {
+                console.log(place);
+                return $("<span>")
+                       .text(place.name)
+                       .append($("<span>", {
+                           "class": "jive-icon-med jive-icon-" + place.type
+                       }));
+            }
         });
     });
 })();
@@ -321,12 +303,10 @@ $(document).ready(function() {
     // added by vivek
 
     $('#selectplace').change(function () {
-        if($("#selectplace").val() == 'choose'){
-            $("#place-url").show();
-            $("#div-place-url").show();
-        }else{
-            $("#place-url").hide();
-            $("#div-place-url").hide();
+        if ($("#selectplace").val() !== "choose" && $("#selectplace").val() !== "choose-sub") {
+            $("#place-chooser-parent").hide();
+        } else {
+            $("#place-chooser-parent").show();
         }
         gadgets.window.adjustHeight();
     });

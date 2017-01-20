@@ -28,15 +28,16 @@
       <div>
         <label for="place"><strong>Content Location</strong></label>
         <select name="place" id="selectplace" class="j-text">
-          <option value="this">This Place</option>
-          <option value="sub">This Place and Sub-Places</option>
-          <option value="all">All Places</option>
-          <option value="choose">Choose A Place</option>
+          <option data-place="this" value="this">This Place</option>
+          <option data-place="sub" value="sub">This Place and Sub-Places</option>
+          <option data-place="this" value="choose">Selected Place</option>
+          <option data-place="sub" value="choose-sub">Selected Place and Sub-Places</option>
+          <option data-place="all" value="all">All Places</option>
         </select>
       </div>
       <div id="place-chooser-parent">
         <button id="place-chooser">Choose A Place</button>
-        <span id="chosen-place">No place chosen</span>
+        <span id="chosen-place"></span>
       </div>
       <div>
         <label for="type"><strong>Content Type</strong></label>
