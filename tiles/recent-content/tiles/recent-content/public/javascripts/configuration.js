@@ -86,7 +86,7 @@
             if (config.data.place !== "choose" && config.data.place !== "choose-sub") {
                 $("#place-chooser-parent").hide();
             }
-            $("#chosen-place").append(getPlaceNode(config.data.placeContainer));
+            setPlaceTo(config.data.placeContainer);
 
 
             /* Show filter selected with configuration value */
@@ -241,22 +241,38 @@
                     excludePeople: true,
                     excludeContent: true,
                     excludePlaces: false,
-                    success: function(place) {
-                        console.log(place);
-                        config.data.placeContainer = place;
-                        $("#chosen-place").empty().append( getPlaceNode(place) );
-                    }
+                    success: setPlaceTo
                 });
             });
 
-            function getPlaceNode(place) {
+            function setPlaceTo(place) {
                 console.log(place);
-                return $("<span>")
-                       .text(place.name)
-                       .append($("<span>", {
-                           "class": "jive-icon-med jive-icon-" + place.type
-                       }));
+                config.data.placeContainer = place;
+                $("#chosen-place").empty().append(
+                    $("<span>")
+                        .text(place.name)
+                        .append($("<span>", {
+                            "class": "jive-icon-med jive-icon-" + place.type
+                        }))
+                );
             }
+
+            $('#selectplace').change(function () {
+                switch ($("#selectplace").val()) {
+                    case "choose":
+                    case "choose-sub":
+                        $("#place-chooser-parent").show();
+                        break;
+                    case "this":
+                    case "sub":
+                        setPlaceTo(container);
+                    default:
+                        $("#place-chooser-parent").hide();
+                        break;
+                }
+
+                gadgets.window.adjustHeight();
+            });
         });
     });
 })();
@@ -302,12 +318,4 @@ $(document).ready(function() {
 
     // added by vivek
 
-    $('#selectplace').change(function () {
-        if ($("#selectplace").val() !== "choose" && $("#selectplace").val() !== "choose-sub") {
-            $("#place-chooser-parent").hide();
-        } else {
-            $("#place-chooser-parent").show();
-        }
-        gadgets.window.adjustHeight();
-    });
 });
