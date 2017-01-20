@@ -195,6 +195,7 @@ jive.tile.onOpen(function(config, options) {
                                 author: el.author.displayName,
                                 authorUrl: el.author.resources.html.ref,
                                 contentType: el.type,
+                                iconCss: el.iconCss,
                                 avatar: el.author.resources.avatar.ref,
                                 lastAct: el.lastActivity,
                                 postDate: el.published
@@ -251,11 +252,13 @@ jive.tile.onOpen(function(config, options) {
                 var a = document.createElement("a");
                 a.setAttribute("target", "_top");
                 a.setAttribute("href", doc.url);
-                var icon = document.createElement("span");
-                icon.classList.add("jive-icon-" + doc.contentType);
-                icon.classList.add("jive-icon-big");
+                var $icon =
+                    $("<span>")
+                    .addClass("jive-icon-big jive-icon-" + doc.contentType)
+                    .addClass(doc.iconCss)
+                    .removeClass("jive-icon-sml jive-icon-med jive-icon-huge");
                 var docSubj = document.createTextNode(doc.subject);
-                a.appendChild(icon);
+                $(a).append($icon);
                 a.appendChild(docSubj);
 
                 // create timestamp + author
