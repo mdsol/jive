@@ -30,14 +30,17 @@ var sortFuncs = {
     },
 };
 
+
+
 // default url endings
 var defaultUrlThis = "/content?sortKey=contentstatus%5Bpublished%5D~recentActivityDateDesc&sortOrder=0";
-
-jive.tile.onOpen(function(config, options) {
-
+jive.tile.onOpen(function(config, options)
+{
     defaultUrlThis = "/content?sortKey=contentstatus%5Bpublished%5D~"+config.sortkey+"&sortOrder="+config.sortorder;
+
     console.log('config',config);
     console.log('options',options);
+
 
 
     // default config vals if no values given
@@ -138,7 +141,6 @@ jive.tile.onOpen(function(config, options) {
 
         function getContent(startIndex) {
             // get the recent content
-            //console.log(sorting);
             var reqOptions = {
                 count: config.numResults,
                 startIndex: startIndex,
@@ -230,20 +232,8 @@ jive.tile.onOpen(function(config, options) {
             }
         }
 
-        function formatDate(d) {
-            var date = new Date(d);
-            var dateStr = date.getDate() + "";
-
-            if (dateStr.length < 2) {
-                dateStr = "0" + dateStr;
-            }
-            var monthStr = months[date.getMonth()].substring(0, 3);
-            var yearStr = date.getFullYear() + "";
-
-            return dateStr + "-" + monthStr + "-" + yearStr;
-        }
-
         function showDocs() {
+            
             if (timer) {
                 var showDocsBegin = Date.now();
             }
@@ -255,6 +245,7 @@ jive.tile.onOpen(function(config, options) {
             var ul = document.getElementById("ul-list");
             var table = document.getElementById("content-table");
             var link = document.getElementById("link");
+
 
             for (var doc in docList) {
                 // create list node
@@ -271,7 +262,8 @@ jive.tile.onOpen(function(config, options) {
                     .addClass("jive-icon-big jive-icon-" + doc.contentType)
                     .addClass(doc.iconCss)
                     .removeClass("jive-icon-sml jive-icon-med jive-icon-huge");
-                var docSubj = document.createTextNode(doc.subject);
+                var docSubj = document.createTextNode(decodeURI(doc.subject));
+
                 $(a).append($icon);
                 a.appendChild(docSubj);
 
@@ -333,5 +325,16 @@ jive.tile.onOpen(function(config, options) {
             return str;
         }
 
+        function formatDate(d) {
+
+            var dateStr = moment(d).format('DD');
+            if (dateStr.length < 2) {
+                dateStr = "0" + dateStr;
+            }
+            var monthStr = moment(d).format('MMM');
+            var yearStr = moment(d).format('YYYY');
+
+            return dateStr + "-" + monthStr + "-" + yearStr;
+        }
     });
 });

@@ -30,7 +30,6 @@
             }
         };
         contentFilt.choose = contentFilt.sub = contentFilt.this;
-
         jive.tile.getContainer(function (container) {
             var p = document.createElement("a");
             p.href = container.parent;

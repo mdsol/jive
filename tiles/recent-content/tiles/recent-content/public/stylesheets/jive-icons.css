@@ -841,6 +841,18 @@
     top: 3px;
     margin-left: 2px
 }
+.j-icon-list {
+    list-style-type: none;
+    padding: 0;
+}
+.j-icon-list li {
+    line-height: 1.25;
+    min-height: 14px;
+    padding: 0 0 15px 25px;
+    position: relative;
+    word-wrap: break-word;
+    font-size: 14px;
+}
 .jive-icon-arrow-down {
     background-position: -16px -1360px
 }
