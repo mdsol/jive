@@ -38,8 +38,8 @@ jive.tile.onOpen(function(config, options)
 {
     defaultUrlThis = "/content?sortKey=contentstatus%5Bpublished%5D~"+config.sortkey+"&sortOrder="+config.sortorder;
 
-    console.log('config',config);
-    console.log('options',options);
+    //console.log('config',config);
+    //console.log('options',options);
 
 
 
@@ -71,7 +71,7 @@ jive.tile.onOpen(function(config, options)
         uri: "/places/" + config.placeContainer.placeID
     }).execute(function(container) {
         // set default URL if none set
-        console.log('container:::',container);
+        //console.log('container:::',container);
         if (config.linkUrl === "") {
             config.linkUrl = container.resources.html.ref + defaultUrlThis;
         }
@@ -120,7 +120,7 @@ jive.tile.onOpen(function(config, options)
                     if (res.error) {
                         var code = res.error.code;
                         var message = res.error.message;
-                        console.log("Error getSubplaces: "+code + " " + message);
+                        //console.log("Error getSubplaces: "+code + " " + message);
                         // present the user with an appropriate error message
                     } else {
                         for (place in res.list) {
@@ -130,7 +130,7 @@ jive.tile.onOpen(function(config, options)
                         pending--;
                         if (pending == 0) {
                             if (timer) {
-                                console.log("getSubplaces " + (Date.now() - start) + " ms");
+                                //console.log("getSubplaces " + (Date.now() - start) + " ms");
                             }
                             getContent(0);
                         }
@@ -159,7 +159,7 @@ jive.tile.onOpen(function(config, options)
                         //reqOptions.type = config.type.join(",");
                         if(reqOptions.type == undefined){reqOptions.type='';}
                         reqOptions.type+=config.type[typeS]+',';
-                        console.log('reqOptions -',reqOptions,'typeS',typeS,'config.type[typeS]',config.type[typeS]);
+                        //console.log('reqOptions -',reqOptions,'typeS',typeS,'config.type[typeS]',config.type[typeS]);
                     }
                 }
             }
@@ -193,17 +193,17 @@ jive.tile.onOpen(function(config, options)
             }
 
             function handleResults(res) {
-                console.log(res);
+                //console.log(res);
                 if (res.error) {
                     var code = res.error.code;
                     var message = res.error.message;
-                    console.log(code + " " + message);
+                    //console.log(code + " " + message);
                     // present the user with an appropriate error message
                 } else {
                     if (timer) {
-                        console.log("getContent: " + (Date.now() - reqTime) + " ms");
+                        //console.log("getContent: " + (Date.now() - reqTime) + " ms");
                     }
-                    console.log('res.list ::::: ',res.list);
+                    //console.log('res.list ::::: ',res.list);
                     for (var el in res.list) {
                         el=res.list[el];
                         if (config.type[0] === "all" || el.type !== "discussion" || (getQuestions && el.question) || (getDiscussions && !el.question) || el.type !== null || el.type !== undefined) {
@@ -245,7 +245,8 @@ jive.tile.onOpen(function(config, options)
             var ul = document.getElementById("ul-list");
             var table = document.getElementById("content-table");
             var link = document.getElementById("link");
-
+			
+			//console.log('docList = '+docList)
 
             for (var doc in docList) {
                 // create list node
@@ -262,7 +263,7 @@ jive.tile.onOpen(function(config, options)
                     .addClass("jive-icon-big jive-icon-" + doc.contentType)
                     .addClass(doc.iconCss)
                     .removeClass("jive-icon-sml jive-icon-med jive-icon-huge");
-                var docSubj = document.createTextNode(decodeURI(doc.subject));
+                var docSubj = document.createTextNode(doc.subject);
 
                 $(a).append($icon);
                 a.appendChild(docSubj);
@@ -314,15 +315,15 @@ jive.tile.onOpen(function(config, options)
             document.getElementsByClassName("glyphicon-refresh")[0].style.display = "none";
 
             if (timer) {
-                console.log("showDocs " + (Date.now() - showDocsBegin) + " ms");
+                //console.log("showDocs " + (Date.now() - showDocsBegin) + " ms");
             }
             resize();
         }
 
         function replaceCodes(str) {
-            str = str.replace(/&#160;/g, " ");
-            str = str.replace(/&amp;/g, "&");
-            return str;
+			var theTxt = document.createElement("textarea");
+			theTxt.innerHTML = str;
+			return theTxt.value;            
         }
 
         function formatDate(d) {

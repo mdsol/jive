@@ -265,7 +265,7 @@
 }
 .jive-icon-photoAlbum,
 .jive-icon-doctype-image {
-    background-position: -336px -80px
+    background-position: -336px -80px !important;
 }
 .jive-icon-doctype-presentation {
     background-position: -400px -80px
