@@ -12,3 +12,7 @@
 
 # userprofileupdater
 /userprofileupdater/config.json
+
+#anniversary
+/anniversary/config.js
+/anniversary/sftp-config.json

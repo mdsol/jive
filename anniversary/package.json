@@ -1,0 +1,16 @@
+{
+  "name": "anniversary",
+  "version": "1.0.0",
+  "description": "This script is creating updates in Jive group",
+  "main": "index.js",
+  "dependencies": {
+        "q": "0.9.3",
+        "https" : "*",
+        "async": "*"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
