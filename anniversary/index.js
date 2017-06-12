@@ -52,7 +52,7 @@ function anniversary()
                                 }
                                 break;
                             case "Employee Type":
-                                if(!(profile.value == "Contingent Worker" || profile.value == "On leave")) {
+                                if(profile.value !== "Contingent Worker" && profile.value !== "On leave") {
                                     employee_type = true;
                                 }
                                 break;
