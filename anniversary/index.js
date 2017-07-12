@@ -9,7 +9,7 @@ function anniversary()
 {
     var date_now     = dateFormat(new Date(), "%m/%d/%Y", true);
     var hour_now     = dateFormat(new Date(), "%H", true);
-    var region  = '';
+    var region       = '';
 
     switch(hour_now)
     {
@@ -28,106 +28,116 @@ function anniversary()
     findPlaceId(config).then(function(place_id) {
         console.log(place_id);
         if(place_id !== "") {
+            async.doWhilst(function (callback) {
+                sendGetData(next_page).then(function(people) {
 
-        } else {
-            console.log('We can find place id. Make sure the place url is correct');
-            process.exit();
-        }
-    async.doWhilst(function (callback) {
-        sendGetData(next_page).then(function(people) {
+                    async.eachSeries(people.list, function iterator(person_data, callback1) {
+                        var username_url = config.url_type + config.basicUrl + config.apiCore + 'people/username/' + person_data.jive.username + '?-resources';
 
-            async.eachSeries(people.list, function iterator(person_data, callback1) {
-                var username_url = config.url_type + config.basicUrl + config.apiCore + 'people/username/' + person_data.jive.username + '?-resources';
+                        sendGetData(username_url).then(function(person) {
+                            var anniversary_name = person.displayName;
+                            var employee_type    = false;
+                            var employee_status  = false;
+                            var birthday_today   = false;
+                            var year_no          = false;
+                            var region_status    = false;
 
-                sendGetData(username_url).then(function(person) {
-                    var anniversary_name = person.displayName;
-                    var employee_type    = false;
-                    var employee_status  = false;
-                    var birthday_today   = false;
-                    var year_no          = false;
-                    var region_status    = false;
+                            async.eachSeries(person.jive.profile, function iterator(profile, callback2) {
+                                switch(profile.jive_label) {
+                                    case "Region":
+                                        if(profile.value == region) {
+                                            region_status = true;
+                                        } else if(region == 'all') {
+                                            if(profile.value != 'EMEA' && profile.value != "APAC") {
+                                                region_status = true;
+                                            }
+                                        }
+                                        break;
+                                    case "Employee Type":
+                                        if(profile.value !== "Contingent Worker" && profile.value !== "On leave") {
+                                            employee_type = true;
+                                        }
+                                        break;
+                                    case "Employee Status":
+                                        if(profile.value == "Active") {
+                                            employee_status = true;
+                                        }
+                                        
+                                        break;
+                                    case "Hire Date":
+                                        var current_year = dateFormat(new Date(), "%Y", true);
+                                        year_no = current_year - profile.value.substr(profile.value.length - 4);
+                                        profile.value = dateFormat(new Date(profile.value), "%m/%d/%Y", true);
+                                        
+                                        if(profile.value.substr(0,5) == date_now.substr(0,5) && year_no != 0) {
+                                            birthday_today = true;
+                                            console.log(person_data.jive.username);
+                                            console.log("Hire date anniversary");
+                                            console.log(profile.value);
+                                        }
+                                        break;
+                                }
+                                callback2(null, year_no);
 
-                    async.eachSeries(person.jive.profile, function iterator(profile, callback2) {
-                        switch(profile.jive_label) {
-                            case "Region":
-                                if(profile.value == region) {
-                                    region_status = true;
-                                } else if(region == 'all') {
-                                    if(profile.value != 'EMEA' && profile.value != "APAC") {
-                                        region_status = true;
-                                    }
+                            }, function done() {
+
+                                if(employee_type == true && employee_status == true && birthday_today == true && region_status == true) {
+                                    
+                                    var parent_url = config.placeApiUrl + '/' + config.place_id;
+
+                                    var yr = 'years';
+                                    if(year_no == 1) yr = 'year';
+                                    var content = "<body> " + anniversary_name + " celebrated " + year_no + " " + yr + " at Steel Inc. today. <p></p><p><em>Posted by UserBot​</em></p></body>"
+
+                                    var doc_data = {
+                                        'visibility'   : 'place',
+                                        'parent'       : parent_url,
+                                        'type'         : 'update',
+                                        'content'      : {
+                                            'type' : 'text/html',
+                                            'text' : content
+                                        }
+                                    };
+
+                                    var username = person_data.jive.username;
+
+                                    //status update available only in groups
+                                    var options = {
+                                            hostname: config.basicUrl,
+                                            path: config.contentApiUrl,
+                                            port: 443,
+                                            method: 'POST',
+                                            headers: {
+                                                'X-Jive-Run-As' : 'email ' + username,
+                                                'Authorization' : config.basicAuth,
+                                                'Content-Type'  : 'application/json'
+                                            }
+                                    };
+                                    var post_data = JSON.stringify(doc_data);
+                                    jiveRequest(options, post_data).then(function(response) {
+                                        console.log(username);
+                                    }, function (error) {
+                                        console.log('Eroare!!');
+                                        console.log(error);
+                                        throw error;
+                                    });
                                 }
-                                break;
-                            case "Employee Type":
-                                if(profile.value !== "Contingent Worker" && profile.value !== "On leave") {
-                                    employee_type = true;
-                                }
-                                break;
-                            case "Employee Status":
-                                if(profile.value == "Active") {
-                                    employee_status = true;
-                                }
-                                
-                                break;
-                            case "Hire Date":
-                                var current_year = dateFormat(new Date(), "%Y", true);
-                                year_no = current_year - profile.value.substr(profile.value.length - 4);
-                                profile.value = dateFormat(new Date(profile.value), "%m/%d/%Y", true);
-                                
-                                if(profile.value.substr(0,5) == date_now.substr(0,5) && year_no != 0) {
-                                    birthday_today = true;
-                                    console.log(person_data.jive.username);
-                                    console.log("Hire date anniversary");
-                                    console.log(profile.value);
-                                }
-                                break;
-                        }
-                        callback2(null, year_no);
+                                callback1(null, person);
+                            });
+                            
+                        }, function (error) {
+                            console.log('Eroare!!');
+                            console.log(error);
+                            throw error;
+                        });
 
                     }, function done() {
-
-                        if(employee_type == true && employee_status == true && birthday_today == true && region_status == true) {
-                            
-                            var parent_url = config.placeApiUrl + '/' + config.place_id;
-
-                            var yr = 'years';
-                            if(year_no == 1) yr = 'year';
-                            var content = "<body> " + anniversary_name + " celebrated " + year_no + " " + yr + " at Steel Inc. today. <p></p><p><em>Posted by UserBot​</em></p></body>"
-
-                            var doc_data = {
-                                'visibility'   : 'place',
-                                'parent'       : parent_url,
-                                'type'         : 'update',
-                                'content'      : {
-                                    'type' : 'text/html',
-                                    'text' : content
-                                }
-                            };
-
-                            var username = person_data.jive.username;
-
-                            //status update available only in groups
-                            var options = {
-                                    hostname: config.basicUrl,
-                                    path: config.contentApiUrl,
-                                    port: 443,
-                                    method: 'POST',
-                                    headers: {
-                                        'X-Jive-Run-As' : 'email ' + username,
-                                        'Authorization' : config.basicAuth,
-                                        'Content-Type'  : 'application/json'
-                                    }
-                            };
-                            var post_data = JSON.stringify(doc_data);
-                            jiveRequest(options, post_data).then(function(response) {
-                                console.log(username);
-                            }, function (error) {
-                                console.log('Eroare!!');
-                                console.log(error);
-                                throw error;
-                            });
+                        if(typeof people.links.next == 'undefined') {
+                            next_page = false;
+                        } else {
+                            next_page = people.links.next;
                         }
-                        callback1(null, person);
+                        callback(null, next_page);
                     });
                     
                 }, function (error) {
@@ -135,26 +145,17 @@ function anniversary()
                     console.log(error);
                     throw error;
                 });
-
+            }, function () {
+                return next_page !== false;
             }, function done() {
-                if(typeof people.links.next == 'undefined') {
-                    next_page = false;
-                } else {
-                    next_page = people.links.next;
-                }
-                callback(null, next_page);
+                console.log('done');
             });
-            
-        }, function (error) {
-            console.log('Eroare!!');
-            console.log(error);
-            throw error;
-        });
-    }, function () {
-        return next_page !== false;
-    }, function done() {
-        console.log('done');
-    });
+
+        } else {
+            console.log('We can find place id. Make sure the place url is correct');
+            process.exit();
+        }
+    
 }
 
 function findPlaceId(config, callback)
