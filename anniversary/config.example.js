@@ -1,15 +1,15 @@
 // Jive Analytics API & Jive API
 var config = {
-    ja_basic_url     : 'https://api.jivesoftware.com',
     username         : '', //username or email
     password         : '', //password
     url_type         : 'https://',
     basicUrl         : '', //sandbox.jiveon.com/
     apiCore          : '/api/core/v3/',
-    peopleUrl        : '/api/core/v3/people',
-    placeUrl         : '/api/core/v3/places',
-    contentUrl       : '/api/core/v3/contents',
-    placeId          : '' // placeId of the space where the Status Update will be posted
+    peopleApiUrl     : '/api/core/v3/people',
+    placeApiUrl      : '/api/core/v3/places',
+    contentApiUrl    : '/api/core/v3/contents',
+    placeId          : '', // placeId of the space where the Status Update will be posted
+    placeUrl         : '' //place is the url of Jive Space
 };
 
 config.basicAuth = 'Basic ' + new Buffer(config.username + ':' + config.password).toString('base64');

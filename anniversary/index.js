@@ -24,8 +24,15 @@ function anniversary()
             break;
     }
 
-    var next_page = config.url_type + config.basicUrl + config.peopleUrl + '?filter=include-disabled(false)';
+    var next_page = config.url_type + config.basicUrl + config.peopleApiUrl + '?filter=include-disabled(false)';
+    findPlaceId(config).then(function(place_id) {
+        console.log(place_id);
+        if(place_id !== "") {
 
+        } else {
+            console.log('We can find place id. Make sure the place url is correct');
+            process.exit();
+        }
     async.doWhilst(function (callback) {
         sendGetData(next_page).then(function(people) {
 
@@ -73,7 +80,6 @@ function anniversary()
                                     console.log("Hire date anniversary");
                                     console.log(profile.value);
                                 }
-                                
                                 break;
                         }
                         callback2(null, year_no);
@@ -82,7 +88,7 @@ function anniversary()
 
                         if(employee_type == true && employee_status == true && birthday_today == true && region_status == true) {
                             
-                            var parent_url = config.placeUrl + '/' + config.placeId;
+                            var parent_url = config.placeApiUrl + '/' + config.place_id;
 
                             var yr = 'years';
                             if(year_no == 1) yr = 'year';
@@ -103,7 +109,7 @@ function anniversary()
                             //status update available only in groups
                             var options = {
                                     hostname: config.basicUrl,
-                                    path: config.contentUrl,
+                                    path: config.contentApiUrl,
                                     port: 443,
                                     method: 'POST',
                                     headers: {
@@ -149,6 +155,35 @@ function anniversary()
     }, function done() {
         console.log('done');
     });
+}
+
+function findPlaceId(config, callback)
+{
+    var deferred = q.defer();
+    // var url = 'https://mdsol-sandbox.jiveon.com/community/zendesk-jive-migrator';
+    var placeName = config.place.split("/").pop();
+    var placeId   = "";
+    var new_parent_url = config.url_type + config.basicUrl + config.placeApiUrl + "/?filter=search(" + placeName + ")";
+    console.log(placeName);
+    sendGetData(new_parent_url).then(function(new_space_data) {
+        async.eachSeries(new_space_data.list, function iterator(space, callback1) {
+            console.log(space.resources.html.ref);
+
+            if(config.place == space.resources.html.ref) {
+                placeId = space.placeID;
+            }
+            callback1(null, space);
+        }, function done() {
+            console.log("Place id: " + placeId);
+            deferred.resolve(placeId);
+            
+        });
+    }, function (error) {
+        deferred.reject(new Error('No space'));
+        console.log('Handle error: ' + error.stack);
+        throw error;
+    });
+    return deferred.promise;
 }
 
 function jiveRequest(options, post_data, callback)
