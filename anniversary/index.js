@@ -85,10 +85,10 @@ function anniversary()
                                 callback2(null, year_no);
 
                             }, function done() {
-
+                                console.log('***');
                                 if(employee_type == true && employee_status == true && birthday_today == true && region_status == true) {
                                     
-                                    var parent_url = config.placeApiUrl + '/' + config.place_id;
+                                    var parent_url = config.placeApiUrl + '/' + place_id;
 
                                     var yr = 'years';
                                     if(year_no == 1) yr = 'year';
