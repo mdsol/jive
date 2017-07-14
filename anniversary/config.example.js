@@ -8,7 +8,7 @@ var config = {
     peopleApiUrl     : '/api/core/v3/people',
     placeApiUrl      : '/api/core/v3/places',
     contentApiUrl    : '/api/core/v3/contents',
-    placeUrl         : '' //place is the url of Jive Space
+    placeUrl         : '' //url of Jive Group to post status messages to
 };
 
 config.basicAuth = 'Basic ' + new Buffer(config.username + ':' + config.password).toString('base64');
