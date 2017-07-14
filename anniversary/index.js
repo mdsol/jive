@@ -82,6 +82,9 @@ function anniversary()
                                         }
                                         break;
                                 }
+                                if(config.currenttimezone == 0) {
+                                    region_status = true;
+                                }
                                 callback2(null, year_no);
 
                             }, function done() {
@@ -274,7 +277,7 @@ function sendGetData(url, callback)
 
     req.end();
     req.on('error', function(e) {
-        console.log('Ce eroare!!');
+        console.log('Error: ');
         console.log(e);
     });
     return deferred.promise;
