@@ -1,15 +1,14 @@
 # Jive Anniversary
 
-Jive Anniversary will post a status update when an employee are having an anually work anniversary.
-The status will be posted in a Jive group depending on the time of the day:
+Jive Anniversary posts a status update to a specific group when a user has a work anniversary as indicated by the "Hire Date" field in their user profile. It can also post status updates at regional appropriate timezones if a "Region" field is set appropriately.
+For example, if cron jobs are set up accordingly:
+ - at 0:00 UTC it will run for APAC users
+ - at 8:00 UTC it will run for EMEA users
+ - at 14:00 UTC it will run for all other users
 
- - at Hour 0 it will run from APAC
- - at Hour 8 it will run from EMEA
- - for the rest of the hours it will for all regions.
+For a corporate intranet, you can have it only run for active full-time employees, by filtering on "Employee Type" and "Employee Status" fields.
 
-It's also checking if the worker is permanent (is not *Contingent worker* and is noy working *Remote*), and worker is not *inactive*.
-
-The message it will look like this:
+The status message will look something like:
 ````
 John Doe celebrated 2 years at Steel Inc. today.
  
@@ -32,7 +31,7 @@ John Doe celebrated 2 years at Steel Inc. today.
  node index.js
  ```
 
-4. You can also set a cronjob to run periodically (eg running every day at 00:05) and write info.log file.
+4. You can also set a cronjob to run regularly and and write info.log file with:
 ```
 5 0 * * * /usr/bin/node /path/to/anniversary/index.js > /path/to/anniversary/info.log
 ```
