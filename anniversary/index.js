@@ -140,10 +140,14 @@ function anniversary()
                         });
 
                     }, function done() {
-                        if(typeof people.links.next == 'undefined') {
-                            next_page = false;
+                        if(typeof people.links !== 'undefined') {
+                            if(typeof people.links.next == 'undefined') {
+                                next_page = false;
+                            } else {
+                                next_page = people.links.next;
+                            }
                         } else {
-                            next_page = people.links.next;
+                            next_page = false;
                         }
                         callback(null, next_page);
                     });
