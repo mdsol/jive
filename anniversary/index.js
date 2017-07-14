@@ -162,7 +162,7 @@ function findPlaceId(config, callback)
 {
     var deferred = q.defer();
     // var url = 'https://mdsol-sandbox.jiveon.com/community/zendesk-jive-migrator';
-    var placeName = config.place.split("/").pop();
+    var placeName = config.placeUrl.split("/").pop();
     var placeId   = "";
     var new_parent_url = config.url_type + config.basicUrl + config.placeApiUrl + "/?filter=search(" + placeName + ")";
     console.log(placeName);
