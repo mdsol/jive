@@ -24,6 +24,7 @@ function anniversary()
             break;
     }
 
+
     var next_page = config.url_type + config.basicUrl + config.peopleApiUrl + '?filter=include-disabled(false)';
     findPlaceId(config).then(function(place_id) {
         console.log(place_id);
@@ -69,6 +70,10 @@ function anniversary()
                                         year_no = current_year - profile.value.substr(profile.value.length - 4);
                                         profile.value = dateFormat(new Date(profile.value), "%m/%d/%Y", true);
                                         
+                                        if(profile.value.substr(0,2) == date_now.substr(0,2)) {
+                                            console.log(profile.value.substr(0,5));
+                                            console.log(date_now.substr(0,5));
+                                        }
                                         if(profile.value.substr(0,5) == date_now.substr(0,5) && year_no != 0) {
                                             birthday_today = true;
                                             console.log(person_data.jive.username);
@@ -155,7 +160,7 @@ function anniversary()
             console.log('We can find place id. Make sure the place url is correct');
             process.exit();
         }
-    
+    });
 }
 
 function findPlaceId(config, callback)
@@ -170,7 +175,7 @@ function findPlaceId(config, callback)
         async.eachSeries(new_space_data.list, function iterator(space, callback1) {
             console.log(space.resources.html.ref);
 
-            if(config.place == space.resources.html.ref) {
+            if(config.placeUrl == space.resources.html.ref) {
                 placeId = space.placeID;
             }
             callback1(null, space);
