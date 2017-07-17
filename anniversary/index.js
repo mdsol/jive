@@ -11,17 +11,10 @@ function anniversary()
     var hour_now     = dateFormat(new Date(), "%H", true);
     var region       = '';
 
-    switch(hour_now)
-    {
-        case '00':
-            region = 'APAC';
-            break;
-        case '08':
-            region = 'EMEA';
-            break;
-        default:
-            region = 'all';
-            break;
+    if(typeof process.argv.slice(2)[0] !== 'undefined') {
+        region = process.argv.slice(2)[0];
+    } else {
+        console.log("No region was selected");
     }
 
 
@@ -46,10 +39,10 @@ function anniversary()
                             async.eachSeries(person.jive.profile, function iterator(profile, callback2) {
                                 switch(profile.jive_label) {
                                     case "Region":
-                                        if(profile.value == region) {
+                                        if(region == "") {
                                             region_status = true;
-                                        } else if(region == 'all') {
-                                            if(profile.value != 'EMEA' && profile.value != "APAC") {
+                                        } else {
+                                            if(profile.value == region) {
                                                 region_status = true;
                                             }
                                         }
