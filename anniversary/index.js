@@ -140,7 +140,7 @@ function anniversary()
                         });
 
                     }, function done() {
-                        if(typeof people.links !== 'undefined') {
+                        if(typeof people.links == 'undefined') {
                             if(typeof people.links.next == 'undefined') {
                                 next_page = false;
                             } else {
