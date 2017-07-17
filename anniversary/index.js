@@ -123,7 +123,7 @@ function anniversary()
                                     };
                                     var post_data = JSON.stringify(doc_data);
                                     jiveRequest(options, post_data).then(function(response) {
-                                        console.log(username);
+                                        console.log(response);
                                     }, function (error) {
                                         console.log('Eroare!!');
                                         console.log(error);
