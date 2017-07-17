@@ -56,7 +56,6 @@ function anniversary()
                                         if(profile.value == "Active") {
                                             employee_status = true;
                                         }
-                                        
                                         break;
                                     case "Hire Date":
                                         var current_year = dateFormat(new Date(), "%Y", true);
