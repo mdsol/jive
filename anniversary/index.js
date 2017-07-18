@@ -115,14 +115,21 @@ function anniversary()
                                     };
                                     var post_data = JSON.stringify(doc_data);
                                     jiveRequest(options, post_data).then(function(response) {
-                                        console.log(response);
+                                        if(typeof response.error !== "undefined") {
+                                            console.log(username + ':' + response.error.message);
+                                        } else {
+                                            console.log(username + ': Status was updated!');
+                                        }
+                                        callback1(null, person);
                                     }, function (error) {
                                         console.log('Eroare!!');
                                         console.log(error);
                                         throw error;
                                     });
+                                } else {
+                                    callback1(null, person);
                                 }
-                                callback1(null, person);
+                                
                             });
                             
                         }, function (error) {
