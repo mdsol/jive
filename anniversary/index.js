@@ -108,7 +108,7 @@ function anniversary()
                                             port: 443,
                                             method: 'POST',
                                             headers: {
-                                                'X-Jive-Run-As' : 'email ' + username,
+                                                'X-Jive-Run-As' : 'userid ' + person.id,
                                                 'Authorization' : config.basicAuth,
                                                 'Content-Type'  : 'application/json'
                                             }
@@ -122,7 +122,7 @@ function anniversary()
                                         }
                                         callback1(null, person);
                                     }, function (error) {
-                                        console.log('Eroare!!');
+                                        console.log('Error!!');
                                         console.log(error);
                                         throw error;
                                     });
@@ -133,7 +133,7 @@ function anniversary()
                             });
                             
                         }, function (error) {
-                            console.log('Eroare!!');
+                            console.log('Error!!');
                             console.log(error);
                             throw error;
                         });
