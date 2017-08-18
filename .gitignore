@@ -14,5 +14,8 @@ sftp-config.json
 # userprofileupdater
 /userprofileupdater/config.json
 
-#anniversary
+# anniversary
 /anniversary/config.js
+
+# zendesk-jive-migrator
+/zendesk-jive-migrator/config.js
