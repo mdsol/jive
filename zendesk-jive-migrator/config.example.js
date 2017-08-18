@@ -42,13 +42,7 @@ config.production = {
     placeUrl          : '' // Space url
 };
 
-config.sandbox = {
-    basicUrl          : '', // mdsol-sandbox.jiveon.com
-    username          : '',
-    password          : '',
-    placeUrl          : ''  // Space url
-};
-
+//Mysql connection
 config.connection = {
     host     : '',
     database : '',
@@ -57,6 +51,7 @@ config.connection = {
     port     : ''
 };
 
+//Mysql tables
 config.tables = {
     hc_categories  : 'help_center_categories',
     hc_sections    : 'help_center_sections',

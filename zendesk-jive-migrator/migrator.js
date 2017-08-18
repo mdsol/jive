@@ -9,9 +9,8 @@ var querystring = require('querystring');
 var q           = require('q');
 var async       = require('async');
 var sleep       = require('sleep');
+var config      = require('./config.migrator');
 var striptags   = require('striptags');
-var config      = require('./config');
-
 
 var connection  = mysql.createConnection({
         host     : config.connection.host,
@@ -21,30 +20,22 @@ var connection  = mysql.createConnection({
         port     : config.connection.port,
     });
 
-var env = "";
+var env = config.production;
+
+var basicAuth        = 'Basic ' + new Buffer(env.username + ':' + env.password).toString('base64');
+var basicAuthZendesk = 'Basic ' + new Buffer(config.zendesk.email + ':' + config.zendesk.password).toString('base64');
 
 if(typeof process.argv.slice(2)[0] !== 'undefined') {
-    var info = process.argv.slice(2)[0].split("_");
-    if(typeof info[0] !== "undefined") {
-        if(info[0] == "mdsol") {
-            env = config.production;
-        } else if(info[0] == "mdsol-sandbox") {
-            env = config.sandbox;
-        } else {
-            console.log("This instance is not existing.");
-            process.exit();
-        }
-    }
-    var basicAuth        = 'Basic ' + new Buffer(env.username + ':' + env.password).toString('base64');
-    var basicAuthZendesk = 'Basic ' + new Buffer(config.zendesk.email + ':' + config.zendesk.password).toString('base64');
-    
-    if(info[1] == "migrate") {
+    if(process.argv.slice(2)[0] == "migrate") {
         migrate();
-    } else if(info[1] == "clean") {
+    } else if(process.argv.slice(2)[0] == "clean") {
         clean();
+    } else {
+        console.log("This function is not existing.");
+        process.exit();
     }
 } else {
-    console.log("You didn't select the instance and the function.");
+    console.log("You didn't set a function.");
     process.exit();
 }
 

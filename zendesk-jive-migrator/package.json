@@ -12,6 +12,7 @@
   "author": "Diana Puscau <dpuscau@mdsol.com>",
   "license": "ISC",
   "dependencies": {
+    "url": "*",
     "async": "*",
     "dateformat": "*",
     "fs": "^0.0.2",
@@ -22,7 +23,6 @@
     "q": "*",
     "querystring": "*",
     "sleep": "*",
-    "url": "*",
     "striptags": "*"
   }
 }
