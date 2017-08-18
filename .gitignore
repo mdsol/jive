@@ -19,3 +19,4 @@ sftp-config.json
 
 # zendesk-jive-migrator
 /zendesk-jive-migrator/config.js
+/zendesk-jive-migrator/npm-debug.js
