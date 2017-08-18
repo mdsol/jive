@@ -35,3 +35,6 @@ To run the script, you need to set the functionyou want to run:
 Extra:
 
 An extra feature is to clean Mysql tables and documents that was created into Jive. It's useful when you make multiple tests.
+ ```
+ node migrator.js clean
+ ```
