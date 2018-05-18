@@ -1,4 +1,5 @@
 (function() {
+
     jive.tile.onOpen(function(config, options) {
         jive.tile.getContainer(function(container) {
             jive.tile.getExtendedProps(function(props) {
@@ -21,6 +22,7 @@
 
                 var places = [];
                 var ideaList = [];
+                var stages = {};
 
                 var sortFns = {
                     "scoreDesc": function(a, b) { return b.score - a.score; },
@@ -30,6 +32,7 @@
                 };
 
                 getIdeas();
+                getStages();
 
                 if (config.place === "sub") {
                     var pending = 0;
@@ -76,7 +79,7 @@
                         count: config.numResults,
                         startIndex: startIndex,
                         type: "idea",
-                        fields: "subject,author.displayName,lastActivityDate,published,stage,score,voteCount,voted,promote,content.text"
+                        fields: "subject,author.displayName,lastActivityDate,published,stage,stage.id,score,voteCount,voted,promote,content.text"
                     }
 
                     if (config.sort in sortFns) {
@@ -100,6 +103,7 @@
                             // present the user with an appropriate error message
                         } else {
                             for (let el of res.list) {
+								//console.log (el)
                                 ideaList.push({
                                     subject: el.subject,
                                     url: el.resources.html.ref,
@@ -127,7 +131,36 @@
                     });
                 }
 
+                function getStages() {
+                    var reqOptions = {
+                       fields: "foregroundColor,backgroundColor,name,votingEnabled"
+                    }
+
+                    var reqContent = osapi.jive.corev3.ideas.stages.get(reqOptions);
+                    reqContent.execute(function(res) {
+                        if (res.error) {
+                            var code = res.error.code;
+                            var message = res.error.message;
+                            console.log(code + " " + message);
+                            // present the user with an appropriate error message
+                        } else {
+                            
+                            for (let el of res.list) {
+                                //console.log (el)
+
+                                stages[el.name]={
+                                    backgroundColor: el.backgroundColor,
+                                    foregroundColor: el.foregroundColor,
+                                    votingEnabled: el.votingEnabled,
+                                };
+                            }
+                        }
+                    });
+                }
+
                 function showIdeas() {
+                    //console.log("foobar");
+                    //console.log(stages);
                     if (config.sort in sortFns) {
                         ideaList.sort(sortFns[config.sort]);
                     }
@@ -159,9 +192,8 @@
                         scoreNum.classList.add("score-num");
                         scoreNum.textContent = idea.score;
                         scoreBlock.appendChild(scoreNum);
-                        let scoreExclUser = idea.score - (idea.promote ? 1 : 0); // excl user vote
-
-                        if (idea.stage === "Active") {
+                        let scoreExclUser = idea.score - (idea.promote ? 5 : 0); // excl user vote
+                        if (stages[idea.stage].votingEnabled === true) {
                             let updownvote = document.createElement("div");
                             updownvote.classList.add("vote");
                             scoreBlock.appendChild(updownvote);
@@ -179,7 +211,7 @@
                                 downvote.classList.remove("selected");
                                 upvote.removeAttribute("role");
                                 downvote.setAttribute("role", "button");
-                                scoreNum.textContent = scoreExclUser + 1;
+                                scoreNum.textContent = scoreExclUser + 5;
                             }
                             upvote.addEventListener("click", upfunc);
 
@@ -208,11 +240,13 @@
 
                         let stage = document.createElement("span");
                         stage.classList.add("idea-stage");
-                        if (idea.stage === "Active" || idea.stage === "For future consideration") {
+                        stage.style.cssText = 'background-color: '+stages[idea.stage].backgroundColor+'; color: '+stages[idea.stage].foregroundColor+';';
+                        /*if (idea.stage.toLowerCase() === "open for voting" || idea.stage.toLowerCase() === "for future consideration") {
                             stage.classList.add("green-status");
-                        } else if (idea.stage === "In progress" || idea.stage === "Partially implemented") {
+                        } else if (idea.stage.toLowerCase() === "In progress" || idea.stage.toLowerCase() === "partially implemented") {
                             stage.classList.add("yellow-status");
                         }
+                        */
                         stage.textContent = idea.stage;
                         scoreBlock.appendChild(stage);
 
